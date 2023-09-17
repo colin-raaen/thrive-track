@@ -1,0 +1,218 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Activity Tracking
+{% endblock %}
+
+{% block main %}
+    <div class="activity-page-container" style="display: flex;">
+    <!-- ACTIVITY ENTRY FORM -->
+    <!-- Activity entry date input -->
+    <form action="/activity" method="post" style="width: 60%;" name="activityForm" id="activityForm">
+        <div class="mb-3">
+            <label for="date">Activity date:</label>
+            <input type="date" id="activity-date" name="activity-date" value="2022-01-01" min="1990-01-01" max="2055-12-31" required>
+        </div>
+        <!-- Table to format Y/N questions -->
+        <div class="container table-container">
+            <table class="table table-borderless">
+                <tr>
+                  <th style="width: 60%;"></th>
+                  <th>Yes</th>
+                  <th>No</th>
+                </tr>
+                <!-- 30 minutes of activity Y/N -->
+                <tr data-row-number="1">
+                    <td><label for="30min">Did you complete 30 minutes of daily movement?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="thirtyMin-yes" name="thirtyMin-yes" value="1" data-associated-checkbox="thirtyMin-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="thirtyMin-no" name="thirtyMin-no" value="0"></td>
+                </tr>
+                <!-- Workout completed Y/N -->
+                <tr data-row-number="2">
+                    <td><label for="workout">Did you complete a workout?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="workout-yes" name="workout-yes" value="1" data-associated-checkbox="workout-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="workout-no" name="workout-no" value="0"><br></td>
+                </tr>
+            </table>
+        </div>
+        <!-- Series of hidden drop down selections that will show dynamically based on user input -->
+        <div class="mb-3" style="display: none" id="hiddenWorkoutSelection">
+            <!-- Workout types drop down -->
+            <select class="form-select mx-auto w-auto" name="workoutSelection" id="workoutSelection">
+                <option disabled selected value="defaultWorkoutType" id="defaultWorkoutType">Select Workout Type</option>
+                <option value="gym">Gym</option>
+                <option value="class">Workout Class</option>
+                <option value="sport">Sport/Athletics</option>
+                <option value="bike">Bike</option>
+                <option value="running">Running</option>
+                <option value="extreme-sport">Extreme Sport</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <!-- Class types drop down -->
+        <div class="mb-3" id="hiddenClass" style="display: none">
+            <select class="form-select mx-auto w-auto" name="classType" id="classType">
+                <option disabled selected value="defaultClass">Select Class Type</option>
+                <option value="yoga">Yoga</option>
+                <option value="barre">Barre</option>
+                <option value="aerobics">Aerobic</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <!-- Sport types drop down -->
+        <div class="mb-3" id="hiddenSports" style="display: none">
+            <select class="form-select mx-auto w-auto" name="sport" id="sport">
+                <option disabled selected value="defaultSport">Select Sport</option>
+                <option value="tennis">Tennis</option>
+                <option value="hockey">Hockey</option>
+                <option value="soccer">Soccer</option>
+                <option value="basketball">Basketball</option>
+                <option value="racquet">Racquetball/Squash</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <!-- Extreme Sport types drop down -->
+        <div class="mb-3" id="hidden_extreme_sports" style="display: none">
+            <select class="form-select mx-auto w-auto" name="extreme-sport" id="extreme-sport">
+                <option disabled selected value="defaultExtremeSport">Select Extreme Sport</option>
+                <option value="snowboard">Snowboard/Ski</option>
+                <option value="surf">Surfing</option>
+                <option value="skateboard">Skateboard</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <!-- Workout length input -->
+        <div class="mb-3" id="hidden_workout_length" style="display: none">
+            <input autocomplete="off" class="form-control mx-auto w-auto" min="0" id="workoutLengthMin" name="workoutLengthMin" placeholder="Workout Length (minutes)" type="number">
+        </div>
+        <!-- Hyperlink to rehide workout div if clicked -->
+        <div class="mb-3" id="remove_workout" style="display: none">
+            <a href="#">Remove Workout</a>
+        </div>
+        <!-- Container to dynamically add additional workout fields -->
+        <div class="mb-3" id="workoutsContainer"></div>
+
+        <!-- Hidden container to store inputs from additional Workout types for submission -->
+        <input type="hidden" name="selectedWorkoutValues" id="selectedWorkoutValuesInput">
+
+        <!-- Add additional workouts button -->
+        <div class="mb-3" id="hidden_additional_workout" style="display: none">
+            <button class="btn btn-primary" id="add-workout-btn" type="button">Add Another Workout</button>
+        </div>
+
+        <!-- Wellness activity Y/N -->
+        <div class="container table-container">
+            <!-- Table to align with Y/N above -->
+            <table class="table table-borderless" >
+                <tr data-row-number="3">
+                    <td style="width: 60%;"><label for="wellness">Did you participate in a wellness activity?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="wellness-yes" name="wellness-yes" value="1" data-associated-checkbox="wellness-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="wellness-no" name="wellness-no" value="0"><br></td>
+                </tr>
+            </table>
+        </div>
+        <!-- Wellness types drop down -->
+        <div class="mb-3" id="hidden_wellness" style="display: none">
+            <select class="form-select mx-auto w-auto" name="wellness-type" id="wellness-type">
+                <option disabled selected value="defaultWellnessType">Select Wellness Type</option>
+                <option value="meditation">Meditation</option>
+                <option value="sauna-spa">Sauna/Spa</option>
+                <option value="therapy">Therapy</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <!-- Hyperlink to rehide wellness div if clicked -->
+        <div class="mb-3" id="remove_wellness_activity" style="display: none">
+            <a href="#">Remove Wellness Activity</a>
+        </div>
+
+        <!-- Container to dynamically add additional wellness type fields -->
+        <div class="mb-3" id="wellnessContainer"></div>
+
+        <!-- Hidden container to store inputs from additional Wellness types for submission -->
+        <input type="hidden" name="selectedWellnessValues" id="selectedWellnessValuesInput">
+
+        <!-- Add additional wellness type button -->
+        <div class="mb-3" id="hidden_additional_wellness" style="display: none">
+            <button class="btn btn-primary" id="add-wellness-btn" type="button">Add Another Wellness Type</button>
+        </div>
+
+        <!-- Eating out Y/N -->
+        <div class="container table-container">
+            <table class="table table-borderless" >
+                <tr data-row-number="4">
+                    <td style="width: 60%;"><label for="eat-out">Did you eat any meals out on this day?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="eatOut-yes" name="eatOut-yes" value="1" data-associated-checkbox="eatOut-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="eatOut-no" name="eatOut-no" value="0"></td>
+                </tr>
+            </table>
+        </div>
+        <!-- Eating Out input -->
+        <div class="mb-3" id="hidden_meals_out" style="display: none">
+            <input autocomplete="off" class="form-control mx-auto w-auto" min="0" id="mealsOut" name="mealsOut" placeholder="Number of meals out" type="number">
+        </div>
+        <!-- Drinking Y/N -->
+        <div class="container table-container">
+            <table class="table table-borderless" >
+                <tr data-row-number="5">
+                    <td style="width: 60%;"><label for="drink">Did you drink any alcohol on this day?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="drink-yes" name="drink-yes" value="1" data-associated-checkbox="drink-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="drink-no" name="drink-no" value="0"><br></td>
+                </tr>
+            </table>
+        </div>
+        <!-- Drinking input -->
+        <div class="mb-3" id="hidden_drinks" style="display: none">
+            <input autocomplete="off" class="form-control mx-auto w-auto" min="0" id="numberDrinks" name="numberDrinks" placeholder="Number of drinks" type="number">
+        </div>
+         <!-- Travelling Y/N -->
+         <div class="container table-container">
+            <table class="table table-borderless" >
+                <tr data-row-number="6">
+                    <td style="width: 60%;"><label for="drink">Were you travelling or on a trip this day?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="travel-yes" name="travel-yes" value="1" data-associated-checkbox="travel-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="travel-no" name="travel-no" value="0"><br></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Sick Y/N -->
+        <div class="container table-container">
+            <table class="table table-borderless" >
+                <tr data-row-number="7">
+                    <td style="width: 60%;"><label for="drink">Were you sick on this day?</label></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="sick-yes" name="sick-yes" value="1" data-associated-checkbox="sick-no"></td>
+                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="sick-no" name="sick-no" value="0"><br></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button class="btn btn-primary" type="submit" name="btnSubmit" id="btnSubmit">Submit</button>
+        </div>
+    </form>
+    <!-- description text box -->
+    <div class="text-box-description">
+        <h3>Activity Logging</h3>
+            <p style="text-align: left;"><b>What is Activity Logging?</b></p>
+            <p style="text-align: left;">Activity logging is designed to gather information about your daily activity pattern.</p>
+            <p style="text-align: left;"><b>How often should I log activities?</b></p>
+            <p style="text-align: left;">It is necessary for you to log your activities every day.</p>
+            <p style="text-align: left;"><b>What should I do if I miss a day?</b></p>
+            <p style="text-align: left;">If you remember your activities for that day, you can still create a new entry;
+            just tap the date at the top to change it. Otherwise leave that day blank.</p>
+            <p style="text-align: left;"><b>What does "30 minutes of activity and "workout" mean?</b></p>
+            <p style="text-align: left;">"30 minutes of activity" is a rough estimate if you completed 30 minutes of activities 
+                such as walking, biking, workouts, or any movement that doesn't constitute sedentary sitting</p>
+            <p style="text-align: left;">A workout typically involves some type of more rigorous physical activity. 
+                Make sure to fill in the workout type and time of the workout in minutes</p>
+            <p style="text-align: left;"><b>What does "meal eaten out" mean?</b></p>
+            <p style="text-align: left;">A meals out is if you purchased any type of food as a meal that you didn't prepare or cook yourself</p>
+            <p style="text-align: left;"><b>What does "alcoholic drink" mean?</b></p>
+            <p style="text-align: left;">Acoholic drinks should be relatively straight forward, if you had a small amount you don't need to count</p>
+    </div>
+
+    </div>
+{% endblock %}

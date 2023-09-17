@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Logging History
+{% endblock %}
+
+{% block main %}
+<!-- JavaScript file -->
+<script src="/static/project-4.js"></script>
+
+<div class="history-page-container" id="history-page-container">
+    <h5>YOUR ACTIVITY HISTORY</h5>
+        <table class="table table-hover" id="activity-history">
+            <tr>
+                <th>Date</th>
+                <th><span>Completed 30 min activity?</span></th>
+                <th><span>Completed workout? 
+                    <br><a style="font-size: 12px;" href="#" id="show-workouts-hyperlink">Show Workout Details</a>
+                    <br><a style="font-size: 12px; display: none" href="#" id="hide-workouts-hyperlink">Hide Workout Details</a>
+                    </span></th>
+                <th class="hidden-history-column">Workout Type</th>
+                <th class="hidden-history-column">Class Type</th>
+                <th class="hidden-history-column">Sport Type</th>
+                <th class="hidden-history-column">Extreme Sport Type</th>
+                <th class="hidden-history-column">Workout Length (hours)</th>
+                <th><span>Completed wellness activity?
+                    <br><a style="font-size: 12px;" href="#" id="show-wellness-hyperlink">Show Wellness Details</a>
+                    <br><a style="font-size: 12px; display: none" href="#" id="hide-wellness-hyperlink">Hide Wellness Details</a>
+                    </span></th>
+                <th class="hidden-wellness-type-column"><span>Wellness Activity Type</span></th>
+                <th><span>Eat meals out?</span></th>
+                <th>Number of Meals</th>
+                <th><span>Drink alcohol?</span></th>
+                <th>Number of Drinks</th>
+                <th><span>Travelling?</span></th>
+                <th>Sick?</th>
+            </tr>
+            <!-- Loop through list of dictionaries of activities and print into table cells -->
+            
+            {% for activity in activity_history %}
+            <tr>
+                <td>{{ activity.date }}</td>
+                <td>{{ activity.thirty_min }}</td>
+                <td>{{ activity.workout }}</td>
+                <td class="hidden-history-column">{{ activity.workout_types }}</td>
+                <td class="hidden-history-column">{{ activity.class_types }}</td>
+                <td class="hidden-history-column">{{ activity.sport_types }}</td>
+                <td class="hidden-history-column">{{ activity.extreme_sport_types }}</td>
+                <td class="hidden-history-column">{{ activity.total_workout_length | safe }}</td>
+                <td>{{ activity.wellness }}</td>
+                <td class="hidden-wellness-type-column">{{ activity.wellness_types }}</td>
+                <td>{{ activity.eat_out }}</td>
+                <td>{{ activity.number_mealsOut }}</td>
+                <td>{{ activity.drinks }}</td>
+                <td>{{ activity.number_drinks }}</td>
+                <td>{{ activity.travelling }}</td>
+                <td>{{ activity.sick }}</td>
+                <td><a class="delete-link-activity" href="#" activity-data-row-id="{{ activity.id }}">Delete Entry</a></td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+
+        <!-- buttons for Pagination -->
+        
+        <div id="pagination-buttons">
+            <a href="#history-page-container" id="previous-button">Previous</a>
+            <div id="page-numbers"></div>
+            <a href="#history-page-container" id="next-button">Next</a>
+        </div>
+
+        <h5></h5>
+            
+    <div class="sleep-history-table-container" id="sleep-history-table-container">
+        <h5>YOUR SLEEP HISTORY</h5>
+        <table class="table table-hover" id="sleep-history">
+            <tr>
+                <th>Date</th>
+                <th><span>Did you take a nap?</span></th>
+                <th><span>Time slept in nap</span></th>
+                <th><span>Time went to bed</span></th>
+                <th><span>Time attempted to sleep</span></th>
+                <th><span>Time to fall asleep</span></th>
+                <th><span># times woken up</span></th>
+                <th><span>Amount of time awoken</span></th>
+                <th><span>Final time awake in morning</span></th>
+                <th><span>Time out of bed</span></th>
+                <th><span>Woke up early?</span></th>
+                <th><span>Time awake early</span></th>
+                <th>Time asleep</th>
+                <th>Time in bed</th>
+                <th><span>Sleep quality rating</span></th>
+                <th>Travelling?</th>
+                <th><span>Sleep Efficiency (%)</span></th>
+            </tr>
+            <!-- Loop through list of dictionaries of sleep history -->
+            {% for sleep in sleep_history %}
+            <tr>
+                <!-- Loop through key-value pairs of each sleep entry (excluding the id) -->
+                {% for key, value in sleep.items() if key != 'id' %}
+                    <!-- print value into index table -->
+                    <td>{{ value | safe }}</td>
+                {% endfor %}
+                <td><a class="delete-link" href="#" sleep-data-row-id="{{ sleep.id }}">Delete Entry</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+         <!-- buttons for Pagination -->
+         
+         <div id="pagination-buttons-sleep">
+             <a href="#sleep-history-table-container" id="previous-button-sleep">Previous</a>
+             <div id="page-numbers-sleep"></div>
+             <a href="#sleep-history-table-container" id="next-button-sleep">Next</a>
+         </div>
+
+    </div>
+</div>
+{% endblock %}
