@@ -1,0 +1,551 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<div class="index-page-container" id="index-page-container">
+    <h3><b>YOUR WELLNESS DASHBOARD</b></h3>
+    <h4><b>ACTIVITY CALENDAR</b></h4>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="calendar-navigation-left">
+                <form action="{{ url_for('index') }}" method="GET" class="calendar-navigation">
+                    <input type="hidden" name="year" value="{{ prev_year }}">
+                    <input type="hidden" name="month" value="{{ prev_month }}">
+                    <button type="submit" class="calendar-navigation-button">Previous Month</button>
+                </form>
+            </div>
+            <div class="calendar-navigation-center">
+                {{ month }} {{ year }}
+            </div>
+            <div class="calendar-navigation-right">
+                <form action="{{ url_for('index') }}" method="GET" class="calendar-navigation">
+                    <input type="hidden" name="year" value="{{ next_year }}">
+                    <input type="hidden" name="month" value="{{ next_month }}">
+                    <button type="submit" class="calendar-navigation-button">Next Month</button>
+                </form>
+            </div>
+        </div>
+        <table class="calendar">
+            <thead>
+                <tr>
+                    
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in calendar %}
+                    <tr>
+                        {% for day in week %}
+                            <td class="
+                            {% if day.current %}current{% endif %} 
+                            {% if day.activity_completed %}activity-completed{% endif %} 
+                            {% if day.workout_completed %}workout-completed{% endif %}
+                            {% if day.travelling and day.sick %}travelling-sick{% endif %}
+                            {% if day.travelling and not day.sick %}travelling{% endif %}
+                            {% if day.sick and not day.travelling %}sick{% endif %}
+                            ">
+                                {% if day.day == 0 %}
+                                    &nbsp;
+                                {% else %}
+                                    <div class="day-content">
+                                        <div class="day-number"><b>{{ day.day }}</b></div>
+                                        <div class="workout-emoji-container">{{ day.emoji | safe }}</div>
+                                        <div class="eat-out-emoji-container">{{ day.eat_out_emoji | safe }}</div>
+                                        <div class="drink-emoji-container">{{ day.drink_emoji | safe }}</div>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="legend-title">
+            <h6><b>LEGEND</b></h6>
+        </div>
+        <div class="legend-container">
+            <div class="legend-item">
+                <div class="legend-color activity-completed"></div>
+                <div class="legend-label">&nbsp;30 Min Activity Completed</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color workout-completed"></div>
+                <div class="legend-label">&nbsp;Workout Completed</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color travelling"></div>
+                <div class="legend-label">&nbsp;Travelling</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color sick"></div>
+                <div class="legend-label">&nbsp;Sick</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color travelling-sick"></div>
+                <div class="legend-label">&nbsp;Travelling and Sick</div>
+            </div>
+        </div>
+
+        <div class="legend-workout-emojis">
+            <div class="legend-item">
+                <div>💪</div>
+                <div class="legend-label">&nbsp;Gym</div>
+            </div>
+            <div class="legend-item">
+                <div>👯</div>
+                <div class="legend-label">&nbsp;Workout Class</div>
+            </div>
+            <div class="legend-item">
+                <div>🚴</div>
+                <div class="legend-label">&nbsp;Bike</div>
+            </div>
+            <div class="legend-item">
+                <div>🏃</div>
+                <div class="legend-label">&nbsp;Running</div>
+            </div>
+            <div class="legend-item">
+                <div>😅</div>
+                <div class="legend-label">&nbsp;Other (e.g. Home workout)</div>
+            </div>
+        </div>
+
+        <div class="legend-sport-emojis">
+            <div class="legend-item">
+                <div>🎾</div>
+                <div class="legend-label">&nbsp;Tennis</div>
+            </div>
+            <div class="legend-item">
+                <div>🏒</div>
+                <div class="legend-label">&nbsp;Hockey</div>
+            </div>
+            <div class="legend-item">
+                <div>⚽</div>
+                <div class="legend-label">&nbsp;Soccer</div>
+            </div>
+            <div class="legend-item">
+                <div>🏀</div>
+                <div class="legend-label">&nbsp;Basketball</div>
+            </div>
+            <div class="legend-item">
+                <div>🏸</div>
+                <div class="legend-label">&nbsp;Racquet Sport</div>
+            </div>
+            <div class="legend-item">
+                <div>🤼</div>
+                <div class="legend-label">&nbsp;Other</div>
+            </div>
+        </div>
+
+        <div class="legend-extreme-sport-emojis">
+            <div class="legend-item">
+                <div>🏂</div>
+                <div class="legend-label">&nbsp;Snowboard/Ski</div>
+            </div>
+            <div class="legend-item">
+                <div>🏄</div>
+                <div class="legend-label">&nbsp;Surfing</div>
+            </div>
+            <div class="legend-item">
+                <div>🛹</div>
+                <div class="legend-label">&nbsp;Skateboarding</div>
+            </div>
+            <div class="legend-item">
+                <div>🪂</div>
+                <div class="legend-label">&nbsp;Other</div>
+            </div>           
+        </div>
+    </div>
+</div>
+
+<hr class="divider"> <!-- Add this line for the horizontal dividing line -->
+<h4 class="activity-stats-header"><b>ACTIVITY METRICS</b></h4>
+    <div class="activity-stats-row">
+        <div>
+            <p><b>Number of workouts in last month</b></p>
+            <p>{{ workout_count }}</p>
+        </div>
+        <div>
+            <p><b>Number of days with thirty min of activity in last month</b></p>
+            <p>{{ thirthy_min_count }}</p>
+        </div>
+        <div>
+            <p><b>Average number of drinks per week in last month</b></p>
+            <p>{{ drinks_per_week }}</p>
+        </div>
+        <div>
+            <p><b>Average number of meals out per week in last month</b></p>
+            <p>{{ meals_out_per_week }}</p>
+        </div>
+        <div>
+            <p><b>Average workout hours per week in last month</b></p>
+            <p>{{ workout_hours_per_week }}</p>
+        </div>
+    </div>
+
+    <hr class="divider"> <!-- Add this line for the horizontal dividing line -->
+     
+    <h4 class="sleep-charts-header"><b>SLEEP CHARTS</b></h4>
+
+    <div class="chart-grid">    
+        
+        <div class="chart-container-left">  
+            <p><b>Sleep Summary</b></p>
+            <canvas id="sleepGraph"></canvas>
+        </div>
+    
+        
+        <div class="chart-container-right">
+            <p><b>Sleep Efficiency</b></p>
+            <canvas id="sleepEfficiency"></canvas>
+        </div>
+        
+        
+        <div class="chart-container-left">
+            <p><b>Falling Asleep</b></p>
+            <canvas id="fallingAsleep"></canvas>
+        </div>
+        
+        
+        <div class="chart-container-right">
+            <p><b>Minutes Awake in the Middle of the Night</b></p>
+            <canvas id="minutesAwake"></canvas>
+        </div>
+
+        
+        <div class="chart-container-left">
+            <p><b>Waking Up</b></p>
+            <canvas id="wakingUp"></canvas>
+        </div>
+
+        
+        <div class="chart-container-right">
+            <p><b>Minutes Awake Too Early</b></p>
+            <canvas id="minutesAwakeTooEarly"></canvas>
+        </div>
+    </div>  
+    <div>
+        <hr class="divider"> <!-- Add this line for the horizontal dividing line -->
+
+        <h4 class="activity-stats-header"><b>SLEEP METRICS</b></h4>
+        <div class="sleep-stats-row">
+            <div>
+                <p><b>Average hours slept per day in last month</b></p>
+                <p>{{ average_hours_slept_per_day | safe }}</p>
+            </div>
+
+            <div>
+                <p><b>Average time in bed in last month</b></p>
+                <p>{{ hours_monthly_average_time_in_bed | safe }}</p>
+            </div>
+
+            <div>
+                <p><b>Average time awake in the night</b></p>
+                <p>{{ hours_monthly_average_time_awake_in_night | safe }}</p>
+            </div>
+
+            <div>
+                <p><b>Average time awake early</b></p>
+                <p>{{ hours_monthly_average_time_awake_early | safe }}</p>
+            </div>
+
+        </div>   
+    </div>
+</div>
+
+    <script>        
+        // Variables to store times values to prep for formatting manipulation
+        let bedTimeValues = {{ bed_time_values | safe }};
+        let attemptedSleepValues = {{ sleep_attempt_values | safe }};
+        let finalAwakeningTimeValues = {{ final_awakening_time_values | safe }};
+        let outOfBedTimeValues = {{ out_of_bed_time_values | safe }};
+
+        // constant date value, brute force formatting to make HH:mm time render in chart.js
+        const constantDate = "2023-06-24"; 
+
+        // Function to format time values for Y-axis
+        function formatTimeValues(timeValues, constantDate) {
+            return timeValues.map(time => {
+            const [hours, minutes] = time.split(':');
+            const dateTimeString = `${constantDate}T${hours}:${minutes}`;
+            const parsedDateTime = new Date(dateTimeString);
+        
+            // Get the parts of the date and time separately
+            const year = parsedDateTime.getFullYear();
+            const month = String(parsedDateTime.getMonth() + 1).padStart(2, '0');
+            const day = String(parsedDateTime.getDate()).padStart(2, '0');
+            const hour = String(parsedDateTime.getHours()).padStart(2, '0');
+            const minute = String(parsedDateTime.getMinutes()).padStart(2, '0');
+        
+            // Combine the parts to get the final formatted value
+            const formattedDateTime = `${year}-${month}-${day}T${hour}:${minute}`;
+            return formattedDateTime;
+            });
+        }
+
+        // pass bed time values to function to format
+        const formattedBedTimeValues = formatTimeValues(bedTimeValues, constantDate); 
+        // pass sleep attempt values to function to format
+        const formattedAttemptedSleepValues = formatTimeValues(attemptedSleepValues, constantDate);
+        // pass final awakening time values to function to format
+        const formattedFinalAwakeningTimeValues = formatTimeValues(finalAwakeningTimeValues, constantDate);
+        // pass out of bed time values to function to format
+        const formattedOutOfBedTimeValues = formatTimeValues(outOfBedTimeValues, constantDate);
+        
+
+        // Convert date strings to formatted date strings to render in chart.js
+        var labels = {{ sleep_length_labels | safe }}; // store values from backend
+        var formattedLabels = labels.map(function (dateStr) {
+            var date = new Date(dateStr); //new date object
+            var year = date.getFullYear(); // extract year value
+            var month = String(date.getMonth() + 1).padStart(2, '0'); // extract month value and format
+            var day = String(date.getDate()).padStart(2, '0'); // extract day value and format
+            return `${year}-${month}-${day}`; // return date in correct format
+        });
+
+        console.log(formattedLabels);
+
+        // Sleep length and time in bed graph using Chart.js
+        var ctx = document.getElementById('sleepGraph').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: formattedLabels, // reformatted date labels
+                datasets: [
+                    {
+                        label: 'Time Asleep (hours)',
+                        data: {{ sleep_length_values | safe }},
+                        borderColor: '#6699FF',
+                        fill: false
+                    }, {
+                        label: 'Time in Bed (hours)',
+                        data: {{ bedTime_length_values | safe }},
+                        borderColor: '#FF9999',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Hours'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Sleep Efficiency Chart in chart.js
+        var ctx = document.getElementById('sleepEfficiency').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: formattedLabels,
+                datasets: [
+                    {
+                        label: 'Sleep Efficiency (%)',
+                        data: {{ sleep_efficiency_values | safe }},
+                        borderColor: '#6699FF',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        }
+                    }
+                }
+            }
+        });
+
+        
+
+        // Falling Asleep graphs using Chart.js
+        var ctx = document.getElementById('fallingAsleep').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: formattedLabels, // Jinja template to render data 
+                datasets: [
+                    {
+                        label: 'Went To Bed',
+                        data: formattedBedTimeValues,
+                        borderColor: '#6699FF',
+                        fill: false
+                    }, {
+                        label: 'Lights Out',
+                        data: formattedAttemptedSleepValues,
+                        borderColor: '#FF9999',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        type: 'time',
+                        time: {
+                          unit: 'hour',
+                          displayFormats: {
+                            'hour': 'HH:mm',
+                          },
+                        },
+                    min: new Date('2023-06-24T00:00').getTime(), // set min time to only show one day
+                    max: new Date('2023-06-24T23:59').getTime(), // set max time to only show one day
+                    },
+                }   
+            }
+        });
+
+        // Awoke in middle of the Night graph using Chart.js
+        var ctx = document.getElementById('minutesAwake').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: formattedLabels, // Jinja template to render data 
+                datasets: [
+                    {
+                        label: 'Minutes Awake in the Middle of the Night',
+                        data: {{ time_awoken_values | safe }},
+                        borderColor: '#6699FF',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Minutes'
+                        }
+                    }
+                }   
+            }
+        });
+
+        // Waking Up graphs using Chart.js
+        var ctx = document.getElementById('wakingUp').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: formattedLabels, // Jinja template to render data 
+                datasets: [
+                    {
+                        label: 'Got out of bed',
+                        data: formattedOutOfBedTimeValues,
+                        borderColor: '#6699FF',
+                        fill: false
+                    }, {
+                        label: 'Wake up',
+                        data: formattedFinalAwakeningTimeValues,
+                        borderColor: '#FF9999',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        type: 'time',
+                        time: {
+                          unit: 'hour',
+                          displayFormats: {
+                            'hour': 'HH:mm',
+                          },
+                        },
+                    min: new Date('2023-06-24T00:00').getTime(), // set min time to only show one day
+                    max: new Date('2023-06-24T23:59').getTime(), // set max time to only show one day
+                    },
+                }   
+            }
+        });
+
+        // Awoke Too Early graph using Chart.js
+        var ctx = document.getElementById('minutesAwakeTooEarly').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: formattedLabels, // Jinja template to render data 
+                datasets: [
+                    {
+                        label: 'Minutes Awake Too Early',
+                        data: {{ time_awoken_early_values | safe }},
+                        borderColor: '#6699FF',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Minutes'
+                        }
+                    }
+                }   
+            }
+        });
+    </script>
+{% endblock %}
