@@ -1,4 +1,4 @@
-# CS50 Wellness App
+# Wellness App
 #### Video Demo:  <URL HERE>
 ## Technology
 * Flask <br>
