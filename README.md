@@ -1,5 +1,5 @@
 # Wellness App
-#### Video Demo:  <youtube.com/watch?v=hsnhms7nxcI>
+#### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI)
 ## Technology
 * Flask <br>
 * Python <br>
