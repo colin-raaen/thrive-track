@@ -1,14 +1,15 @@
 # Wellness App
 #### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI)
 ## Technology
-* Flask <br>
-* Python <br>
-* SQLite3 <br>
 * JavaScript <br>
-* chart.js <br>
-* date-fns time adapter <br>
 * HTML <br>
 * CSS <br>
+* Python <br>
+* SQLite3 <br>
+* Flask <br>
+* chart.js <br>
+* date-fns time adapter <br>
+
 * Bootstrap <br>
 ## Description
 Full-stack web application that allows users to easily track activities related to health and well-being, with a focus on physical fitness activities and sleep.  <br>
