@@ -11,7 +11,9 @@
 * CSS <br>
 * Bootstrap <br>
 ## Description
-The CS50 Wellness App is a web application that was built to allow users to easily track activities related to health and well-being, with a focus on physical fitness activities and sleep.  There are two core components of the application, activity logging and sleep logging.  Activity logging was based on a concept to visually track how frequently you're getting 30 minutes of activity per day, performing workouts, peforming wellness activities, eating meals out, and drinking alcohol, amongst others.  Sleep logging is meant to track when you're going to bed and waking up, if you're waking up throughout the night or waking up early.  It's based on CBT-i app developed by Veteran Affairs.
+Full-stack web application that allows users to easily track activities related to health and well-being, with a focus on physical fitness activities and sleep.  <br>
+<br>
+There are two core components of the application, activity logging and sleep logging.  Activity logging was based on a concept to visually track how frequently you're getting 30 minutes of activity per day, performing workouts, peforming wellness activities, etc.  Sleep logging is meant to track when you're going to bed and waking up, if you're waking up throughout the night or waking up early.  This functionality is based on CBT-i app developed by Veteran Affairs.
 ## Project Files
 ### layout.html
 This is the Flask template HTML file.  The header of the files includes bootstrap, CSS files, JavaScript files, chart.js, date-fns and JQuery.  The body defines the navigation bar for the web application with links to the various HTML pages and well as defining the logo for the app.  There is also code included to store flash messages when a page renders when applicable.  This creates an experience where the message will populate at the top of the screen.
