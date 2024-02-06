@@ -73,7 +73,7 @@ if (addWorkoutBtn){
         activityDateInput.value = formattedDate;
         
 // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
-        // Listen for changes on the entire Activity entry form
+        // Event delegation, listen for changes on the entire Activity entry form
         document.querySelector('form').addEventListener('change', function(event) {
         var target = event.target;
                 // Check which element was changed and update styles accordingly
