@@ -86,90 +86,11 @@ if (addWorkoutBtn){
                 }
                 // If workout "yes" checkbox is unselected
                 else if (target === workoutCheckbox && target.checked === false) {
-                        // rehide workout selection drop down and add additional workout button
-                        workoutSelectionDiv.style.display = 'none';
-
-                        // set default values of drop downs back to original values or null
-                        workoutSelectionList.value = "defaultWorkoutType";
-                        classSelectionList.value = "defaultClass";
-                        sportsSelectionList.value = "defaultSport";
-                        extremeSportsSelectionList.value = "defaultExtremeSport";
-                        workoutLengthMin.value = null;
-
-                        // if sport type was selected then rehide
-                        if (sportsDiv.style.display === 'block'){
-                                sportsDiv.style.display = 'none';
-                        }
-
-                        // if extreme sport was selected then rehide
-                        if (extremeSportsDiv.style.display === 'block'){
-                                extremeSportsDiv.style.display = 'none';
-                        }
-                        // if class was selected then rehide
-                        if (classDiv.style.display === 'block'){
-                                classDiv.style.display = 'none';
-                        }
-                        // If workout length is showing then rehide
-                        if (workoutLengthDiv.style.display === 'block'){
-                                workoutLengthDiv.style.display = 'none';
-                        }
-                        // If Add Workout button is showing then rehide
-                        if (additionalWorkoutDiv.style.display === 'block'){
-                                additionalWorkoutDiv.style.display = 'none';
-                        }
-                        // If Remove Workout button is showing then rehide
-                        if (removeWorkout.style.display === 'block'){
-                                removeWorkout.style.display = 'none';
-                        }
-
-                        // If additional Add Workouts fields exist,remove them from the container
-                        while (workoutsContainer.childNodes[0]) {
-                                workoutsContainer.removeChild(workoutsContainer.childNodes[0]);
-                        }
+                        hideWorkoutFields(); // call function to hide workout fields
                 }
                 // If Workout No checkbox selected
                 else if (target === workoutCheckboxNo && target.checked === true) {
-                        // hide workout selection drop down
-                        workoutSelectionDiv.style.display = 'none';
-
-                        // set default values of drop downs back to original values or null
-                        workoutSelectionList.value = "defaultWorkoutType";
-                        classSelectionList.value = "defaultClass";
-                        sportsSelectionList.value = "defaultSport";
-                        extremeSportsSelectionList.value = "defaultExtremeSport";
-                        workoutLengthMin.value = null;
-
-                        // if sport type was selected then rehide
-                        if (sportsDiv.style.display === 'block'){
-                                sportsDiv.style.display = 'none';
-                        }
-
-                        // if extreme sport was selected then rehide
-                        if (extremeSportsDiv.style.display === 'block'){
-                                extremeSportsDiv.style.display = 'none';
-                        }
-                        // if class was selected then rehide
-                        if (classDiv.style.display === 'block'){
-                                classDiv.style.display = 'none';
-                        }
-                        // If workout length is showing then rehide
-                        if (workoutLengthDiv.style.display === 'block'){
-                                workoutLengthDiv.style.display = 'none';
-                        }
-                        // If Add Workout button is showing then rehide
-                        if (additionalWorkoutDiv.style.display === 'block'){
-                                additionalWorkoutDiv.style.display = 'none';
-                        }
-
-                        // If Add Workout button is showing then rehide
-                        if (removeWorkout.style.display === 'block'){
-                                removeWorkout.style.display = 'none';
-                        }
-
-                        // If additional Add Workouts fields exist,remove them from the container
-                        while (workoutsContainer.childNodes[0]) {
-                                workoutsContainer.removeChild(workoutsContainer.childNodes[0]);
-                        }
+                        hideWorkoutFields(); // call function to hide workout fields
                 }
 
                 // If Wellness box "Yes" is selected, show wellness type drop down field
@@ -183,33 +104,11 @@ if (addWorkoutBtn){
                 }
                 // if Wellness "yes" is unselected, rehide additional fields and delete any existing additional Wellness fields
                 else if (target === wellnessCheckbox && target.checked === false) {
-                        // unhide wellness type drop down
-                        wellnessDiv.style.display = 'none';
-                        // set default value of drop down back to placeholder
-                        wellnessSelectionList.value = "defaultWellnessType";
-                        // hide add another wellness type button if showing
-                        additionalWellnessDiv.style.display = 'none';
-                        // hide remove wellness activity button
-                        removeWellnessActivity.style.display = 'none';
-                        // If additional Add Workouts fields exist,remove them from the container
-                        while (wellnessContainer.childNodes[0]) {
-                                wellnessContainer.removeChild(wellnessContainer.childNodes[0]);
-                        }
+                        hideWellnessFields(); // call function to rehide wellness fields
                 }
                 // If Wellness No checkbox selected, rehide additional fields and delete any existing additional Wellness fields
                 else if (target === wellnessCheckboxNo && target.checked === true) {
-                        // Hide wellness type drop down
-                        wellnessDiv.style.display = 'none';
-                        // set default value of drop down back to placeholder
-                        wellnessSelectionList.value = "defaultWellnessType";
-                        // hide add another wellness type button if showing
-                        additionalWellnessDiv.style.display = 'none';
-                        // hide remove wellness activity button
-                        removeWellnessActivity.style.display = 'none';
-                        // If additional Add Workouts fields exist,remove them from the container
-                        while (wellnessContainer.childNodes[0]) {
-                                wellnessContainer.removeChild(wellnessContainer.childNodes[0]);
-                        }
+                        hideWellnessFields(); // call function to rehide wellness fields
                 }
 
                 // If workout is selected from drop down menu, show additional drop downs accordingly, rehide if "yes" unselected
@@ -284,13 +183,71 @@ if (addWorkoutBtn){
                         wakeUpEarlyMin.value = "";
                 }
         });
+
+        // helper function to hide workout fields if workout "yes" is unselected or "no" is selected
+        function hideWorkoutFields(){
+                // rehide workout selection drop down
+                workoutSelectionDiv.style.display = 'none';
+
+                // set default values of drop downs back to original values or null
+                workoutSelectionList.value = "defaultWorkoutType";
+                classSelectionList.value = "defaultClass";
+                sportsSelectionList.value = "defaultSport";
+                extremeSportsSelectionList.value = "defaultExtremeSport";
+                workoutLengthMin.value = null;
+
+                // if sport type was selected then rehide
+                if (sportsDiv.style.display === 'block'){
+                        sportsDiv.style.display = 'none';
+                }
+
+                // if extreme sport was selected then rehide
+                if (extremeSportsDiv.style.display === 'block'){
+                        extremeSportsDiv.style.display = 'none';
+                }
+                // if class was selected then rehide
+                if (classDiv.style.display === 'block'){
+                        classDiv.style.display = 'none';
+                }
+                // If workout length is showing then rehide
+                if (workoutLengthDiv.style.display === 'block'){
+                        workoutLengthDiv.style.display = 'none';
+                }
+                // If Add Workout button is showing then rehide
+                if (additionalWorkoutDiv.style.display === 'block'){
+                        additionalWorkoutDiv.style.display = 'none';
+                }
+
+                // If Add Workout button is showing then rehide
+                if (removeWorkout.style.display === 'block'){
+                        removeWorkout.style.display = 'none';
+                }
+
+                // If additional Add Workouts fields exist,remove them from the container
+                while (workoutsContainer.childNodes[0]) {
+                        workoutsContainer.removeChild(workoutsContainer.childNodes[0]);
+                }
+        }
+
+        // helper function to hide wellness fields if wellness "yes" is unselected or "no" is selected
+        function hideWellnessFields(){
+                // unhide wellness type drop down
+                wellnessDiv.style.display = 'none';
+                // set default value of drop down back to placeholder
+                wellnessSelectionList.value = "defaultWellnessType";
+                // hide add another wellness type button if showing
+                additionalWellnessDiv.style.display = 'none';
+                // hide remove wellness activity button
+                removeWellnessActivity.style.display = 'none';
+                // If additional Add Workouts fields exist,remove them from the container
+                while (wellnessContainer.childNodes[0]) {
+                        wellnessContainer.removeChild(wellnessContainer.childNodes[0]);
+                }
         }
 
         // REHIDE WORKOUT ELEMENTS IF REMOVE BUTTON IS SELECTED
-        // Check to ensure activity page is triggering event by checking if add workout button exists
-        if (addWorkoutBtn){
-                // Listen for click on remove workout button
-                removeWorkout.addEventListener('click', function(event) {
+        // Listen for click on remove workout button
+        removeWorkout.addEventListener('click', function() {
                 // Check if any additional workouts have been added to the form
                 if (workoutsContainer.hasChildNodes()) {
                         // hide workout selection drop down
@@ -366,15 +323,11 @@ if (addWorkoutBtn){
                                 removeWorkout.style.display = 'none';
                         }
                 }
-
-                });
-        }
+        });
 
         // REHIDE WELLNESS ELEMENTS IF REMOVE BUTTON IS SELECTED
-        // Check to ensure activity page is triggering event by checking if add workout button exists
-        if (addWorkoutBtn){
-                // Listen for click on remove workout button
-                removeWellnessActivity.addEventListener('click', function(event) {
+        // Listen for click on remove workout button
+        removeWellnessActivity.addEventListener('click', function() {
                 // Check if any additional wellness activities have been added to the form
                 if (wellnessContainer.hasChildNodes()) {
                         // hide wellness selection drop down
@@ -398,8 +351,7 @@ if (addWorkoutBtn){
                         removeWellnessActivity.style.display = 'none';
                 }
 
-                });
-        }
+        });
 
         // MAKE SURE ONLY ONE Y/N checkbox IS SELECTED IN A ROW
         // store all checkboxes (Yes and No) in variable with class YesNo
@@ -431,8 +383,6 @@ if (addWorkoutBtn){
 
 
         // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
-        // Ensure workout button exists, that activity page submission is triggering the function
-        if (addWorkoutBtn){
         // fucnction that is called on form submission to perform validations
         function validateForm() {
                 if (workoutSelectionDiv.style.display === 'block') {
