@@ -3,55 +3,55 @@ document.addEventListener('DOMContentLoaded', function()
 {
         // VARIABLES FOR ADDING ADDITIONAL WORKOUT AND WELLNESS DETAILS (used when need to rehide fields from "no" checkbox selections)
         // define variable to store ADD WORKOUT button element
-        var addWorkoutBtn = document.getElementById("add-workout-btn");
+        const addWorkoutBtn = document.getElementById("add-workout-btn");
         // define variable to store Additional Workout details container for fields to dynamically show
-        var workoutsContainer = document.getElementById("workoutsContainer");
+        const workoutsContainer = document.getElementById("workoutsContainer");
         // define variable to store ADD WELLNESS TYPE button element
-        var addWellnessBtn = document.getElementById("add-wellness-btn");
+        const addWellnessBtn = document.getElementById("add-wellness-btn");
         // define variable to store Additional Wellness details container for fields to dynamically show
-        var wellnessContainer = document.getElementById("wellnessContainer");
+        const wellnessContainer = document.getElementById("wellnessContainer");
 
         // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
         // Store activity form DOM elements in variables
-        var thirtyMinCheckbox = document.getElementById('thirtyMin-yes');
-        var thirtyMinCheckboxNo = document.getElementById('thirtyMin-no');
-        var workoutCheckbox = document.getElementById('workout-yes');
-        var workoutCheckboxNo = document.getElementById('workout-no');
-        var wellnessCheckbox = document.getElementById('wellness-yes');
-        var wellnessCheckboxNo = document.getElementById('wellness-no');
-        var workoutSelectionDiv = document.getElementById('hiddenWorkoutSelection');
-        var workoutSelectionList = document.getElementById('workoutSelection');
-        var eatOutCheckbox = document.getElementById('eatOut-yes');
-        var eatOutCheckboxNo = document.getElementById('eatOut-no');
-        var drinkCheckbox = document.getElementById('drink-yes');
-        var drinkCheckboxNo = document.getElementById('drink-no');
-        var sportsDiv = document.getElementById('hiddenSports');
-        var sportsSelectionList = document.getElementById('sport');
-        var extremeSportsDiv = document.getElementById('hidden_extreme_sports');
-        var extremeSportsSelectionList = document.getElementById('extreme-sport');
-        var classDiv = document.getElementById('hiddenClass');
-        var classSelectionList = document.getElementById('classType');
-        var workoutLengthDiv = document.getElementById('hidden_workout_length');
-        var workoutLengthInput = document.getElementById('workoutLengthMin');
-        var wellnessDiv = document.getElementById('hidden_wellness');
-        var wellnessSelectionList = document.getElementById('wellness-type');
-        var mealsOutDiv = document.getElementById('hidden_meals_out');
-        var mealsOutEntry = document.getElementById('mealsOut');
-        var drinksDiv = document.getElementById('hidden_drinks');
-        var drinksEntry = document.getElementById('numberDrinks');
-        var additionalWorkoutDiv = document.getElementById('hidden_additional_workout');
-        var additionalWellnessDiv = document.getElementById('hidden_additional_wellness');
-        var wakeUpEarlyCheckboxYes = document.getElementById('earlier-yes');
-        var wakeUpEarlyCheckboxNo = document.getElementById('earlier-no');
-        var wakeUpEarlyDiv = document.getElementById('hidden_wake_up_early');
-        var wakeUpEarlyHour = document.getElementById('wakeUpEarlyHour');
-        var wakeUpEarlyMin = document.getElementById('wakeUpEarlyMin');
-        var removeWorkout = document.getElementById('remove_workout');
-        var removeWellnessActivity = document.getElementById('remove_wellness_activity');
-        var travellingCheckboxYes = document.getElementById('travel-yes');
-        var travellingCheckboxNo = document.getElementById('travel-no');
-        var sickCheckboxYes = document.getElementById('sick-yes');
-        var sickCheckboxNo = document.getElementById('sick-no');
+        const thirtyMinCheckbox = document.getElementById('thirtyMin-yes');
+        const thirtyMinCheckboxNo = document.getElementById('thirtyMin-no');
+        const workoutCheckbox = document.getElementById('workout-yes');
+        const workoutCheckboxNo = document.getElementById('workout-no');
+        const wellnessCheckbox = document.getElementById('wellness-yes');
+        const wellnessCheckboxNo = document.getElementById('wellness-no');
+        const workoutSelectionDiv = document.getElementById('hiddenWorkoutSelection');
+        const workoutSelectionList = document.getElementById('workoutSelection');
+        const eatOutCheckbox = document.getElementById('eatOut-yes');
+        const eatOutCheckboxNo = document.getElementById('eatOut-no');
+        const drinkCheckbox = document.getElementById('drink-yes');
+        const drinkCheckboxNo = document.getElementById('drink-no');
+        const sportsDiv = document.getElementById('hiddenSports');
+        const sportsSelectionList = document.getElementById('sport');
+        const extremeSportsDiv = document.getElementById('hidden_extreme_sports');
+        const extremeSportsSelectionList = document.getElementById('extreme-sport');
+        const classDiv = document.getElementById('hiddenClass');
+        const classSelectionList = document.getElementById('classType');
+        const workoutLengthDiv = document.getElementById('hidden_workout_length');
+        const workoutLengthInput = document.getElementById('workoutLengthMin');
+        const wellnessDiv = document.getElementById('hidden_wellness');
+        const wellnessSelectionList = document.getElementById('wellness-type');
+        const mealsOutDiv = document.getElementById('hidden_meals_out');
+        const mealsOutEntry = document.getElementById('mealsOut');
+        const drinksDiv = document.getElementById('hidden_drinks');
+        const drinksEntry = document.getElementById('numberDrinks');
+        const additionalWorkoutDiv = document.getElementById('hidden_additional_workout');
+        const additionalWellnessDiv = document.getElementById('hidden_additional_wellness');
+        const wakeUpEarlyCheckboxYes = document.getElementById('earlier-yes');
+        const wakeUpEarlyCheckboxNo = document.getElementById('earlier-no');
+        const wakeUpEarlyDiv = document.getElementById('hidden_wake_up_early');
+        const wakeUpEarlyHour = document.getElementById('wakeUpEarlyHour');
+        const wakeUpEarlyMin = document.getElementById('wakeUpEarlyMin');
+        const removeWorkout = document.getElementById('remove_workout');
+        const removeWellnessActivity = document.getElementById('remove_wellness_activity');
+        const travellingCheckboxYes = document.getElementById('travel-yes');
+        const travellingCheckboxNo = document.getElementById('travel-no');
+        const sickCheckboxYes = document.getElementById('sick-yes');
+        const sickCheckboxNo = document.getElementById('sick-no');
 
 // Check to ensure activity page is triggering event by checking if add workout button exists
 if (addWorkoutBtn){
@@ -75,7 +75,7 @@ if (addWorkoutBtn){
 // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
         // Event delegation, listen for changes on the entire Activity entry form
         document.querySelector('form').addEventListener('change', function(event) {
-        var target = event.target;
+                const target = event.target; // store target event
                 // Check which element was changed and update styles accordingly
                 // If Workout checkbox selected
                 if (target === workoutCheckbox && target.checked === true) {
@@ -113,7 +113,7 @@ if (addWorkoutBtn){
 
                 // If workout is selected from drop down menu, show additional drop downs accordingly, rehide if "yes" unselected
                 else if (target === workoutSelectionList) {
-                        var value = target.value;
+                        const value = target.value;
                         // if sport type selected show sport options
                         sportsDiv.style.display = value === 'sport' ? 'block' : 'none';
                         // if extreme sport type selected show extreme sport options
@@ -231,7 +231,7 @@ if (addWorkoutBtn){
 
         // helper function to hide wellness fields if wellness "yes" is unselected or "no" is selected
         function hideWellnessFields(){
-                // unhide wellness type drop down
+                // hide wellness type drop down
                 wellnessDiv.style.display = 'none';
                 // set default value of drop down back to placeholder
                 wellnessSelectionList.value = "defaultWellnessType";
@@ -339,18 +339,8 @@ if (addWorkoutBtn){
                 }
                 // Else, no child nodes exist
                 else {
-                        // hide workout selection drop down
-                        wellnessDiv.style.display = 'none';
-                        //uncheck wellness yes box
-                        wellnessCheckbox.checked = false;
-                        // set default values of drop downs back to original values or null
-                        wellnessSelectionList.value = "defaultWellnessType";
-                        // hide add another wellness type button if showing
-                        additionalWellnessDiv.style.display = 'none';
-                        // hide remove wellness activity button
-                        removeWellnessActivity.style.display = 'none';
+                        hideWellnessFields();
                 }
-
         });
 
         // MAKE SURE ONLY ONE Y/N checkbox IS SELECTED IN A ROW
