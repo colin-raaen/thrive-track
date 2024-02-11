@@ -1,0 +1,45 @@
+  #activity-form {
+    width: 60%;
+  }
+
+  .question-header {
+    width: 60%;
+  }
+
+  .yes-no-td {
+    vertical-align: middle;
+  }
+
+  #instructions-header-mobile {
+    display: none;
+  } 
+
+  .instructions-paragraph {
+    text-align: left;
+  }
+  
+  /* Mobile view formatting and styling */
+  @media only screen and (max-width: 767px) {
+    .activity-page-container {
+      display: flex;
+      flex-direction: column; /* Set the direction to column so form and description stack vertically */
+    }
+
+    #activity-form {
+        width: 100%;
+    }
+
+    .text-box-description{
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    #instructions-header-mobile{
+      display: block;
+      margin-bottom: 30px;
+    }
+
+    #instructions-header-desktop {
+      display: none;
+    }
+  }

@@ -7,8 +7,9 @@
 {% block main %}
     <div class="activity-page-container" style="display: flex;">
     <!-- ACTIVITY ENTRY FORM -->
+    <h3 id="instructions-header-mobile">Activity Logging</h3>
     <!-- Activity entry date input -->
-    <form action="/activity" method="post" style="width: 60%;" name="activityForm" id="activityForm">
+    <form action="/activity" method="post" name="activityForm" id="activity-form">
         <div class="mb-3">
             <label for="date">Activity date:</label>
             <input type="date" id="activity-date" name="activity-date" value="2022-01-01" min="1990-01-01" max="2055-12-31" required>
@@ -17,21 +18,21 @@
         <div class="container table-container">
             <table class="table table-borderless">
                 <tr>
-                  <th style="width: 60%;"></th>
+                  <th class="question-header"></th>
                   <th>Yes</th>
                   <th>No</th>
                 </tr>
                 <!-- 30 minutes of activity Y/N -->
                 <tr data-row-number="1">
                     <td><label for="30min">Did you complete 30 minutes of daily movement?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="thirtyMin-yes" name="thirtyMin-yes" value="1" data-associated-checkbox="thirtyMin-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="thirtyMin-no" name="thirtyMin-no" value="0"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="thirtyMin-yes" name="thirtyMin-yes" value="1" data-associated-checkbox="thirtyMin-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="thirtyMin-no" name="thirtyMin-no" value="0"></td>
                 </tr>
                 <!-- Workout completed Y/N -->
                 <tr data-row-number="2">
                     <td><label for="workout">Did you complete a workout?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="workout-yes" name="workout-yes" value="1" data-associated-checkbox="workout-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="workout-no" name="workout-no" value="0"><br></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="workout-yes" name="workout-yes" value="1" data-associated-checkbox="workout-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="workout-no" name="workout-no" value="0"><br></td>
                 </tr>
             </table>
         </div>
@@ -105,9 +106,9 @@
             <!-- Table to align with Y/N above -->
             <table class="table table-borderless" >
                 <tr data-row-number="3">
-                    <td style="width: 60%;"><label for="wellness">Did you participate in a wellness activity?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="wellness-yes" name="wellness-yes" value="1" data-associated-checkbox="wellness-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="wellness-no" name="wellness-no" value="0"><br></td>
+                    <td class="question-header"><label for="wellness">Did you participate in a wellness activity?</label></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="wellness-yes" name="wellness-yes" value="1" data-associated-checkbox="wellness-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="wellness-no" name="wellness-no" value="0"><br></td>
                 </tr>
             </table>
         </div>
@@ -142,9 +143,9 @@
         <div class="container table-container">
             <table class="table table-borderless" >
                 <tr data-row-number="4">
-                    <td style="width: 60%;"><label for="eat-out">Did you eat any meals out on this day?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="eatOut-yes" name="eatOut-yes" value="1" data-associated-checkbox="eatOut-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="eatOut-no" name="eatOut-no" value="0"></td>
+                    <td class="question-header"><label for="eat-out">Did you eat any meals out on this day?</label></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="eatOut-yes" name="eatOut-yes" value="1" data-associated-checkbox="eatOut-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="eatOut-no" name="eatOut-no" value="0"></td>
                 </tr>
             </table>
         </div>
@@ -156,9 +157,9 @@
         <div class="container table-container">
             <table class="table table-borderless" >
                 <tr data-row-number="5">
-                    <td style="width: 60%;"><label for="drink">Did you drink any alcohol on this day?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="drink-yes" name="drink-yes" value="1" data-associated-checkbox="drink-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="drink-no" name="drink-no" value="0"><br></td>
+                    <td class="question-header"><label for="drink">Did you drink any alcohol on this day?</label></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="drink-yes" name="drink-yes" value="1" data-associated-checkbox="drink-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="drink-no" name="drink-no" value="0"><br></td>
                 </tr>
             </table>
         </div>
@@ -170,9 +171,9 @@
          <div class="container table-container">
             <table class="table table-borderless" >
                 <tr data-row-number="6">
-                    <td style="width: 60%;"><label for="drink">Were you travelling or on a trip this day?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="travel-yes" name="travel-yes" value="1" data-associated-checkbox="travel-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="travel-no" name="travel-no" value="0"><br></td>
+                    <td class="question-header"><label for="drink">Were you travelling or on a trip this day?</label></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="travel-yes" name="travel-yes" value="1" data-associated-checkbox="travel-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="travel-no" name="travel-no" value="0"><br></td>
                 </tr>
             </table>
         </div>
@@ -181,9 +182,9 @@
         <div class="container table-container">
             <table class="table table-borderless" >
                 <tr data-row-number="7">
-                    <td style="width: 60%;"><label for="drink">Were you sick on this day?</label></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="sick-yes" name="sick-yes" value="1" data-associated-checkbox="sick-no"></td>
-                    <td style="vertical-align: middle;"><input type="checkbox" class="YesNo" id="sick-no" name="sick-no" value="0"><br></td>
+                    <td class="question-header"><label for="drink">Were you sick on this day?</label></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="sick-yes" name="sick-yes" value="1" data-associated-checkbox="sick-no"></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="sick-no" name="sick-no" value="0"><br></td>
                 </tr>
             </table>
         </div>
@@ -195,23 +196,23 @@
     </form>
     <!-- description text box -->
     <div class="text-box-description">
-        <h3>Activity Logging</h3>
-            <p style="text-align: left;"><b>What is Activity Logging?</b></p>
-            <p style="text-align: left;">Activity logging is designed to gather information about your daily activity pattern.</p>
-            <p style="text-align: left;"><b>How often should I log activities?</b></p>
-            <p style="text-align: left;">It is necessary for you to log your activities every day.</p>
-            <p style="text-align: left;"><b>What should I do if I miss a day?</b></p>
-            <p style="text-align: left;">If you remember your activities for that day, you can still create a new entry;
+        <h3 id="instructions-header-desktop">Activity Logging</h3>
+            <p class="instructions-paragraph"><b>What is Activity Logging?</b></p>
+            <p class="instructions-paragraph">Activity logging is designed to gather information about your daily activity pattern.</p>
+            <p class="instructions-paragraph"><b>How often should I log activities?</b></p>
+            <p class="instructions-paragraph">It is necessary for you to log your activities every day.</p>
+            <p class="instructions-paragraph"><b>What should I do if I miss a day?</b></p>
+            <p class="instructions-paragraph">If you remember your activities for that day, you can still create a new entry;
             just tap the date at the top to change it. Otherwise leave that day blank.</p>
-            <p style="text-align: left;"><b>What does "30 minutes of activity and "workout" mean?</b></p>
-            <p style="text-align: left;">"30 minutes of activity" is a rough estimate if you completed 30 minutes of activities 
+            <p class="instructions-paragraph"><b>What does "30 minutes of activity and "workout" mean?</b></p>
+            <p class="instructions-paragraph">"30 minutes of activity" is a rough estimate if you completed 30 minutes of activities 
                 such as walking, biking, workouts, or any movement that doesn't constitute sedentary sitting</p>
-            <p style="text-align: left;">A workout typically involves some type of more rigorous physical activity. 
+            <p class="instructions-paragraph">A workout typically involves some type of more rigorous physical activity. 
                 Make sure to fill in the workout type and time of the workout in minutes</p>
-            <p style="text-align: left;"><b>What does "meal eaten out" mean?</b></p>
-            <p style="text-align: left;">A meals out is if you purchased any type of food as a meal that you didn't prepare or cook yourself</p>
-            <p style="text-align: left;"><b>What does "alcoholic drink" mean?</b></p>
-            <p style="text-align: left;">Acoholic drinks should be relatively straight forward, if you had a small amount you don't need to count</p>
+            <p class="instructions-paragraph"><b>What does "meal eaten out" mean?</b></p>
+            <p class="instructions-paragraph">A meals out is if you purchased any type of food as a meal that you didn't prepare or cook yourself</p>
+            <p class="instructions-paragraph"><b>What does "alcoholic drink" mean?</b></p>
+            <p class="instructions-paragraph">Acoholic drinks should be relatively straight forward, if you had a small amount you don't need to count</p>
     </div>
 
     </div>
