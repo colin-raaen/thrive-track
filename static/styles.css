@@ -389,3 +389,8 @@ td.hidden-wellness-type-column {
     width: 40%;
     margin-left: 20px; /* add some space between the form and text box */
   }
+
+  /* Mobile view formatting and styling */
+@media only screen and (max-width: 767px) {
+    
+}
