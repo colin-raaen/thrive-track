@@ -524,6 +524,6 @@ if (addWorkoutBtn){
         }
 
         // Call function on activity form submission
-        document.getElementById('activityForm').onsubmit = validateForm;
+        document.getElementById('activity-form').onsubmit = validateForm;
         }
 });
