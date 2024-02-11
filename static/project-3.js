@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function()
                 }       
         } //close brackets on validateform function
         // Call function on activity form submission
-        document.getElementById('sleepForm').onsubmit = validateForm;
+        document.getElementById('sleep-form').onsubmit = validateForm;
         } //close brackets on sleep entry page validation
         
 });

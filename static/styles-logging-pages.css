@@ -1,32 +1,67 @@
-  #activity-form {
-    width: 60%;
-  }
+  /* FONT STYLING FOR ACTIVITY SLEEP LOGGING PAGE */ 
+.logging-page-container {
+  display: flex;
+  font-family: Salesforce Sans;
+} 
+  
+/* STYLING FOR ACTIVITY.HTML & SLEEP.HTML */
+.logging-form {
+  width: 60%;
+}
 
-  .question-header {
-    width: 60%;
-  }
+.yes-no-td {
+  vertical-align: middle;
+}
 
-  .yes-no-td {
-    vertical-align: middle;
-  }
+.instructions-paragraph {
+  text-align: left;
+}
 
-  #instructions-header-mobile {
-    display: none;
-  } 
+/* override bootstrap styling on container */
+.container.table-container {
+  margin: 0;
+}
 
-  .instructions-paragraph {
-    text-align: left;
-  }
+/* STYLING FOR ACTIVITY.HTML */
+.question-header {
+  width: 60%;
+}
+
+#instructions-header-mobile {
+  display: none;
+} 
+
+/* STYLING FOR SLEEP.HTML */
+#questions-table{
+  width: 100%;
+}
+
+.yes-no-header {
+  width: 15%;
+}
+
+.form-control.mx-auto {
+  width: 125px;
+}
   
   /* Mobile view formatting and styling */
   @media only screen and (max-width: 767px) {
-    .activity-page-container {
-      display: flex;
+    .logging-page-container {
       flex-direction: column; /* Set the direction to column so form and description stack vertically */
     }
 
-    #activity-form {
+    .logging-form {
         width: 100%;
+    }
+
+    .container.table-container {
+      max-width: 100%; /* override bootstrap styling to allow to go full width of viewport */
+      margin: 0;
+      padding: 0;
+    }
+
+    .table.table-borderless {
+      max-width: 100%; /* override bootstrap styling to allow to go full width of viewport */
     }
 
     .text-box-description{
@@ -42,4 +77,10 @@
     #instructions-header-desktop {
       display: none;
     }
+
+    /* SLEEP.HTML Form styling */
+    .form-control.mx-auto {
+      width: 75x;
+    }
+      
   }

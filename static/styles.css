@@ -297,16 +297,6 @@ nav .navbar-brand .red
     font-family: Salesforce Sans;
 }
 
-/* STYLING FOR ACTIVITY LOGGING PAGE */ 
-.activity-page-container {
-    font-family: Salesforce Sans;
-}
-
-/* STYLING FOR SLEEP LOGGING PAGE */ 
-.sleep-page-container {
-    font-family: Salesforce Sans;
-}
-
 /* STYLING FOR HISTORY PAGE */ 
 /* Controls styling of entire history page, make sure page ends at end of table */
 .history-page-container{
