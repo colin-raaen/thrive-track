@@ -79,8 +79,12 @@
     }
 
     /* SLEEP.HTML Form styling */
+    .yes-no-header{
+      width: 5%;
+    }
+
     .form-control.mx-auto {
-      width: 75x;
+      width: 75px;
     }
       
   }
