@@ -83,6 +83,17 @@
       width: 5%;
     }
 
+    .sleep-question-cell{
+      grid-column: span 1; /* Reset the column span for mobile view */
+    }
+    
+    .yes-no-td{
+        display: block;
+        width: 50%;
+        box-sizing: border-box;
+        float: left;
+    }
+
     .form-control.mx-auto {
       width: 75px;
     }
