@@ -47,11 +47,14 @@ document.addEventListener('DOMContentLoaded', function()
         const wakeUpEarlyHour = document.getElementById('wakeUpEarlyHour');
         const wakeUpEarlyMin = document.getElementById('wakeUpEarlyMin');
         const removeWorkout = document.getElementById('remove_workout');
+        const removeWorkoutLink = document.getElementById('remove-workout-link');
         const removeWellnessActivity = document.getElementById('remove_wellness_activity');
         const travellingCheckboxYes = document.getElementById('travel-yes');
         const travellingCheckboxNo = document.getElementById('travel-no');
         const sickCheckboxYes = document.getElementById('sick-yes');
         const sickCheckboxNo = document.getElementById('sick-no');
+        // Boolean to store if child workouts exist when remove button is clicked
+        let removeBtnChildBool = false;
 
 // Check to ensure activity page is triggering event by checking if add workout button exists
 if (addWorkoutBtn){
@@ -74,8 +77,9 @@ if (addWorkoutBtn){
         
 // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
         // Event delegation, listen for changes on the entire Activity entry form
-        document.querySelector('form').addEventListener('change', function(event) {
-                const target = event.target; // store target event
+        document.querySelector('form').addEventListener('click', function(event) {
+                const target = event.target; // store target event for readability
+                
                 // Check which element was changed and update styles accordingly
                 // If Workout checkbox selected
                 if (target === workoutCheckbox && target.checked === true) {
@@ -86,20 +90,20 @@ if (addWorkoutBtn){
                 }
                 // If workout "yes" checkbox is unselected
                 else if (target === workoutCheckbox && target.checked === false) {
-                        hideWorkoutFields(); // call function to hide workout fields
+                        removeBtnChildBool = true; // set to false, remove any children
+                        hideWorkoutFields(removeBtnChildBool); // call function to hide workout fields
                 }
                 // If Workout No checkbox selected
                 else if (target === workoutCheckboxNo && target.checked === true) {
-                        hideWorkoutFields(); // call function to hide workout fields
+                        removeBtnChildBool = true; // set to false, remove any children
+                        hideWorkoutFields(removeBtnChildBool); // call function to hide workout fields
                 }
 
                 // If Wellness box "Yes" is selected, show wellness type drop down field
                 else if (target === wellnessCheckbox && target.checked === true) {
-                        // unhide wellness type drop down
+                        // unhide wellness type drop down, add another wellness type button, wellness activity button
                         wellnessDiv.style.display = 'block';
-                        // unhide add another wellness type button
                         additionalWellnessDiv.style.display = 'block';
-                        // unhide remove wellness activity button
                         removeWellnessActivity.style.display = 'block';
                 }
                 // if Wellness "yes" is unselected, rehide additional fields and delete any existing additional Wellness fields
@@ -111,17 +115,22 @@ if (addWorkoutBtn){
                         hideWellnessFields(); // call function to rehide wellness fields
                 }
 
-                // If workout is selected from drop down menu, show additional drop downs accordingly, rehide if "yes" unselected
-                else if (target === workoutSelectionList) {
-                        const value = target.value;
-                        // if sport type selected show sport options
-                        sportsDiv.style.display = value === 'sport' ? 'block' : 'none';
-                        // if extreme sport type selected show extreme sport options
-                        extremeSportsDiv.style.display = value === 'extreme-sport' ? 'block' : 'none';
-                        // if class type selected show class options
-                        classDiv.style.display = value === 'class' ? 'block' : 'none';
-                        // Show workout length when any workout type is selected
-                        workoutLengthDiv.style.display = value !== null ? 'block' : 'none';
+                // REHIDE WORKOUT ELEMENTS IF REMOVE BUTTON IS SELECTED
+                // Listen for click on remove workout button
+                else if (target === removeWorkoutLink) {
+                        console.log("remove workout clicked");
+                        // Check if any additional workouts have been added to the form
+                        if (workoutsContainer.hasChildNodes()) {
+                                console.log("has child nodes");
+                                removeBtnChildBool = false; // set to true, don't remove children wokouts
+                                hideWorkoutFields(removeBtnChildBool); // call function to hide workout field
+                        }
+                        // Else, no child nodes exist
+                        else {
+                                console.log("has no nodes");
+                                removeBtnChildBool = true; // set to false, remove any children
+                                hideWorkoutFields(removeBtnChildBool); // call function to hide workout field
+                        }
                 }
 
                 // If eating out "yes" checkbox was selected show meals out input box
@@ -184,11 +193,27 @@ if (addWorkoutBtn){
                 }
         });
 
+        // Event delegation, listen for changes on the entire Activity entry form
+        document.querySelector('form').addEventListener('change', function(event) {
+                // If workout is selected from drop down menu, show additional drop downs accordingly, rehide if "yes" unselected
+                if (event.target === workoutSelectionList) {
+                        const value = event.target.value;
+                        // if sport type selected show sport options
+                        sportsDiv.style.display = value === 'sport' ? 'block' : 'none';
+                        // if extreme sport type selected show extreme sport options
+                        extremeSportsDiv.style.display = value === 'extreme-sport' ? 'block' : 'none';
+                        // if class type selected show class options
+                        classDiv.style.display = value === 'class' ? 'block' : 'none';
+                        // Show workout length when any workout type is selected
+                        workoutLengthDiv.style.display = value !== null ? 'block' : 'none';
+                }
+        });
+
         // helper function to hide workout fields if workout "yes" is unselected or "no" is selected
-        function hideWorkoutFields(){
+        function hideWorkoutFields(removeBtnChildBool){
                 // rehide workout selection drop down
                 workoutSelectionDiv.style.display = 'none';
-
+                
                 // set default values of drop downs back to original values or null
                 workoutSelectionList.value = "defaultWorkoutType";
                 classSelectionList.value = "defaultClass";
@@ -213,19 +238,25 @@ if (addWorkoutBtn){
                 if (workoutLengthDiv.style.display === 'block'){
                         workoutLengthDiv.style.display = 'none';
                 }
-                // If Add Workout button is showing then rehide
-                if (additionalWorkoutDiv.style.display === 'block'){
-                        additionalWorkoutDiv.style.display = 'none';
-                }
 
                 // If Add Workout button is showing then rehide
                 if (removeWorkout.style.display === 'block'){
                         removeWorkout.style.display = 'none';
                 }
 
-                // If additional Add Workouts fields exist,remove them from the container
-                while (workoutsContainer.childNodes[0]) {
-                        workoutsContainer.removeChild(workoutsContainer.childNodes[0]);
+                // if remove button click called the function and no children, or yes unchecked, or no checked
+                if (removeBtnChildBool){
+                        console.log("removeBtnChildBool true");
+                        // set yes checkbox to false
+                        workoutCheckbox.checked = false; 
+
+                        // rehide Add Workout button
+                        additionalWorkoutDiv.style.display = 'none';
+
+                        // If additional Add Workouts fields exist,remove them from the container
+                        while (workoutsContainer.childNodes[0]) {
+                                workoutsContainer.removeChild(workoutsContainer.childNodes[0]);
+                        }                       
                 }
         }
 
@@ -244,86 +275,6 @@ if (addWorkoutBtn){
                         wellnessContainer.removeChild(wellnessContainer.childNodes[0]);
                 }
         }
-
-        // REHIDE WORKOUT ELEMENTS IF REMOVE BUTTON IS SELECTED
-        // Listen for click on remove workout button
-        removeWorkout.addEventListener('click', function() {
-                // Check if any additional workouts have been added to the form
-                if (workoutsContainer.hasChildNodes()) {
-                        // hide workout selection drop down
-                        workoutSelectionDiv.style.display = 'none';
-
-                        // set default values of drop downs back to original values or null
-                        workoutSelectionList.value = "defaultWorkoutType";
-                        classSelectionList.value = "defaultClass";
-                        sportsSelectionList.value = "defaultSport";
-                        extremeSportsSelectionList.value = "defaultExtremeSport";
-                        workoutLengthMin.value = null;
-
-                        // if sport type was selected then rehide
-                        if (sportsDiv.style.display === 'block'){
-                                sportsDiv.style.display = 'none';
-                        }
-
-                        // if extreme sport was selected then rehide
-                        if (extremeSportsDiv.style.display === 'block'){
-                                extremeSportsDiv.style.display = 'none';
-                        }
-                        // if class was selected then rehide
-                        if (classDiv.style.display === 'block'){
-                                classDiv.style.display = 'none';
-                        }
-                        // If workout length is showing then rehide
-                        if (workoutLengthDiv.style.display === 'block'){
-                                workoutLengthDiv.style.display = 'none';
-                        }
-                        // If Add Workout button is showing then rehide
-                        if (removeWorkout.style.display === 'block'){
-                                removeWorkout.style.display = 'none';
-                        }
-                }
-                // Else, no child nodes exist
-                else {
-                        // hide workout selection drop down
-                        workoutSelectionDiv.style.display = 'none';
-                        //uncheck workout yes box
-                        workoutCheckbox.checked = false;
-
-                        // set default values of drop downs back to original values or null
-                        workoutSelectionList.value = "defaultWorkoutType";
-                        classSelectionList.value = "defaultClass";
-                        sportsSelectionList.value = "defaultSport";
-                        extremeSportsSelectionList.value = "defaultExtremeSport";
-                        workoutLengthMin.value = null;
-
-                        // if sport type was selected then rehide
-                        if (sportsDiv.style.display === 'block'){
-                                sportsDiv.style.display = 'none';
-                        }
-
-                        // if extreme sport was selected then rehide
-                        if (extremeSportsDiv.style.display === 'block'){
-                                extremeSportsDiv.style.display = 'none';
-                        }
-                        // if class was selected then rehide
-                        if (classDiv.style.display === 'block'){
-                                classDiv.style.display = 'none';
-                        }
-                        // If workout length is showing then rehide
-                        if (workoutLengthDiv.style.display === 'block'){
-                                workoutLengthDiv.style.display = 'none';
-                        }
-                        // If Add Workout button is showing then rehide
-                        if (additionalWorkoutDiv.style.display === 'block'){
-                                additionalWorkoutDiv.style.display = 'none';
-                        }
-
-                        // If Add Workout button is showing then rehide
-                        if (removeWorkout.style.display === 'block'){
-                                removeWorkout.style.display = 'none';
-                        }
-                }
-        });
 
         // REHIDE WELLNESS ELEMENTS IF REMOVE BUTTON IS SELECTED
         // Listen for click on remove workout button
