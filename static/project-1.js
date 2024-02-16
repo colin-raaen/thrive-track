@@ -191,6 +191,23 @@ if (addWorkoutBtn){
                         wakeUpEarlyHour.value = "";
                         wakeUpEarlyMin.value = "";
                 }
+                // REHIDE WELLNESS ELEMENTS IF REMOVE BUTTON IS SELECTED
+                // Listen for click on remove workout button
+                else if (target === removeWellnessActivity){
+                        // Check if any additional wellness activities have been added to the form
+                        if (wellnessContainer.hasChildNodes()) {
+                                // hide wellness selection drop down
+                                wellnessDiv.style.display = 'none';
+                                // set default values of drop downs back to original values or null
+                                wellnessSelectionList.value = "defaultWellnessType";
+                                // hide remove wellness activity button
+                                removeWellnessActivity.style.display = 'none';
+                        }
+                        // Else, no child nodes exist
+                        else {
+                                hideWellnessFields();
+                        }
+                };
         });
 
         // Event delegation, listen for changes on the entire Activity entry form
@@ -198,14 +215,41 @@ if (addWorkoutBtn){
                 // If workout is selected from drop down menu, show additional drop downs accordingly, rehide if "yes" unselected
                 if (event.target === workoutSelectionList) {
                         const value = event.target.value;
-                        // if sport type selected show sport options
-                        sportsDiv.style.display = value === 'sport' ? 'block' : 'none';
-                        // if extreme sport type selected show extreme sport options
-                        extremeSportsDiv.style.display = value === 'extreme-sport' ? 'block' : 'none';
                         // if class type selected show class options
-                        classDiv.style.display = value === 'class' ? 'block' : 'none';
+                        if (value === 'class'){
+                                classDiv.style.display = 'block'
+                        }
+                        else{ // else hide and set to default value
+                                classDiv.style.display = 'none';
+                                classSelectionList.value = "defaultClass";
+                        }
+
+                        // if sport type selected show sport options
+                        if (value === 'sport'){
+                                sportsDiv.style.display = 'block'
+                        }
+                        else{ // else hide and set to default value
+                                sportsDiv.style.display = 'none';
+                                sportsSelectionList.value = "defaultSport";
+                        }
+
+                        // if extreme sport type selected show extreme sport options
+                        if (value === 'extreme-sport'){
+                                extremeSportsDiv.style.display = 'block'
+                        }
+                        else{ // else hide and set to default value
+                                extremeSportsDiv.style.display = 'none';
+                                extremeSportsSelectionList.value = "defaultExtremeSport";
+                        }
+ 
                         // Show workout length when any workout type is selected
-                        workoutLengthDiv.style.display = value !== null ? 'block' : 'none';
+                        if (value !== null){
+                                workoutLengthDiv.style.display = 'block'
+                        }
+                        else{ // else hide and set to default value
+                                workoutLengthDiv.style.display = 'none';
+                                workoutLengthInput.value = workoutLengthInput.placeholder;
+                        }
                 }
         });
 
@@ -221,30 +265,14 @@ if (addWorkoutBtn){
                 extremeSportsSelectionList.value = "defaultExtremeSport";
                 workoutLengthMin.value = null;
 
-                // if sport type was selected then rehide
-                if (sportsDiv.style.display === 'block'){
-                        sportsDiv.style.display = 'none';
-                }
+                sportsDiv.style.display = 'none'; // rehide sport type
+                extremeSportsDiv.style.display = 'none'; // rehide extreme sport
+                classDiv.style.display = 'none'; // rehide class
+                workoutLengthDiv.style.display = 'none'; // rehide workout length  
+                removeWorkout.style.display = 'none'; // rehide Add Workout button 
 
-                // if extreme sport was selected then rehide
-                if (extremeSportsDiv.style.display === 'block'){
-                        extremeSportsDiv.style.display = 'none';
-                }
-                // if class was selected then rehide
-                if (classDiv.style.display === 'block'){
-                        classDiv.style.display = 'none';
-                }
-                // If workout length is showing then rehide
-                if (workoutLengthDiv.style.display === 'block'){
-                        workoutLengthDiv.style.display = 'none';
-                }
-
-                // If Add Workout button is showing then rehide
-                if (removeWorkout.style.display === 'block'){
-                        removeWorkout.style.display = 'none';
-                }
-
-                // if remove button click called the function and no children, or yes unchecked, or no checked
+                // if remove button click called the function and there are no children workouts exist
+                // or workout yes unchecked, or workout no checked, delete children workouts and rehide 
                 if (removeBtnChildBool){
                         console.log("removeBtnChildBool true");
                         // set yes checkbox to false
@@ -275,24 +303,6 @@ if (addWorkoutBtn){
                         wellnessContainer.removeChild(wellnessContainer.childNodes[0]);
                 }
         }
-
-        // REHIDE WELLNESS ELEMENTS IF REMOVE BUTTON IS SELECTED
-        // Listen for click on remove workout button
-        removeWellnessActivity.addEventListener('click', function() {
-                // Check if any additional wellness activities have been added to the form
-                if (wellnessContainer.hasChildNodes()) {
-                        // hide wellness selection drop down
-                        wellnessDiv.style.display = 'none';
-                        // set default values of drop downs back to original values or null
-                        wellnessSelectionList.value = "defaultWellnessType";
-                        // hide remove wellness activity button
-                        removeWellnessActivity.style.display = 'none';
-                }
-                // Else, no child nodes exist
-                else {
-                        hideWellnessFields();
-                }
-        });
 
         // MAKE SURE ONLY ONE Y/N checkbox IS SELECTED IN A ROW
         // store all checkboxes (Yes and No) in variable with class YesNo
