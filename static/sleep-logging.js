@@ -27,24 +27,18 @@ document.addEventListener('DOMContentLoaded', function()
         const sleepRatingInput = document.getElementById("rateSleep"); 
         const sleepDateInput = document.getElementById("sleep-date");     
 
-        
-     // Check to ensure sleep entry page is triggering the event by checking if add workout button exists
-     if (napYesCheckbox){
         //JAVASCRIPT TO SET DATE INPUT TO TODAY'S DATE
-                // Get the input element
-                let sleepDateInput = document.getElementById('sleep-date');
+        // Get today's date
+        let today = new Date();
 
-                // Get today's date
-                let today = new Date();
+        // Format the date as YYYY-MM-DD
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        let formattedDate = yyyy + '-' + mm + '-' + dd;
 
-                // Format the date as YYYY-MM-DD
-                let yyyy = today.getFullYear();
-                let mm = String(today.getMonth() + 1).padStart(2, '0');
-                let dd = String(today.getDate()).padStart(2, '0');
-                let formattedDate = yyyy + '-' + mm + '-' + dd;
-
-                // Set the value of the input field to today's date
-                sleepDateInput.value = formattedDate;
+        // Set the value of the input field to today's date
+        sleepDateInput.value = formattedDate;
 
         // UNHIDE NAP TIME ENTRY IF YES IS SELECTED
         // Listen for changes to the Sleep entry form
@@ -431,7 +425,5 @@ document.addEventListener('DOMContentLoaded', function()
                 }       
         } //close brackets on validateform function
         // Call function on activity form submission
-        document.getElementById('sleep-form').onsubmit = validateForm;
-        } //close brackets on sleep entry page validation
-        
+        document.getElementById('sleep-form').onsubmit = validateForm;        
 });

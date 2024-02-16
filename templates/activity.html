@@ -6,8 +6,7 @@
 
 {% block main %}
     <!-- JavaScript code files, Jquery, chart.js -->
-    <script src="/static/activity-logging-1.js"></script>
-    <script src="/static/activity-logging-2.js"></script>
+    <script src="/static/activity-logging.js"></script>
     <script src="/static/yes-no.js"></script>
 
     <div class="logging-page-container">
@@ -41,60 +40,7 @@
                 </tr>
             </table>
         </div>
-        <!-- Series of hidden drop down selections that will show dynamically based on user input -->
-        <div class="mb-3" style="display: none" id="hiddenWorkoutSelection">
-            <!-- Workout types drop down -->
-            <select class="form-select mx-auto w-auto" name="workoutSelection" id="workoutSelection">
-                <option disabled selected value="defaultWorkoutType" id="defaultWorkoutType">Select Workout Type</option>
-                <option value="gym">Gym</option>
-                <option value="class">Workout Class</option>
-                <option value="sport">Sport/Athletics</option>
-                <option value="bike">Bike</option>
-                <option value="running">Running</option>
-                <option value="extreme-sport">Extreme Sport</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <!-- Class types drop down -->
-        <div class="mb-3" id="hiddenClass" style="display: none">
-            <select class="form-select mx-auto w-auto" name="classType" id="classType">
-                <option disabled selected value="defaultClass">Select Class Type</option>
-                <option value="yoga">Yoga</option>
-                <option value="barre">Barre</option>
-                <option value="aerobics">Aerobic</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <!-- Sport types drop down -->
-        <div class="mb-3" id="hiddenSports" style="display: none">
-            <select class="form-select mx-auto w-auto" name="sport" id="sport">
-                <option disabled selected value="defaultSport">Select Sport</option>
-                <option value="tennis">Tennis</option>
-                <option value="hockey">Hockey</option>
-                <option value="soccer">Soccer</option>
-                <option value="basketball">Basketball</option>
-                <option value="racquet">Racquetball/Squash</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <!-- Extreme Sport types drop down -->
-        <div class="mb-3" id="hidden_extreme_sports" style="display: none">
-            <select class="form-select mx-auto w-auto" name="extreme-sport" id="extreme-sport">
-                <option disabled selected value="defaultExtremeSport">Select Extreme Sport</option>
-                <option value="snowboard">Snowboard/Ski</option>
-                <option value="surf">Surfing</option>
-                <option value="skateboard">Skateboard</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <!-- Workout length input -->
-        <div class="mb-3" id="hidden_workout_length" style="display: none">
-            <input autocomplete="off" class="form-control mx-auto w-auto" min="0" id="workoutLengthMin" name="workoutLengthMin" placeholder="Workout Length (minutes)" type="number">
-        </div>
-        <!-- Hyperlink to rehide workout div if clicked -->
-        <div class="mb-3" id="remove_workout" style="display: none">
-            <a href="#" id="remove-workout-link">Remove Workout</a>
-        </div>
+
         <!-- Container to dynamically add additional workout fields -->
         <div class="mb-3" id="workoutsContainer"></div>
 
@@ -102,7 +48,7 @@
         <input type="hidden" name="selectedWorkoutValues" id="selectedWorkoutValuesInput">
 
         <!-- Add additional workouts button -->
-        <div class="mb-3" id="hidden_additional_workout" style="display: none">
+        <div class="mb-3" id="hidden-additional-workout" style="display: none">
             <button class="btn btn-primary" id="add-workout-btn" type="button">Add Another Workout</button>
         </div>
 
@@ -116,21 +62,6 @@
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="wellness-no" name="wellness-no" value="0"><br></td>
                 </tr>
             </table>
-        </div>
-        <!-- Wellness types drop down -->
-        <div class="mb-3" id="hidden_wellness" style="display: none">
-            <select class="form-select mx-auto w-auto" name="wellness-type" id="wellness-type">
-                <option disabled selected value="defaultWellnessType">Select Wellness Type</option>
-                <option value="meditation">Meditation</option>
-                <option value="sauna-spa">Sauna/Spa</option>
-                <option value="therapy">Therapy</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-
-        <!-- Hyperlink to rehide wellness div if clicked -->
-        <div class="mb-3" id="remove_wellness_activity" style="display: none">
-            <a href="#">Remove Wellness Activity</a>
         </div>
 
         <!-- Container to dynamically add additional wellness type fields -->
