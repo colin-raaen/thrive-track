@@ -56,10 +56,7 @@ document.addEventListener('DOMContentLoaded', function()
         // Boolean to store if child workouts exist when remove button is clicked
         let removeBtnChildBool = false;
 
-// Check to ensure activity page is triggering event by checking if add workout button exists
-if (addWorkoutBtn){
-
-//JAVASCRIPT TO SET DATE INPUT TO TODAY'S DATE
+        //JAVASCRIPT TO SET DATE INPUT TO TODAY'S DATE
         // Get the input element
         let activityDateInput = document.getElementById('activity-date');
 
@@ -74,8 +71,8 @@ if (addWorkoutBtn){
 
         // Set the value of the input field to today's date
         activityDateInput.value = formattedDate;
-        
-// UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
+                
+        // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
         // Event delegation, listen for changes on the entire Activity entry form
         document.querySelector('form').addEventListener('click', function(event) {
                 const target = event.target; // store target event for readability
@@ -241,7 +238,7 @@ if (addWorkoutBtn){
                                 extremeSportsDiv.style.display = 'none';
                                 extremeSportsSelectionList.value = "defaultExtremeSport";
                         }
- 
+
                         // Show workout length when any workout type is selected
                         if (value !== null){
                                 workoutLengthDiv.style.display = 'block'
@@ -304,35 +301,6 @@ if (addWorkoutBtn){
                 }
         }
 
-        // MAKE SURE ONLY ONE Y/N checkbox IS SELECTED IN A ROW
-        // store all checkboxes (Yes and No) in variable with class YesNo
-        const rows = document.querySelectorAll('tr[data-row-number]');
-        // for each row
-        rows.forEach(row => {
-                // Store all checkboxes that are Y/N
-                const checkboxes = row.querySelectorAll('input[type="checkbox"]');
-                // for each checkbox
-                checkboxes.forEach(checkbox => {
-                // Listen for click on checkbox
-                checkbox.addEventListener('click', event => {
-                        // if "yes" checkbox is checked
-                        if (checkbox.checked && checkbox.value === '1') {
-                                // uncheck any other checked checkbox in this row
-                                row.querySelectorAll('input[type="checkbox"][value="0"]:checked').forEach(otherCheckbox => {
-                                  otherCheckbox.checked = false;
-                                });
-                                // if "no" checkbox is checked
-                              } else if (checkbox.checked && checkbox.value === '0') {
-                                // uncheck any other checked checkbox in this row
-                                row.querySelectorAll('input[type="checkbox"][value="1"]:checked').forEach(otherCheckbox => {
-                                  otherCheckbox.checked = false;
-                                });
-                              }
-                            });
-                        });
-                });
-
-
         // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
         function validateForm() {
@@ -371,8 +339,6 @@ if (addWorkoutBtn){
                         return false;
                         }
                 }       
-
-                
 
                 // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WORKOUTS
                 // select all the dynamically created Workout Type drop down elements
@@ -424,7 +390,6 @@ if (addWorkoutBtn){
                         alert('Please ensure a wellness type is selected.');
                         return false;
                 }
-                
 
                 // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WELLNESS ACTIVITIES
                 // select all the dynamically created Wellness drop down elements
@@ -472,7 +437,7 @@ if (addWorkoutBtn){
                         { checkbox: drinkCheckbox, errorMessage: "drinks", negativeCheckbox: drinkCheckboxNo },
                         { checkbox: travellingCheckboxYes, errorMessage: "travelling", negativeCheckbox: travellingCheckboxNo },
                         { checkbox: sickCheckboxYes, errorMessage: "sick", negativeCheckbox: sickCheckboxNo }
-                              ];
+                                ];
 
                         // for every field in the array of stored fields, call the validateYN function with the field inputs
                         // if any field returns false, the entire statement returns false and only throws one error message
@@ -486,5 +451,4 @@ if (addWorkoutBtn){
 
         // Call function on activity form submission
         document.getElementById('activity-form').onsubmit = validateForm;
-        }
 });
