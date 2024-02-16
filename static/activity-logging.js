@@ -1,14 +1,39 @@
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         // VARIABLES FOR ADDING ADDITIONAL WORKOUT AND WELLNESS DETAILS (used when need to rehide fields from "no" checkbox selections)
-        // define variable to store ADD WORKOUT button element
-        let addWorkoutBtn = document.getElementById("add-workout-btn");
-        // define variable to store Additional Workout details container for fields to dynamically show
-        let workoutsContainer = document.getElementById("workoutsContainer");
-        // define variable to store ADD WELLNESS TYPE button element
-        let addWellnessBtn = document.getElementById("add-wellness-btn");
-        // define variable to store Additional Wellness details container for fields to dynamically show
-        let wellnessContainer = document.getElementById("wellnessContainer");    
+        // variable to store ADD WORKOUT button element
+        const addWorkoutBtn = document.getElementById("add-workout-btn");
+        // variable to store Additional Workout details container for fields to dynamically show
+        const workoutsContainer = document.getElementById("workoutsContainer");
+        // variable to store ADD WELLNESS TYPE button element
+        const addWellnessBtn = document.getElementById("add-wellness-btn");
+        // variable to store Additional Wellness details container for fields to dynamically show
+        const wellnessContainer = document.getElementById("wellnessContainer");
+
+        // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
+        // Store activity form DOM elements in variables
+        const thirtyMinCheckbox = document.getElementById('thirtyMin-yes');
+        const thirtyMinCheckboxNo = document.getElementById('thirtyMin-no');
+        const workoutCheckbox = document.getElementById('workout-yes');
+        const workoutCheckboxNo = document.getElementById('workout-no');
+        const wellnessCheckbox = document.getElementById('wellness-yes');
+        const wellnessCheckboxNo = document.getElementById('wellness-no');
+        const eatOutCheckbox = document.getElementById('eatOut-yes');
+        const eatOutCheckboxNo = document.getElementById('eatOut-no');
+        const drinkCheckbox = document.getElementById('drink-yes');
+        const drinkCheckboxNo = document.getElementById('drink-no');
+        const mealsOutDiv = document.getElementById('hidden_meals_out');
+        const mealsOutEntry = document.getElementById('mealsOut');
+        const drinksDiv = document.getElementById('hidden_drinks');
+        const drinksEntry = document.getElementById('numberDrinks');
+        const additionalWorkoutDiv = document.getElementById('hidden-additional-workout');
+        const additionalWellnessDiv = document.getElementById('hidden_additional_wellness');
+        const travellingCheckboxYes = document.getElementById('travel-yes');
+        const travellingCheckboxNo = document.getElementById('travel-no');
+        const sickCheckboxYes = document.getElementById('sick-yes');
+        const sickCheckboxNo = document.getElementById('sick-no');
+        // Boolean to store if child workouts exist when remove button is clicked
+        let removeBtnChildBool = false;
 
         // define the workout options for the workout select element drop down
         const workoutOptions = [
@@ -59,7 +84,138 @@ document.addEventListener('DOMContentLoaded', function(){
                 { text: "Therapy", value: "therapy" },
                 { text: "Other", value: "other" }
         ];
+        
+        //JAVASCRIPT TO SET DATE INPUT TO TODAY'S DATE
+        // Get the input element
+        let activityDateInput = document.getElementById('activity-date');
 
+        // Get today's date
+        let today = new Date();
+
+        // Format the date as YYYY-MM-DD
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        let formattedDate = yyyy + '-' + mm + '-' + dd;
+
+        // Set the value of the input field to today's date
+        activityDateInput.value = formattedDate;
+                
+        // UPDATE ACTIVITY LOGGING FIELDS BASED ON CHOICES MADE
+        // Event delegation, listen for Clicks on the entire Activity entry form
+        document.querySelector('form').addEventListener('click', function(event) {
+                const target = event.target; // store target event for readability
+                
+                // Check which element was changed and update styles accordingly
+                // If Workout checkbox selected
+                if (target === workoutCheckbox && target.checked === true) {
+                        newWorkoutInput(); // call function to create new workout input
+                        additionalWorkoutDiv.style.display = 'block';
+                }
+
+                else if (target === addWorkoutBtn){
+                        newWorkoutInput(); // call function to create new workout input fields and buttons
+                }
+
+                // If workout "yes" checkbox is unselected
+                else if (target === workoutCheckbox && target.checked === false) {
+                        removeBtnChildBool = true; // set to false, remove any children
+                        hideWorkoutFields(removeBtnChildBool); // call function to hide workout fields
+                }
+                // If Workout No checkbox selected
+                else if (target === workoutCheckboxNo && target.checked === true) {
+                        removeBtnChildBool = true; // set to false, remove any children
+                        hideWorkoutFields(removeBtnChildBool); // call function to hide workout fields
+                }
+
+                // If Wellness box "Yes" is selected, show wellness type drop down field
+                else if (target === wellnessCheckbox && target.checked === true) {
+                        newWellnessInput(); // call function to create new wellness input fields and buttons
+                        additionalWellnessDiv.style.display = 'block'; // Show additional wellness button
+                }
+
+                // if add Wellness button is clicked
+                else if(target === addWellnessBtn){
+                        newWellnessInput(); // call function to create new wellness input fields and buttons
+                }
+
+                // if Wellness "yes" is unselected, rehide additional fields and delete any existing additional Wellness fields
+                else if (target === wellnessCheckbox && target.checked === false) {
+                        hideWellnessFields(); // call function to rehide wellness fields
+                }
+                // If Wellness No checkbox selected, rehide additional fields and delete any existing additional Wellness fields
+                else if (target === wellnessCheckboxNo && target.checked === true) {
+                        hideWellnessFields(); // call function to rehide wellness fields
+                }
+
+                // If eating out "yes" checkbox was selected show meals out input box
+                else if (target === eatOutCheckbox && target.checked === true) {
+                        mealsOutDiv.style.display = 'block';
+                }
+                // If eating out "yes" checkbox is unselected, rehide the meals out input box
+                else if (target === eatOutCheckbox && target.checked === false) {
+                        // Hide eat out entry
+                        mealsOutDiv.style.display = 'none';
+                        // Set default input value back to null
+                        mealsOutEntry.value = "";
+                }
+                // If Eat Out No checkbox selected
+                else if (target === eatOutCheckboxNo && target.checked === true) {
+                        // Hide eat out entry
+                        mealsOutDiv.style.display = 'none';
+                        // Set default input value back to null
+                        mealsOutEntry.value = "";
+                }
+                // If drinking checkbox "yes" was selected unhide drinks entry,
+                else if (target === drinkCheckbox && target.checked === true) {
+                        drinksDiv.style.display = 'block';
+                }
+                // rehide if "yes" unselected
+                else if (target === drinkCheckbox && target.checked === false) {
+                        // Hide eat out entry
+                        drinksDiv.style.display = 'none';
+                        // Set default input value back to null
+                        drinksEntry.value = "";
+                }
+                // If drink No checkbox selected
+                else if (target === drinkCheckboxNo && target.checked === true) {
+                        // Hide eat out entry
+                        drinksDiv.style.display = 'none';
+                        // Set default input value back to null
+                        drinksEntry.value = "";
+                }
+        });
+
+        // helper function to hide workout fields if workout "yes" is unselected or "no" is selected
+        function hideWorkoutFields(removeBtnChildBool){
+
+                if (removeBtnChildBool){
+                        console.log("removeBtnChildBool true");
+                        // set yes checkbox to false
+                        workoutCheckbox.checked = false; 
+
+                        // rehide Add Workout button
+                        additionalWorkoutDiv.style.display = 'none';
+
+                        // If additional Add Workouts fields exist,remove them from the container
+                        while (workoutsContainer.childNodes[0]) {
+                                workoutsContainer.removeChild(workoutsContainer.childNodes[0]);
+                        }                       
+                }
+        }
+
+        // helper function to hide wellness fields if wellness "yes" is unselected or "no" is selected
+        function hideWellnessFields(){
+                // hide add another wellness type button if showing
+                additionalWellnessDiv.style.display = 'none';
+
+                // If additional Add Workouts fields exist,remove them from the container
+                while (wellnessContainer.childNodes[0]) {
+                        wellnessContainer.removeChild(wellnessContainer.childNodes[0]);
+                }
+        }
+
+        // IMPORTED FROM ACTIVITY-LOGGING-2.JS
         // function to create the new div element
         function createNewDiv(id, className, style) {
                 const newDiv = document.createElement("div");
@@ -91,8 +247,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // Initialize a counter variable for naming convention
         let workoutCount = 0;
-        addWorkoutBtn.addEventListener("click", function() {
 
+        // Helper function to create new workout input
+        function newWorkoutInput(){
                 // call new div function for workout selection drop down
                 let newWorkoutSelection = createNewDiv(`newWorkoutSelection${workoutCount}`, "mb-3", "");
                 // call new selection function for workout selection drop down
@@ -173,9 +330,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 // Add to workout counter
                 workoutCount++;
-        });
+        }
 
-    // JAVASCRIPT TO SHOW/HIDE ADDITIONAL DROP DOWNS FIELDS DEPENDING ON WORKOUT TYPE SELECTED
+        // JAVASCRIPT TO SHOW/HIDE ADDITIONAL DROP DOWNS FIELDS DEPENDING ON WORKOUT TYPE SELECTED
         // Listen for changes on the entire Activity entry form
         document.querySelector('form').addEventListener('change', function(event) {
                 // Check if an additional workout selection element was changed and update styles accordingly
@@ -226,9 +383,8 @@ document.addEventListener('DOMContentLoaded', function(){
         // Initialize a counter variable
         let wellnessCount = 0;
 
-        // Listen if add Wellness button is clicked
-        addWellnessBtn.addEventListener("click", function() {
-
+        // Helper function to create new wellness input
+        function newWellnessInput(){
                 // call new div function for Sport selection drop down
                 let newWellnessSelection = createNewDiv(`newWellnessSelection${wellnessCount}`, "mb-3", "block");
                 // call new selection function for Sport selection drop down
@@ -257,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 // Add to workout counter
                 wellnessCount++;
-        });
+        }
 
         // REMOVE ADDITIONAL WELLNESS AND WORKOUT INPUTS IF REMOVE BUTTON IS SELECTED
         // Listen for changes to the Activity entry form
@@ -314,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // STORE VALUES OF ADDITIONAL WELLNESS AND WORKOUT INPUTS AND PASS TO BACKEND VIA HIDDEN HTML ELEMENT
         // Listen for submission of the Activity entry form
-        document.querySelector('form').addEventListener('submit', function(event) {
+        document.querySelector('form').addEventListener('submit', function() {
                 // Create an empty array to store the selected Wellness values
                 let selectedWellnessValues = [];
                 // Create an empty array to store the objects of selected Workout values
@@ -360,4 +516,112 @@ document.addEventListener('DOMContentLoaded', function(){
                 selectedWorkoutValuesInput.value = JSON.stringify(selectedWorkoutValues);
 
         }); 
+        // END OF ACITIVITY-LOGGING-2 IMPORT
+
+        // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
+        // fucnction that is called on form submission to perform validations
+        function validateForm() {     
+                // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WORKOUTS
+                // select all the dynamically created Workout Type drop down elements
+                let selectWorkoutTypeElements = document.querySelectorAll('select[name^="additionalWorkoutSelection"]');
+                // select all the dynamically created Workout Class Type drop down elements
+                let selectWorkoutClassTypeElements = document.querySelectorAll('select[name^="additionalClassSelection"]');
+                // select all the dynamically created Sport Type drop down elements
+                let selectSportTypeElements = document.querySelectorAll('select[name^="additionalSportSelection"]');
+                // select all the dynamically created Extreme Sport Type drop down elements
+                let selectExtremeSportTypeElements = document.querySelectorAll('select[name^="additionalExtremeSportSelection"]');
+                // select all the dynamically created Workout Length input elements
+                let selectWorkoutLengthElements = document.querySelectorAll('input[name^="additionalWorkoutLengthMin"]');
+
+                if (selectWorkoutTypeElements.length > 0){
+                        // iterate through each workout element and push its selected value into the array
+                        for (let i = 0; i < selectWorkoutTypeElements.length; i++) {
+                                // If dynamically added workout type isn't selected 
+                                if (selectWorkoutTypeElements[i].value === ""){
+                                        alert('Please ensure a workout type is selected.');
+                                        return false;
+                                }
+                                // If dynamically added workout type is class, ensure class type is selected 
+                                else if (selectWorkoutTypeElements[i].value === "class" && selectWorkoutClassTypeElements[i].value === ""){
+                                        alert('Please ensure a class type is selected.');
+                                        return false;
+                                }
+                                // If dynamically added workout type is sport, ensure sport type is selected 
+                                else if (selectWorkoutTypeElements[i].value === "sport" && selectSportTypeElements[i].value === ""){
+                                        alert('Please ensure a sport type is selected.');
+                                        return false;
+                                }
+                                // If dynamically added workout type is extreme sport, ensure extreme sport type is selected 
+                                else if (selectWorkoutTypeElements[i].value === "extreme_sport" && selectExtremeSportTypeElements[i].value === ""){
+                                        alert('Please ensure a extreme sport type is selected.');
+                                        return false;
+                                }
+                                // Ensure workout length is selected 
+                                else if (selectWorkoutLengthElements[i].value === ""){
+                                        alert('Please ensure workout length is filled in.');
+                                        return false;
+                                }
+                        }
+                }
+
+                // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WELLNESS ACTIVITIES
+                // select all the dynamically created Wellness drop down elements
+                let selectWellnessElements = document.querySelectorAll('select[name^="additionalWellnessSelection"]');
+
+                //iterate through list of additional wellness selections that have been dynamically added
+                for (let i = 0; i < selectWellnessElements.length; i++) {
+                        // If dynamically added wellness type isn't selected 
+                        if (selectWellnessElements[i].value === ""){
+                                alert('Please ensure a wellness type is selected.');
+                                return false;
+                        }
+                }
+
+                //Ensure number of meals is filled in if eat out is selected
+                if (eatOutCheckbox.checked && mealsOutEntry.value === ""){
+                        // if no checkbox is selected, throw error message and don't sumbit form
+                        alert('Please ensure a number of meals is filled out.');
+                        return false;
+                }
+                
+                //Ensure number of drinks is filled in if drinks is selected
+                if (drinkCheckbox.checked && drinksEntry.value === ""){
+                        // if no checkbox is selected, throw error message and don't sumbit form
+                        alert('Please ensure a number of drinks is filled out.');
+                        return false;
+                }
+
+                // Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
+                function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
+                        //If neither yes or no checkbox is selected
+                        if (!yesCheckbox.checked && !noCheckbox.checked) {
+                                alert(`Please check either "Yes" or "No" for the ${errorMessage} checkbox.`); //Send alert message
+                                return false; // return false for field validation check
+                                }
+                                return true; //passed validation
+                };
+
+                // store array of fields Y/N fields to validate, storing yes checkbox, no checkbox, and field name for error message
+                const validationFields = [
+                        { checkbox: thirtyMinCheckbox, errorMessage: "30 min activity", negativeCheckbox: thirtyMinCheckboxNo },
+                        { checkbox: workoutCheckbox, errorMessage: "workout", negativeCheckbox: workoutCheckboxNo },
+                        { checkbox: wellnessCheckbox, errorMessage: "wellness", negativeCheckbox: wellnessCheckboxNo },
+                        { checkbox: eatOutCheckbox, errorMessage: "eat out", negativeCheckbox: eatOutCheckboxNo },
+                        { checkbox: drinkCheckbox, errorMessage: "drinks", negativeCheckbox: drinkCheckboxNo },
+                        { checkbox: travellingCheckboxYes, errorMessage: "travelling", negativeCheckbox: travellingCheckboxNo },
+                        { checkbox: sickCheckboxYes, errorMessage: "sick", negativeCheckbox: sickCheckboxNo }
+                                ];
+
+                        // for every field in the array of stored fields, call the validateYN function with the field inputs
+                        // if any field returns false, the entire statement returns false and only throws one error message
+                        // for first field found with an error
+                        let boolYesNoFieldCheck = validationFields.every(field => validateYNField(field.checkbox, field.errorMessage, field.negativeCheckbox));
+                        // If a yes/no field doesn't pass validation checks, return false and display error, else continue to next validation check
+                        if (boolYesNoFieldCheck === false){
+                                return false;
+                        }    
+        }
+
+        // Call function on activity form submission
+        document.getElementById('activity-form').onsubmit = validateForm;
 });
