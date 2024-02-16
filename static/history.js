@@ -177,16 +177,11 @@ document.addEventListener('DOMContentLoaded', function()
                 let pageNumbersDiv = document.getElementById("page-numbers-sleep"); // get page numbers div placeholder
                 pageNumbersDiv.innerHTML = "";
 
-                console.log("sleep table rows Length: " + sleepTable.rows.length);
-                console.log("total pages calculated: " + totalPages);
-
                 // if there is a remainder after dividing by 30, than add a page to account for additional rows
                 // subtracting 1 from rows length to exclude the table header row
                 if ((sleepTable.rows.length - 1) % rowsPerPage !== 0) {
                         totalPages++; // Add 1 if there is a remainder
                 }
-
-                console.log("total pages after if statement: " + totalPages);
 
                 // Loop through pages to create and append
                 for (let i = 0; i < totalPages; i++) {
@@ -219,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function()
                         
         // Show the first page initially
         showPageSleep(currentPageSleep);
-        console.log("after showPage function call");
 
         // Generate pagination buttons
         generatePaginationButtonsSleep();

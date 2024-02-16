@@ -4,28 +4,28 @@ document.addEventListener('DOMContentLoaded', function()
         // VARIABLES FOR SLEEP ENTRY FORM
         // USED FOR ADDING NAP AND WAKE UP EARLY DETAILS (used when need to rehide fields from "no" checkbox selections)
         // AND FIELD VALIDATIONS RULES
-        let napTimeRow = document.getElementById("napTimeHiddenRow");
-        let napYesCheckbox = document.getElementById("nap-yes");
-        let napNoCheckbox = document.getElementById("nap-no");
-        let napTimeInputHour = document.getElementById("napTimeHour");
-        let napTimeInputMin = document.getElementById("napTimeMin");
-        let wakeUpEarlyTimeRow = document.getElementById("wakeUpEarlyHiddenRow");
-        let wakeUpEarlyYesCheckbox = document.getElementById("earlier-yes");
-        let wakeUpEarlyNoCheckbox = document.getElementById("earlier-no");
-        let timesWokenUpInput = document.getElementById("timesWokenUp");
-        let timesWokenUpRow = document.getElementById("awokenTimeHiddenRow");
-        let timeAwokenHourInput = document.getElementById("timeAwokenHour");
-        let timeAwokenMinInput = document.getElementById("timeAwokenMin");
-        let travellingYesCheckbox = document.getElementById("travel-yes");
-        let travellingNoCheckbox = document.getElementById("travel-no");
-        let timeInBedInput = document.getElementById("bedTime");
-        let sleepAttemptInput = document.getElementById("sleepAttempt");
-        let timeToSleepInputHour = document.getElementById("timeToSleepHour");
-        let timeToSleepInputMin = document.getElementById("timeToSleepMin");
-        let finalAwakeningInput = document.getElementById("finalAwakening");
-        let timeOutOfBedInput = document.getElementById("outOfBed");
-        let sleepRatingInput = document.getElementById("rateSleep"); 
-        let sleepDateInput = document.getElementById("sleep-date");     
+        const napTimeRow = document.getElementById("napTimeHiddenRow");
+        const napYesCheckbox = document.getElementById("nap-yes");
+        const napNoCheckbox = document.getElementById("nap-no");
+        const napTimeInputHour = document.getElementById("napTimeHour");
+        const napTimeInputMin = document.getElementById("napTimeMin");
+        const wakeUpEarlyTimeRow = document.getElementById("wakeUpEarlyHiddenRow");
+        const wakeUpEarlyYesCheckbox = document.getElementById("earlier-yes");
+        const wakeUpEarlyNoCheckbox = document.getElementById("earlier-no");
+        const timesWokenUpInput = document.getElementById("timesWokenUp");
+        const timesWokenUpRow = document.getElementById("awokenTimeHiddenRow");
+        const timeAwokenHourInput = document.getElementById("timeAwokenHour");
+        const timeAwokenMinInput = document.getElementById("timeAwokenMin");
+        const travellingYesCheckbox = document.getElementById("travel-yes");
+        const travellingNoCheckbox = document.getElementById("travel-no");
+        const timeInBedInput = document.getElementById("bedTime");
+        const sleepAttemptInput = document.getElementById("sleepAttempt");
+        const timeToSleepInputHour = document.getElementById("timeToSleepHour");
+        const timeToSleepInputMin = document.getElementById("timeToSleepMin");
+        const finalAwakeningInput = document.getElementById("finalAwakening");
+        const timeOutOfBedInput = document.getElementById("outOfBed");
+        const sleepRatingInput = document.getElementById("rateSleep"); 
+        const sleepDateInput = document.getElementById("sleep-date");     
 
         
      // Check to ensure sleep entry page is triggering the event by checking if add workout button exists
@@ -46,10 +46,63 @@ document.addEventListener('DOMContentLoaded', function()
                 // Set the value of the input field to today's date
                 sleepDateInput.value = formattedDate;
 
+        // UNHIDE NAP TIME ENTRY IF YES IS SELECTED
+        // Listen for changes to the Sleep entry form
+        document.querySelector('form').addEventListener('click', function(event){       
+                //If event that was clicked is Yes Nap Checkbox is checked, unhide row
+                if (event.target === napYesCheckbox && napYesCheckbox.checked === true){
+                        // Unhide Nap time entry
+                        napTimeRow.style.display = 'table-row';
+                }
+
+                //If Yes Nap Checkbox is unchecked, then rehide row
+                else if (event.target === napYesCheckbox && napYesCheckbox.checked === false){
+                        // Hide Nap time entry
+                        napTimeRow.style.display = 'none';
+                }
+
+                //If No Nap Checkbox is checked, then hide row
+                else if (event.target === napNoCheckbox && napNoCheckbox.checked === true){
+                        // Hide Nap time entry
+                        napTimeRow.style.display = 'none';
+                }
+
+                //If event that was clicked is Yes Woke up early Checkbox is checked, unhide row
+                if (event.target === wakeUpEarlyYesCheckbox && wakeUpEarlyYesCheckbox.checked === true){
+                        // Unhide Wake Up early time entry
+                        wakeUpEarlyTimeRow.style.display = 'table-row';
+                }
+
+                //If Yes Wake Up Early Checkbox is unchecked, then rehide row
+                else if (event.target === wakeUpEarlyYesCheckbox && wakeUpEarlyYesCheckbox.checked === false){
+                        // Hide Wake Up early time entry
+                        wakeUpEarlyTimeRow.style.display = 'none';
+                }
+
+                //If No Wake Up Early Checkbox is checked, then hide row
+                else if (event.target === wakeUpEarlyNoCheckbox && wakeUpEarlyNoCheckbox.checked === true){
+                        // Hide Wake Up early time entry
+                        wakeUpEarlyTimeRow.style.display = 'none';
+                }
+        });
+        
+        // Listen for changes on the entire Sleep Logging entry form
+        document.querySelector('form').addEventListener('change', function(event) {
+                // SHOW OR HIDE TIME AWAKE BASED ON NUMBER OF TIMES AWOKEN VALUE
+                // if number of awakenings was target and is greater than 0
+                if (event.target === timesWokenUpInput && timesWokenUpInput.value > 0) {
+                        timesWokenUpRow.style.display = 'table-row'; // Show amount of time awake input
+                }
+
+                // if number of awakenings was target and is 0
+                else if (event.target === timesWokenUpInput && parseInt(timesWokenUpInput.value) === 0) {
+                        timesWokenUpRow.style.display = 'none'; // hide amount of time awake input
+                }
+        });         
+
         // JAVASCRIPT TO PERFORM FIELD VALIDATIONS ON SLEEP FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
         function validateForm() {
-                
                 // Helper Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
                 function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
                         //If neither yes or no checkbox is selected
@@ -65,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function()
                         { checkbox: napYesCheckbox, errorMessage: "Nap", negativeCheckbox: napNoCheckbox },
                         { checkbox: wakeUpEarlyYesCheckbox, errorMessage: "Wake Up Early", negativeCheckbox: wakeUpEarlyNoCheckbox },
                         { checkbox: travellingYesCheckbox, errorMessage: "Travelling", negativeCheckbox: travellingNoCheckbox },
-                        ];
+                ];
 
                 // for every field in the array of stored fields, call the validateYN function with the field inputs
                 // if any field returns false, the entire statement returns false and only throws one error message
