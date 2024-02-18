@@ -115,6 +115,11 @@ document.addEventListener('DOMContentLoaded', function(){
                         handleNewWorkoutClick(); // call function to create new workout input fields and buttons
                 }
 
+                // if remove workout button was clicked
+                else if (target.name.startsWith('additionalRemoveButton')){
+                        handleRemoveWorkout(event); // call function to remove workout passing in event
+                }
+
                 // If workout "yes" checkbox is unselected OR if Workout No checkbox selected
                 else if ((target === workoutCheckbox && target.checked === false) || 
                         (target === workoutCheckboxNo && target.checked === true)){
@@ -130,6 +135,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 // if add Wellness button is clicked
                 else if(target === addWellnessBtn){
                         handleNewWellnessClick(); // call function to create new wellness input fields and buttons
+                }
+
+                // if remove wellness button was clicked
+                else if (target.name.startsWith('additionalRemoveWellnessButton')){
+                        handleRemoveWellness(event); // call function to remove wellness input passing in event
                 }
 
                 // if Wellness "yes" is unselected, OR if Wellness No checkbox selected,
@@ -160,17 +170,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         (target === drinkCheckboxNo && target.checked === true)) {
                         drinksDiv.style.display = 'none'; // Hide eat out entry
                         drinksEntry.value = ""; // Set default input value back to null
-                }
-
-                // if remove workout button was clicked
-                else if (target.name.startsWith('additionalRemoveButton')){
-                        handleRemoveWorkout(event); // call function to remove workout passing in event
-                }
-
-                // if remove wellness button was clicked
-                else if (target.name.startsWith('additionalRemoveWellnessButton')){
-                        handleRemoveWellness(event); // call function to remove wellness input passing in event
-                        
                 }
         });
 
@@ -224,14 +223,15 @@ document.addEventListener('DOMContentLoaded', function(){
         // helper function to remove one individual workout input when remove button clicked
         function handleRemoveWorkout(event){
                 // extract the number value from the button's name attribute using a regular expression
-                let index = event.target.name.match(/\d+/)[0];
+                const index = event.target.name.match(/\d+/)[0];
 
                 // strore drop down field elements to remove
-                let newWorkoutSelection = document.getElementById("newWorkoutSelection" + index);
-                let newClassSelection = document.getElementById("newClassSelection" + index);
-                let newSportSelection = document.getElementById("newSportSelection" + index);
-                let newExtremeSportSelection = document.getElementById("newExtremeSportSelection" + index);
-                let newWorkoutLength = document.getElementById("newWorkoutLength" + index);
+                const newWorkoutSelection = document.getElementById("newWorkoutSelection" + index);
+                const newClassSelection = document.getElementById("newClassSelection" + index);
+                const newSportSelection = document.getElementById("newSportSelection" + index);
+                const newExtremeSportSelection = document.getElementById("newExtremeSportSelection" + index);
+                const newWorkoutLength = document.getElementById("newWorkoutLength" + index);
+                const removeWorkoutDiv = document.getElementById("remove_workout" + index);
 
                 // remove elements from page
                 newWorkoutSelection.remove();
@@ -239,20 +239,33 @@ document.addEventListener('DOMContentLoaded', function(){
                 newSportSelection.remove();
                 newExtremeSportSelection.remove();
                 newWorkoutLength.remove();
+                removeWorkoutDiv.remove();
                 event.target.remove();
+
+                // if there are no children workouts, aka last workout
+                if(!workoutsContainer.hasChildNodes()){
+                        handleHideAllWorkoutInputs(); // call handle all function to rehide buttons 
+                }
         }
 
         // helper function to remove one individual wellness input when remove button clicked
         function handleRemoveWellness(event){
                 // extract the number value from the button's name attribute using a regular expression
-                let index = event.target.name.match(/\d+/)[0];
+                const index = event.target.name.match(/\d+/)[0];
 
                 // strore drop down field elements to remove
-                let newWellnessSelection = document.getElementById("newWellnessSelection" + index);
+                const newWellnessSelection = document.getElementById("newWellnessSelection" + index);
+                const removeWellnessDiv = document.getElementById("remove_wellness_activity" + index);
 
                 // remove elements from page
                 newWellnessSelection.remove();
+                removeWellnessDiv.remove();
                 event.target.remove();
+
+                // if there are no children wellness inputs, aka last workout
+                if(!wellnessContainer.hasChildNodes()){
+                        handleHideAllWellnessInputs(); // call handle all function to rehide buttons 
+                }
         }
 
         // helper function to hide workout fields if workout "yes" is unselected or "no" is selected
@@ -268,8 +281,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // helper function to hide wellness fields if wellness "yes" is unselected or "no" is selected
         function handleHideAllWellnessInputs(){
-                // hide add another wellness type button if showing
-                additionalWellnessDiv.style.display = 'none';
+                wellnessCheckbox.checked = false;  // set yes checkbox to false
+                additionalWellnessDiv.style.display = 'none'; // hide add another wellness type button if showing
 
                 // If additional Add Workouts fields exist,remove them from the container
                 while (wellnessContainer.childNodes[0]) {
