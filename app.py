@@ -604,29 +604,11 @@ def activity():
         # Call helper function to store welness y/n input into variable depending if answered yes or no
         wellness_checked = get_form_input(request.form, "wellness-yes") or get_form_input(request.form, "wellness-no")
 
-        # Call helper function and stores workout type if workout is y
-        workout_type = get_form_input(request.form, "workoutSelection")
-
-        # Call helper function and stores class type if class is workout type
-        class_type = get_form_input(request.form, "classType")
-
-        # Call helper function and stores sport type if sport is workout type
-        sport_type = get_form_input(request.form, "sport")
-
-        # Call helper function and store extreme sport if extreme sport is workout type
-        extreme_sport_type = get_form_input(request.form, "extreme-sport")
-
         # Call helper function and store travel boolean value
         travel_checked = get_form_input(request.form, "travel-yes") or get_form_input(request.form, "travel-no")
 
         # Call helper function and store travel boolean value
         sick_checked = get_form_input(request.form, "sick-yes") or get_form_input(request.form, "sick-no")
-
-        # Call helper function and store workout length if workout is y
-        if request.form.get("workoutLengthMin"):
-            workout_length_final = int(request.form.get("workoutLengthMin"))
-        else:
-            workout_length_final = 0
 
         # Get array of additional wellness type values from hidden HTML element
         if(request.form.get('selectedWorkoutValues')):
@@ -635,9 +617,6 @@ def activity():
             selected_workout_values_array = json.loads(selected_workout_values)
         else:
             selected_workout_values_array = None
-
-        # Call helper function and store wellness type if wellness is y
-        wellness_selection = get_form_input(request.form, "wellness-type")
 
         # Get array of additional wellness type values from hidden HTML element
         if(request.form.get('selectedWellnessValues')):
@@ -674,15 +653,7 @@ def activity():
             session_user_id, thirty_min_checked, workout_checked, wellness_checked, activity_date, travel_checked, sick_checked)
         # store activity log ID for other database inserts
         activity_logging_id = db.execute("SELECT id FROM activity_logging WHERE date = ?;", activity_date)
-        # Insert into workout logging
-        db.execute(
-            """
-            INSERT INTO workout_logging (users_id, activity_log_id, date, workout_type, class_type, sport_type, 
-                extreme_sport_type, workout_length) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-            session_user_id, activity_logging_id[0]["id"], activity_date, workout_type, class_type, sport_type, 
-            extreme_sport_type, workout_length_final)
+
         # Placeholder to insert additional workout values into database
         if(selected_workout_values_array):
             for workout in selected_workout_values_array:
@@ -696,9 +667,6 @@ def activity():
                    session_user_id, activity_logging_id[0]["id"], activity_date, workout['workoutType'], 
                    workout['workoutClassType'], workout['sportType'], workout['extremeSportType'], workout['workoutLength'])
 
-        # Insert wellness selection into database
-        db.execute("INSERT INTO wellness_logging (users_id, activity_log_id, wellness_type, date) VALUES (?, ?, ?, ?)",
-                session_user_id, activity_logging_id[0]["id"], wellness_selection, activity_date)
         # If additional wellness selections made, Loop through array of additional wellness values and insert into database
         if(selected_wellness_values_array):
             for value in selected_wellness_values_array:
@@ -708,6 +676,7 @@ def activity():
                     VALUES (?, ?, ?, ?)
                     """, 
                     session_user_id, activity_logging_id[0]["id"], value, activity_date)
+                
         # Insert values into lifestyle logging table
         db.execute("""
         INSERT INTO lifestyle_logging (users_id, date, eat_out, drinks, number_mealsOut, number_drinks, activity_log_id) 
