@@ -1041,8 +1041,6 @@ def history():
             #SQL query to delete activity_logging entry
             db.execute("DELETE FROM activity_logging WHERE activity_logging.id = ?;", activity_row_id_value)
 
-
-
         # Store flash message to dispaly
         flash('Successfully deleted entry', 'success')
 
