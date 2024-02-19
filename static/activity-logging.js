@@ -225,26 +225,21 @@ document.addEventListener('DOMContentLoaded', function(){
                 // extract the number value from the button's name attribute using a regular expression
                 const index = event.target.name.match(/\d+/)[0];
 
-                // strore drop down field elements to remove
-                const newWorkoutSelection = document.getElementById("newWorkoutSelection" + index);
-                const newClassSelection = document.getElementById("newClassSelection" + index);
-                const newSportSelection = document.getElementById("newSportSelection" + index);
-                const newExtremeSportSelection = document.getElementById("newExtremeSportSelection" + index);
-                const newWorkoutLength = document.getElementById("newWorkoutLength" + index);
-                const removeWorkoutDiv = document.getElementById("remove_workout" + index);
+                const elementPrefixes = ["newWorkoutSelection", "newClassSelection", "newSportSelection", 
+                        "newExtremeSportSelection", "newWorkoutLength", "remove_workout"];
 
-                // remove elements from page
-                newWorkoutSelection.remove();
-                newClassSelection.remove();
-                newSportSelection.remove();
-                newExtremeSportSelection.remove();
-                newWorkoutLength.remove();
-                removeWorkoutDiv.remove();
-                event.target.remove();
+                // Loop through each prefix stored of HTML elements to remove
+                elementPrefixes.forEach(prefix => {
+                        // get HTML element based on prefix and index number
+                        const element = document.getElementById(prefix + index);
+                        element && element.remove(); // validate element exists, if yes remove the element
+                });
+
+                event.target.remove(); // remove "remove" hyperlink that triggered function call
 
                 // if there are no children workouts, aka last workout
                 if(!workoutsContainer.hasChildNodes()){
-                        handleHideAllWorkoutInputs(); // call handle all function to rehide buttons 
+                        handleHideAllWorkoutInputs(); // call handle all function to rehide workout buttons 
                 }
         }
 
