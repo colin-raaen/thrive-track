@@ -1,6 +1,4 @@
 # Wellness App
-#### Demo video:
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hsnhms7nxcI/0.jpg)](https://www.youtube.com/watch?v=hsnhms7nxcI)
 ## Technology
 * JavaScript <br>
 * HTML <br>
@@ -10,7 +8,6 @@
 * Flask <br>
 * chart.js <br>
 * date-fns time adapter <br>
-
 * Bootstrap <br>
 ## Description
 Full-stack web application that allows users to easily track activities related to health and well-being, with a focus on physical fitness activities and sleep.  
@@ -19,6 +16,8 @@ There are two core components of the application, activity logging and sleep log
 <br><br>
 ## Motivation
 In 2022, my partner and I embarked on a fitness journey challenging ourselves to workout at least 3 times a week, and limit the amount of times we ate meals out or drank alcohol in a week in preparation for a trip to Peru.  We went through an exercise of tracking our workouts and meals in a calendar and notebook.  After a few weeks, it became apparent this wasn't a great way to see how our progress was tracking, which inspired this fitness app.  The idea was to create an easy way to enter information, but then allow the user to visualize historical data and see trends.
+#### Demo video:
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hsnhms7nxcI/0.jpg)](https://www.youtube.com/watch?v=hsnhms7nxcI)
 ## Project Files
 ### layout.html
 This is the Flask template HTML file.  The header of the files includes bootstrap, CSS files, JavaScript files, chart.js, date-fns and JQuery.  The body defines the navigation bar for the web application with links to the various HTML pages and well as defining the logo for the app.  There is also code included to store flash messages when a page renders when applicable.  This creates an experience where the message will populate at the top of the screen.
