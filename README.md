@@ -1,5 +1,5 @@
 # Wellness App
-#### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI)
+#### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI){:target="_blank"}
 ## Technology
 * JavaScript <br>
 * HTML <br>
