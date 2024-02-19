@@ -1,6 +1,6 @@
 # Wellness App
 #### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI){:target="_blank"}
-<a href="youtube.com/watch?v=hsnhms7nxcI">Youtube Demo Video</a>
+<a href="youtube.com/watch?v=hsnhms7nxcI" target="_blank">Youtube Demo Video</a>
 ## Technology
 * JavaScript <br>
 * HTML <br>
