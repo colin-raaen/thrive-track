@@ -2,6 +2,7 @@
 #### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI){:target="_blank"}
 <a href="youtube.com/watch?v=hsnhms7nxcI" target="_blank">Youtube Demo Video</a>
 [![Video](https://img.youtube.com/vi/<hsnhms7nxcI>/maxresdefault.jpg)](youtube.com/watch?v=hsnhms7nxcI)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hsnhms7nxcI/0.jpg)](https://www.youtube.com/watch?v=hsnhms7nxcI)
 ## Technology
 * JavaScript <br>
 * HTML <br>
