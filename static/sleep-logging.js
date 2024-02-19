@@ -1,6 +1,5 @@
 //Let forms load first before executing
-document.addEventListener('DOMContentLoaded', function()
-{
+document.addEventListener('DOMContentLoaded', function(){
         // VARIABLES FOR SLEEP ENTRY FORM
         // USED FOR ADDING NAP AND WAKE UP EARLY DETAILS (used when need to rehide fields from "no" checkbox selections)
         // AND FIELD VALIDATIONS RULES
