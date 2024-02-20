@@ -437,55 +437,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 wellnessCount++;
         }
 
-        // STORE VALUES OF ADDITIONAL WELLNESS AND WORKOUT INPUTS AND PASS TO BACKEND VIA HIDDEN HTML ELEMENT
-        // Listen for submission of the Activity entry form
-        document.querySelector('form').addEventListener('submit', function() {
-                // Create an empty array to store the selected Wellness values
-                let selectedWellnessValues = [];
-                // Create an empty array to store the objects of selected Workout values
-                let selectedWorkoutValues = [];
-
-                // select all the dynamically created Wellness drop down elements
-                let selectWellnessElements = document.querySelectorAll('select[name^="additionalWellnessSelection"]');
-                // select all the dynamically created Workout Type drop down elements
-                let selectWorkoutTypeElements = document.querySelectorAll('select[name^="additionalWorkoutSelection"]');
-                // select all the dynamically created Workout Class Type drop down elements
-                let selectWorkoutClassTypeElements = document.querySelectorAll('select[name^="additionalClassSelection"]');
-                // select all the dynamically created Sport Type drop down elements
-                let selectSportTypeElements = document.querySelectorAll('select[name^="additionalSportSelection"]');
-                // select all the dynamically created Extreme Sport Type drop down elements
-                let selectExtremeSportTypeElements = document.querySelectorAll('select[name^="additionalExtremeSportSelection"]');
-                // select all the dynamically created Workout Length input elements
-                let selectWorkoutLengthElements = document.querySelectorAll('input[name^="additionalWorkoutLengthMin"]');
-
-                // iterate through each Wellness element and push its selected value into the array
-                for (let i = 0; i < selectWellnessElements.length; i++) {
-                        selectedWellnessValues.push(selectWellnessElements[i].value);
-                }
-
-                // iterate through each Workout element and create an object to store workout values
-                for (let i = 0; i < selectWorkoutTypeElements.length; i++) {
-                        let newWorkoutType = {}; // create an empty object
-                        newWorkoutType["workoutType"] = selectWorkoutTypeElements[i].value; // store value of selected workout type
-                        newWorkoutType["workoutClassType"] = selectWorkoutClassTypeElements[i].value; // store value of selected workout type
-                        newWorkoutType["sportType"] = selectSportTypeElements[i].value; // store value of selected workout type
-                        newWorkoutType["extremeSportType"] = selectExtremeSportTypeElements[i].value; // store value of selected workout type
-                        newWorkoutType["workoutLength"] = selectWorkoutLengthElements[i].value; // store value of selected workout type
-
-                        selectedWorkoutValues.push(newWorkoutType); // push object into array of workouts
-
-                }
-
-                // Set value of hidden HTML element to pass to backend on submission
-                let selectedWellnessValuesInput = document.querySelector('#selectedWellnessValuesInput');
-                selectedWellnessValuesInput.value = JSON.stringify(selectedWellnessValues);
-
-                // Set value of hidden HTML element to pass to backend on submission
-                let selectedWorkoutValuesInput = document.querySelector('#selectedWorkoutValuesInput');
-                selectedWorkoutValuesInput.value = JSON.stringify(selectedWorkoutValues);
-
-        }); 
-
         // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
         function validateForm() {     
@@ -587,7 +538,39 @@ document.addEventListener('DOMContentLoaded', function(){
                         // If a yes/no field doesn't pass validation checks, return false and display error, else continue to next validation check
                         if (boolYesNoFieldCheck === false){
                                 return false;
-                        }    
+                        }
+
+                // STORE VALUES OF ADDITIONAL WELLNESS AND WORKOUT INPUTS AND PASS TO BACKEND VIA HIDDEN HTML ELEMENT
+                // Create an empty array to store the selected Wellness values
+                let selectedWellnessValues = [];
+                // Create an empty array to store the objects of selected Workout values
+                let selectedWorkoutValues = [];
+
+                // iterate through each Wellness element and push its selected value into the array
+                for (let i = 0; i < selectWellnessElements.length; i++) {
+                        selectedWellnessValues.push(selectWellnessElements[i].value);
+                }
+
+                // iterate through each Workout element and create an object to store workout values
+                for (let i = 0; i < selectWorkoutTypeElements.length; i++) {
+                        let newWorkoutType = {}; // create an empty object
+                        newWorkoutType["workoutType"] = selectWorkoutTypeElements[i].value; // store value of selected workout type
+                        newWorkoutType["workoutClassType"] = selectWorkoutClassTypeElements[i].value; // store value of selected workout type
+                        newWorkoutType["sportType"] = selectSportTypeElements[i].value; // store value of selected workout type
+                        newWorkoutType["extremeSportType"] = selectExtremeSportTypeElements[i].value; // store value of selected workout type
+                        newWorkoutType["workoutLength"] = selectWorkoutLengthElements[i].value; // store value of selected workout type
+
+                        selectedWorkoutValues.push(newWorkoutType); // push object into array of workouts
+
+                }
+
+                // Set value of hidden HTML element to pass to backend on submission
+                let selectedWellnessValuesInput = document.querySelector('#selectedWellnessValuesInput');
+                selectedWellnessValuesInput.value = JSON.stringify(selectedWellnessValues);
+
+                // Set value of hidden HTML element to pass to backend on submission
+                let selectedWorkoutValuesInput = document.querySelector('#selectedWorkoutValuesInput');
+                selectedWorkoutValuesInput.value = JSON.stringify(selectedWorkoutValues);
         }
 
         // Call function on activity form submission
