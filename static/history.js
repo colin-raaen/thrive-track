@@ -140,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function()
 
         // function called when next page button is clicked, which calls show page function +1 page
         function nextPageSleep() {
-                console.log("nextPage function");
                 if (currentPageSleep < Math.floor(sleepTable.rows.length / rowsPerPage)) {
                         currentPageSleep++;
                         showPageSleep(currentPageSleep);
@@ -220,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function()
 
 // DELETE ROWS OF ACTIVITY DATA WHEN CLICKED
         let deleteLinksActivity = document.querySelectorAll('.delete-link-activity'); // collect all delete links from rows
-        console.log(deleteLinksActivity);
 
         deleteLinksActivity.forEach(function(link) { // loop through each delete link
                 link.addEventListener('click', function(e) { // add listener event to each link
@@ -236,7 +234,6 @@ document.addEventListener('DOMContentLoaded', function()
 
 // DELETE ROWS OF SLEEP DATA WHEN CLICKED
         let deleteLinks = document.querySelectorAll('.delete-link'); // collect all delete links from rows
-        console.log(deleteLinks);
 
         deleteLinks.forEach(function(link) { // loop through each delete link
                 link.addEventListener('click', function(e) { // add listener event to each link
@@ -259,11 +256,7 @@ document.addEventListener('DOMContentLoaded', function()
                                 if (xhr.status === 200) {
                                         // Handle successful deletion
                                         // You can update the table dynamically or perform any other actions
-                                        console.log('Row deleted successfully');
                                         location.reload(); // Reload the page
-                                } else {
-                                        // Handle error
-                                        console.error('An error occurred while deleting the row');
                                 }
                         }
                 };
