@@ -267,7 +267,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 }                       
         }
 
-        // IMPORTED FROM ACTIVITY-LOGGING-2.JS
         // function to create the new div element
         function createNewDiv(id, className, style) {
                 const newDiv = document.createElement("div");
@@ -435,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 let selectWorkoutLengthElements = document.querySelectorAll('input[name^="additionalWorkoutLengthMin"]');
 
                 if (selectWorkoutTypeElements.length > 0){
-                        // iterate through each workout element and push its selected value into the array
+                        // iterate through each workout element and check to validate all drop downs are populated
                         for (let i = 0; i < selectWorkoutTypeElements.length; i++) {
                                 // If dynamically added workout type isn't selected 
                                 if (selectWorkoutTypeElements[i].value === ""){
