@@ -610,13 +610,16 @@ def activity():
         # Call helper function and store travel boolean value
         sick_checked = get_form_input(request.form, "sick-yes") or get_form_input(request.form, "sick-no")
 
-        # Get array of additional wellness type values from hidden HTML element
+        # Get array of additional workout type values from hidden HTML element
         if(request.form.get('selectedWorkoutValues')):
             selected_workout_values = request.form.get('selectedWorkoutValues')
             # Convert the JSON string back to an array
             selected_workout_values_array = json.loads(selected_workout_values)
         else:
+            # No workouts logged, set values to none
             selected_workout_values_array = None
+
+        print("workout values array: ", selected_workout_values_array)
 
         # Get array of additional wellness type values from hidden HTML element
         if(request.form.get('selectedWellnessValues')):
@@ -624,6 +627,7 @@ def activity():
             # Convert the JSON string back to an array
             selected_wellness_values_array = json.loads(selected_wellness_values)
         else:
+            # No wellness activities logged, set values to none or zero to upsert
             selected_wellness_values_array = None
 
         # Call helper function to store Eating Out y/n input into variable depending if answered yes or no
@@ -666,6 +670,16 @@ def activity():
                     """,
                    session_user_id, activity_logging_id[0]["id"], activity_date, workout['workoutType'], 
                    workout['workoutClassType'], workout['sportType'], workout['extremeSportType'], workout['workoutLength'])
+        else:
+            # No Workouts logged, Insert None and 0 values into workout logging table
+            db.execute(
+                """
+                INSERT INTO workout_logging (users_id, activity_log_id, date, workout_type, class_type, sport_type, 
+                    extreme_sport_type, workout_length) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                session_user_id, activity_logging_id[0]["id"], activity_date, None, None, None, 
+                None, 0)
 
         # If additional wellness selections made, Loop through array of additional wellness values and insert into database
         if(selected_wellness_values_array):
@@ -676,6 +690,10 @@ def activity():
                     VALUES (?, ?, ?, ?)
                     """, 
                     session_user_id, activity_logging_id[0]["id"], value, activity_date)
+        else:
+            # No wellness activities logged, insert None into database
+            db.execute("INSERT INTO wellness_logging (users_id, activity_log_id, wellness_type, date) VALUES (?, ?, ?, ?)",
+                    session_user_id, activity_logging_id[0]["id"], None, activity_date)
                 
         # Insert values into lifestyle logging table
         db.execute("""
@@ -962,6 +980,8 @@ def history():
         activity['extreme_sport_types'] = format_value(activity['extreme_sport_types'])
         activity['wellness_types'] = format_value(activity['wellness_types'])
         # convert workout length min to hours
+        print("date: ", activity['date'])
+        print("workout lenghth: ", activity['total_workout_length'])
         activity['total_workout_length'] = min_to_hours(activity['total_workout_length'])
 
     # Loop through dictionaries and translate 1's and 0's to yes and no
