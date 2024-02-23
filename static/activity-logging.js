@@ -1,3 +1,5 @@
+import { validateYNField } from './yes-no.js';
+
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         // VARIABLES FOR ADDING ADDITIONAL WORKOUT AND WELLNESS DETAILS (used when need to rehide fields from "no" checkbox selections)
@@ -421,6 +423,25 @@ document.addEventListener('DOMContentLoaded', function(){
         // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
         function validateForm() {     
+                // store array of fields Y/N fields to validate, storing yes checkbox, no checkbox, and field name for error message
+                const validationFields = [
+                        { checkbox: thirtyMinCheckbox, errorMessage: "30 min activity", negativeCheckbox: thirtyMinCheckboxNo },
+                        { checkbox: workoutCheckbox, errorMessage: "workout", negativeCheckbox: workoutCheckboxNo },
+                        { checkbox: wellnessCheckbox, errorMessage: "wellness", negativeCheckbox: wellnessCheckboxNo },
+                        { checkbox: eatOutCheckbox, errorMessage: "eat out", negativeCheckbox: eatOutCheckboxNo },
+                        { checkbox: drinkCheckbox, errorMessage: "drinks", negativeCheckbox: drinkCheckboxNo },
+                        { checkbox: travellingCheckboxYes, errorMessage: "travelling", negativeCheckbox: travellingCheckboxNo },
+                        { checkbox: sickCheckboxYes, errorMessage: "sick", negativeCheckbox: sickCheckboxNo }
+                ];
+                // for every field in the array of stored fields, call the validateYN function with the field inputs
+                // if any field returns false, the entire statement returns false and only throws one error message
+                // for first field found with an error
+                let boolYesNoFieldCheck = validationFields.every(field => validateYNField(field.checkbox, field.errorMessage, field.negativeCheckbox));
+                // If a yes/no field doesn't pass validation checks, return false and display error, else continue to next validation check
+                if (boolYesNoFieldCheck === false){
+                        return false;
+                }
+
                 // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WORKOUTS
                 // select all the dynamically created Workout Type drop down elements
                 let selectWorkoutTypeElements = document.querySelectorAll('select[name^="additionalWorkoutSelection"]');
@@ -490,36 +511,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         alert('Please ensure a number of drinks is filled out.');
                         return false;
                 }
-
-                // Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
-                function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
-                        //If neither yes or no checkbox is selected
-                        if (!yesCheckbox.checked && !noCheckbox.checked) {
-                                alert(`Please check either "Yes" or "No" for the ${errorMessage} checkbox.`); //Send alert message
-                                return false; // return false for field validation check
-                        }
-                        return true; //passed validation
-                };
-
-                // store array of fields Y/N fields to validate, storing yes checkbox, no checkbox, and field name for error message
-                const validationFields = [
-                        { checkbox: thirtyMinCheckbox, errorMessage: "30 min activity", negativeCheckbox: thirtyMinCheckboxNo },
-                        { checkbox: workoutCheckbox, errorMessage: "workout", negativeCheckbox: workoutCheckboxNo },
-                        { checkbox: wellnessCheckbox, errorMessage: "wellness", negativeCheckbox: wellnessCheckboxNo },
-                        { checkbox: eatOutCheckbox, errorMessage: "eat out", negativeCheckbox: eatOutCheckboxNo },
-                        { checkbox: drinkCheckbox, errorMessage: "drinks", negativeCheckbox: drinkCheckboxNo },
-                        { checkbox: travellingCheckboxYes, errorMessage: "travelling", negativeCheckbox: travellingCheckboxNo },
-                        { checkbox: sickCheckboxYes, errorMessage: "sick", negativeCheckbox: sickCheckboxNo }
-                                ];
-
-                        // for every field in the array of stored fields, call the validateYN function with the field inputs
-                        // if any field returns false, the entire statement returns false and only throws one error message
-                        // for first field found with an error
-                        let boolYesNoFieldCheck = validationFields.every(field => validateYNField(field.checkbox, field.errorMessage, field.negativeCheckbox));
-                        // If a yes/no field doesn't pass validation checks, return false and display error, else continue to next validation check
-                        if (boolYesNoFieldCheck === false){
-                                return false;
-                        }
 
                 // STORE VALUES OF ADDITIONAL WELLNESS AND WORKOUT INPUTS AND PASS TO BACKEND VIA HIDDEN HTML ELEMENT
                 // Create an empty array to store the selected Wellness values

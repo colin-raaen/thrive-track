@@ -1,3 +1,5 @@
+import { validateYNField } from './yes-no.js';
+
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         // VARIABLES FOR SLEEP ENTRY FORM
@@ -96,16 +98,6 @@ document.addEventListener('DOMContentLoaded', function(){
         // JAVASCRIPT TO PERFORM FIELD VALIDATIONS ON SLEEP FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
         function validateForm() {
-                // Helper Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
-                function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
-                        //If neither yes or no checkbox is selected
-                        if (!yesCheckbox.checked && !noCheckbox.checked) {
-                                alert(`Please check either "Yes" or "No" for the ${errorMessage} checkbox.`); //Send alert message
-                                return false; // return false for field validation check
-                                }
-                                return true; //passed validation
-                };
-
                 // store array of fields Y/N fields to validate, storing yes checkbox, no checkbox, and field name for error message
                 const validationFields = [
                         { checkbox: napYesCheckbox, errorMessage: "Nap", negativeCheckbox: napNoCheckbox },
