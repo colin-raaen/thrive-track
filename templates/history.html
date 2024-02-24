@@ -15,19 +15,20 @@
                 <th>Date</th>
                 <th><span>Completed 30 min activity?</span></th>
                 <th><span>Completed workout? 
-                    <br><a style="font-size: 12px;" href="#" id="show-workouts-hyperlink">Show Workout Details</a>
+                    <br><a style="font-size: 12px; display: inline" href="#" id="show-workouts-hyperlink">Show Workout Details</a>
                     <br><a style="font-size: 12px; display: none" href="#" id="hide-workouts-hyperlink">Hide Workout Details</a>
                     </span></th>
-                <th class="hidden-history-column">Workout Type</th>
-                <th class="hidden-history-column">Class Type</th>
-                <th class="hidden-history-column">Sport Type</th>
-                <th class="hidden-history-column">Extreme Sport Type</th>
-                <th class="hidden-history-column">Workout Length (hours)</th>
+                <!-- Need to use inline styling on hidden columns to allow javascript show and hide functiosn to work properly -->
+                <th class="hidden-history-column" style="display: none;">Workout Type</th>
+                <th class="hidden-history-column" style="display: none;">Class Type</th>
+                <th class="hidden-history-column" style="display: none;">Sport Type</th>
+                <th class="hidden-history-column" style="display: none;">Extreme Sport Type</th>
+                <th class="hidden-history-column" style="display: none;">Workout Length (hours)</th>
                 <th><span>Completed wellness activity?
                     <br><a style="font-size: 12px;" href="#" id="show-wellness-hyperlink">Show Wellness Details</a>
                     <br><a style="font-size: 12px; display: none" href="#" id="hide-wellness-hyperlink">Hide Wellness Details</a>
                     </span></th>
-                <th class="hidden-wellness-type-column"><span>Wellness Activity Type</span></th>
+                <th class="hidden-wellness-type-column" style="display: none;"><span>Wellness Activity Type</span></th>
                 <th><span>Eat meals out?</span></th>
                 <th>Number of Meals</th>
                 <th><span>Drink alcohol?</span></th>
@@ -42,13 +43,13 @@
                 <td>{{ activity.date }}</td>
                 <td>{{ activity.thirty_min }}</td>
                 <td>{{ activity.workout }}</td>
-                <td class="hidden-history-column">{{ activity.workout_types }}</td>
-                <td class="hidden-history-column">{{ activity.class_types }}</td>
-                <td class="hidden-history-column">{{ activity.sport_types }}</td>
-                <td class="hidden-history-column">{{ activity.extreme_sport_types }}</td>
-                <td class="hidden-history-column">{{ activity.total_workout_length | safe }}</td>
+                <td class="hidden-history-column" style="display: none;">{{ activity.workout_types }}</td>
+                <td class="hidden-history-column" style="display: none;">{{ activity.class_types }}</td>
+                <td class="hidden-history-column" style="display: none;">{{ activity.sport_types }}</td>
+                <td class="hidden-history-column" style="display: none;">{{ activity.extreme_sport_types }}</td>
+                <td class="hidden-history-column" style="display: none;">{{ activity.total_workout_length | safe }}</td>
                 <td>{{ activity.wellness }}</td>
-                <td class="hidden-wellness-type-column">{{ activity.wellness_types }}</td>
+                <td class="hidden-wellness-type-column" style="display: none;">{{ activity.wellness_types }}</td>
                 <td>{{ activity.eat_out }}</td>
                 <td>{{ activity.number_mealsOut }}</td>
                 <td>{{ activity.drinks }}</td>
