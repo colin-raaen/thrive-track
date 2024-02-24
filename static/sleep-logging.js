@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function(){
             
                 // CONTINUING HOURS SLEPT CALCUATION
                 // variable to store time difference between final awakening and time asleep
-                var timeDiff = 0;
+                let timeDiff = 0;
                 console.log(finalAwakeningDateTime.toDateString() + "Final awakening");
                 console.log(sleepAttemptPlusTimeToSleep.toDateString() + "Sleep attempt plust time to sleep");
                 // Check if final awakening is on the same day as actual time fell asleep

@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
         const showWorkoutHyperlink = document.getElementById('show-workouts-hyperlink'); // store "Show workout details" hyperlink
         const hideWorkoutHyperlink = document.getElementById('hide-workouts-hyperlink');
-        const deleteLinksActivity = document.querySelectorAll('.delete-link-activity'); // collect all delete links from rows
-        const deleteLinks = document.querySelectorAll('.delete-link'); // collect all delete links from rows
         const previousButton = document.getElementById("previous-button");
         const nextButton = document.getElementById("next-button");
         const previousButtonSleep = document.getElementById("previous-button-sleep");
@@ -20,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const workoutColumns = document.getElementsByClassName("hidden-history-column"); // Store workout columns that are hidden
         const wellnessColumns = document.getElementsByClassName("hidden-wellness-type-column"); // Store workout columns that are hidden
 
-        
+        // FUNCTION CALLS ON PAGE LOAD FOR PAGINATION
         showPage(currentPage); // Show the first page initially
         generatePaginationButtons(); // Generate pagination buttons      
         showPageSleep(currentPageSleep); // Show the first page initially
@@ -31,44 +29,62 @@ document.addEventListener('DOMContentLoaded', function(){
                 // if Show Workout Details hyperlink was clicked
                 if (event.target === showWorkoutHyperlink) {
                         // call function to show details
-                        showColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
+                        handleShowColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
                 }
                 // if hide Workout Details hyperlink was clicked
-                if (event.target === hideWorkoutHyperlink) {
+                else if (event.target === hideWorkoutHyperlink) {
                         // call function to hide details
-                        showColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
+                        handleShowColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
                 }
                 // else if previous page for workout hyperlink was clicked
-                if (event.target === previousButton) {
+                else if (event.target === previousButton) {
                         previousPage(); // call function to go to previous page
                 }
                 // else if next page for workout hyperlink was clicked
-                if (event.target === nextButton) {
+                else if (event.target === nextButton) {
                         nextPage(); // call function to go to next page
                 }
                 // if Show Wellness Details hyperlink was clicked
-                if (event.target === showWellnessHyperlink) {
+                else if (event.target === showWellnessHyperlink) {
                         // call function to show details
-                        showColumnDetails(wellnessColumns, showWellnessHyperlink, hideWellnessHyperlink); 
+                        handleShowColumnDetails(wellnessColumns, showWellnessHyperlink, hideWellnessHyperlink); 
                 }
                 // if Hide Wellness Details hyperlink was clicked
-                if (event.target === hideWellnessHyperlink) {
+                else if (event.target === hideWellnessHyperlink) {
                         // call function to hide details
-                        showColumnDetails(wellnessColumns, showWellnessHyperlink, hideWellnessHyperlink); 
+                        handleShowColumnDetails(wellnessColumns, showWellnessHyperlink, hideWellnessHyperlink); 
                 }
                 // else if previous page for sleep logging hyperlink was clicked
-                if (event.target === previousButtonSleep) {
+                else if (event.target === previousButtonSleep) {
                         previousPageSleep(); // call function to go to previous page
                 }
                 // else if next page for sleep logging hyperlink was clicked
-                if (event.target === nextButtonSleep) {
+                else if (event.target === nextButtonSleep) {
                         nextPageSleep(); // call function to go to next page
+                }
+                // else if delete entry link for workout row was clicked
+                else if (event.target.classList.contains('delete-link-activity')) {
+                        handleDeleteRowClick(event, 'activity-data-row-id', 'activity'); // call function to handle deletion
+                }
+                // else if delete entry link for sleep logging row was clicked
+                else if (event.target.classList.contains('delete-link')) {
+                        handleDeleteRowClick(event, 'sleep-data-row-id', 'sleep'); // call function to handle deletion
+                }
+                // else if activity pagination button was clicked
+                else if (event.target.classList.contains('activity-pagination')) {
+                        let pageNumber = parseInt(event.target.textContent) - 1;
+                        goToPage(pageNumber); //call goToPage function to start process of presenting current page
+                }
+                // else if sleep pagination button was clicked
+                else if (event.target.classList.contains('sleep-pagination')) {
+                        let pageNumber = parseInt(event.target.textContent) - 1;
+                        goToPageSleep(pageNumber); //call goToPage function to start process of presenting current page
                 }
 
         });
 
         // helper function to show or hide workout and wellness details
-        function showColumnDetails(columns, showHyperlink, hideHyperlink){
+        function handleShowColumnDetails(columns, showHyperlink, hideHyperlink){
                 console.log(columns);
                 // loop through hidden columns
                 for (let i = 0; i < columns.length; i++) {
@@ -82,41 +98,25 @@ document.addEventListener('DOMContentLoaded', function(){
                 hideHyperlink.style.display = hideHyperlink.style.display === 'none' ? 'inline-block' : 'none';
         }
 
-        // DELETE ROWS OF ACTIVITY DATA WHEN CLICKED
-        deleteLinksActivity.forEach(function(link) { // loop through each delete link
-                link.addEventListener('click', function(e) { // add listener event to each link
-                        e.preventDefault(); // prevent default hyperlink behavior
-                        // confirmation message presented to user, are you sure you want to delete?
-                        if (confirm('Are you sure you want to delete this row?')) {
-                                let rowId = this.getAttribute('activity-data-row-id'); // store sleep logging id
-                                // call delete row function with rowId and data type
-                                deleteRow('activity', rowId);
-                        }
-                });
-        });
-
-        // DELETE ROWS OF SLEEP DATA WHEN CLICKED
-        
-        deleteLinks.forEach(function(link) { // loop through each delete link
-                link.addEventListener('click', function(e) { // add listener event to each link
-                        e.preventDefault(); // prevent default hyperlink behavior
-                        // confirmation message presented to user, are you sure you want to delete?
-                        if (confirm('Are you sure you want to delete this row?')) {
-                                let rowId = this.getAttribute('sleep-data-row-id'); // store sleep logging id
-                                // call delete row function with rowId
-                                deleteRow('sleep', rowId);
-                        }
-                });
-        });
+        // HANDLE DELETE ROW HYPERLINK CLICK WHEN CLICKED
+        function handleDeleteRowClick(event, attribute, type){
+                event.preventDefault(); // prevent default hyperlink behavior
+                // confirmation message presented to user, are you sure you want to delete?
+                if (confirm('Are you sure you want to delete this row?')) {
+                        const rowId = event.target.getAttribute(attribute); // store activity logging id
+                        // call delete row function with rowId and data type to make call to back end
+                        deleteRow(type, rowId);
+                } 
+        }
 
         // IMPLEMENT PAGINATION AND DELETE BUTTONS FOR ACTIVITY LOGGING
         // function to hide rows not on current page and show rows on current page
         function showPage(page) {
-                var start = page * rowsPerPage + 1; // calculate start of rows
-                var end = (page + 1) * rowsPerPage; // calculate end of rows
+                let start = page * rowsPerPage + 1; // calculate start of rows
+                let end = (page + 1) * rowsPerPage; // calculate end of rows
                 
                 // loop through rows of the table, , 
-                for (var i = 1; i < table.rows.length; i++) {
+                for (let i = 1; i < table.rows.length; i++) {
                         // if row is within range show
                         if (i >= start && i <= end) {
                                 table.rows[i].style.display = "";
@@ -179,18 +179,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
         
                 // loop through total number of pages to create buttons
-                for (var i = 0; i < totalPages; i++) {
-                        var pageNumberLink = document.createElement("a");
-                        pageNumberLink.textContent = i + 1;
-                        // Set the href attribute for the hyperlink
-                        pageNumberLink.href = "#history-page-container";
-
-                        // add listener event to hyperlink
-                        pageNumberLink.addEventListener("click", function() {
-                                var pageNumber = parseInt(this.textContent) - 1;
-                                goToPage(pageNumber); //call goToPage function to start process of presenting current page
-                        });
-                        pageNumbersDiv.appendChild(pageNumberLink);
+                for (let i = 0; i < totalPages; i++) {
+                        const pageNumberLink = document.createElement("a"); // create HTML element
+                        pageNumberLink.textContent = i + 1; // set page number to show
+                        pageNumberLink.href = "#history-page-container"; // Set the href attribute for the hyperlink
+                        pageNumberLink.classList.add("activity-pagination"); // set class
+                        pageNumbersDiv.appendChild(pageNumberLink); // append HTML element
 
                         // add the 'active' class to the current page button and underline it
                         if (i === currentPage) {
@@ -201,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function(){
         }
                         
 // IMPLEMENT PAGINATION FOR SLEEP LOGGING
-
         // Function that "shows" page by hiding rows of table that don't fall within range of "current page"
         function showPageSleep(page) {
                 let start = page * rowsPerPage + 1; // define row that starts the page
@@ -244,9 +237,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // Function to set the active button and underline the current page number
         function setActiveButtonSleep(pageNumber) {
-                var paginationButtons = document.getElementById("page-numbers-sleep").getElementsByTagName("a");
+                const paginationButtons = document.getElementById("page-numbers-sleep").getElementsByTagName("a");
         
-                for (var i = 0; i < paginationButtons.length; i++) {
+                for (let i = 0; i < paginationButtons.length; i++) {
                         if (i === pageNumber) {
                                 paginationButtons[i].classList.add("active");
                                 paginationButtons[i].style.textDecoration = "underline";
@@ -272,16 +265,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 // Loop through pages to create and append
                 for (let i = 0; i < totalPages; i++) {
-                        let pageNumberLink = document.createElement("a");
-                        //calculate page number
-                        pageNumberLink.textContent = i + 1;
-                        // Set the href attribute for the hyperlink
-                        pageNumberLink.href = "#sleep-history-table-container";
-                        // add listener for generated hyperlink
-                        pageNumberLink.addEventListener("click", function() {
-                                let pageNumber = parseInt(this.textContent) - 1;
-                                goToPageSleep(pageNumber);
-                        });
+                        const pageNumberLink = document.createElement("a");
+                        pageNumberLink.textContent = i + 1; //calculate page number
+                        pageNumberLink.href = "#sleep-history-table-container"; // Set the href attribute for the hyperlink
+                        pageNumberLink.classList.add("sleep-pagination");
                         pageNumbersDiv.appendChild(pageNumberLink); // append pagination buttons
 
                          // add the 'active' class to the current page button and underline it
