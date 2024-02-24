@@ -1,12 +1,115 @@
 //Let forms load first before executing
-document.addEventListener('DOMContentLoaded', function()
-{
+document.addEventListener('DOMContentLoaded', function(){
+        const historyPageContainer = document.getElementById("history-page-container"); // Get and store activity history HTML Table
+        const table = document.getElementById("activity-history"); // Get and store activity history HTML Table
+        const sleepTable = document.getElementById("sleep-history"); // Get and store activity history HTML Table
+        let rowsPerPage = 30; // Number of rows to show
+        let currentPage = 0; // First page
+        let currentPageSleep = 0; // First page
 
-// IMPLEMENT PAGINATION AND DELETE BUTTONS FOR ACTIVITY LOGGING
-        var table = document.getElementById("activity-history"); // Get and store activity history HTML Table
-        var rowsPerPage = 30; // Number of rows to show
-        var currentPage = 0; // First page
+        const showWorkoutHyperlink = document.getElementById('show-workouts-hyperlink'); // store "Show workout details" hyperlink
+        const hideWorkoutHyperlink = document.getElementById('hide-workouts-hyperlink');
+        const deleteLinksActivity = document.querySelectorAll('.delete-link-activity'); // collect all delete links from rows
+        const deleteLinks = document.querySelectorAll('.delete-link'); // collect all delete links from rows
+        const previousButton = document.getElementById("previous-button");
+        const nextButton = document.getElementById("next-button");
+        const previousButtonSleep = document.getElementById("previous-button-sleep");
+        const nextButtonSleep = document.getElementById("next-button-sleep");
+        const showWellnessHyperlink = document.getElementById('show-wellness-hyperlink');// store "Show workout details" hyperlink
+        const hideWellnessHyperlink = document.getElementById('hide-wellness-hyperlink');
+        const workoutColumns = document.getElementsByClassName("hidden-history-column"); // Store workout columns that are hidden
+        const wellnessColumns = document.getElementsByClassName("hidden-wellness-type-column"); // Store workout columns that are hidden
+
         
+        showPage(currentPage); // Show the first page initially
+        generatePaginationButtons(); // Generate pagination buttons      
+        showPageSleep(currentPageSleep); // Show the first page initially
+        generatePaginationButtonsSleep(); // Generate pagination buttons
+
+       // EVENT DELEGATION, Listen for clicks to entire history.html
+        historyPageContainer.addEventListener('click', function(event) {
+                // if Show Workout Details hyperlink was clicked
+                if (event.target === showWorkoutHyperlink) {
+                        // call function to show details
+                        showColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
+                }
+                // if hide Workout Details hyperlink was clicked
+                if (event.target === hideWorkoutHyperlink) {
+                        // call function to hide details
+                        showColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
+                }
+                // else if previous page for workout hyperlink was clicked
+                if (event.target === previousButton) {
+                        previousPage(); // call function to go to previous page
+                }
+                // else if next page for workout hyperlink was clicked
+                if (event.target === nextButton) {
+                        nextPage(); // call function to go to next page
+                }
+                // if Show Wellness Details hyperlink was clicked
+                if (event.target === showWellnessHyperlink) {
+                        // call function to show details
+                        showColumnDetails(wellnessColumns, showWellnessHyperlink, hideWellnessHyperlink); 
+                }
+                // if Hide Wellness Details hyperlink was clicked
+                if (event.target === hideWellnessHyperlink) {
+                        // call function to hide details
+                        showColumnDetails(wellnessColumns, showWellnessHyperlink, hideWellnessHyperlink); 
+                }
+                // else if previous page for sleep logging hyperlink was clicked
+                if (event.target === previousButtonSleep) {
+                        previousPageSleep(); // call function to go to previous page
+                }
+                // else if next page for sleep logging hyperlink was clicked
+                if (event.target === nextButtonSleep) {
+                        nextPageSleep(); // call function to go to next page
+                }
+
+        });
+
+        // helper function to show or hide workout and wellness details
+        function showColumnDetails(columns, showHyperlink, hideHyperlink){
+                console.log(columns);
+                // loop through hidden columns
+                for (let i = 0; i < columns.length; i++) {
+                        console.log(columns[i].style.display);
+                        //adds the "hidden-column" class to the element if it's not present, and removes it if it's already present. 
+                        columns[i].style.display = columns[i].style.display === 'none' ? 'table-cell' : 'none';
+                }
+                // ternary to hide or show "show workout/wellness details" hyperlink 
+                showHyperlink.style.display = showHyperlink.style.display === 'none' ? 'inline-block' : 'none';
+                // ternary to hide or show "hide workout/wellness details" hyperlink
+                hideHyperlink.style.display = hideHyperlink.style.display === 'none' ? 'inline-block' : 'none';
+        }
+
+        // DELETE ROWS OF ACTIVITY DATA WHEN CLICKED
+        deleteLinksActivity.forEach(function(link) { // loop through each delete link
+                link.addEventListener('click', function(e) { // add listener event to each link
+                        e.preventDefault(); // prevent default hyperlink behavior
+                        // confirmation message presented to user, are you sure you want to delete?
+                        if (confirm('Are you sure you want to delete this row?')) {
+                                let rowId = this.getAttribute('activity-data-row-id'); // store sleep logging id
+                                // call delete row function with rowId and data type
+                                deleteRow('activity', rowId);
+                        }
+                });
+        });
+
+        // DELETE ROWS OF SLEEP DATA WHEN CLICKED
+        
+        deleteLinks.forEach(function(link) { // loop through each delete link
+                link.addEventListener('click', function(e) { // add listener event to each link
+                        e.preventDefault(); // prevent default hyperlink behavior
+                        // confirmation message presented to user, are you sure you want to delete?
+                        if (confirm('Are you sure you want to delete this row?')) {
+                                let rowId = this.getAttribute('sleep-data-row-id'); // store sleep logging id
+                                // call delete row function with rowId
+                                deleteRow('sleep', rowId);
+                        }
+                });
+        });
+
+        // IMPLEMENT PAGINATION AND DELETE BUTTONS FOR ACTIVITY LOGGING
         // function to hide rows not on current page and show rows on current page
         function showPage(page) {
                 var start = page * rowsPerPage + 1; // calculate start of rows
@@ -50,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function()
 
         // Function to set the active button and underline the current page number
         function setActiveButton(pageNumber) {
-                let paginationButtons = document.getElementById("page-numbers").getElementsByTagName("a");
+                const paginationButtons = document.getElementById("page-numbers").getElementsByTagName("a");
         
                 for (let i = 0; i < paginationButtons.length; i++) {
                         if (i === pageNumber) {
@@ -96,23 +199,8 @@ document.addEventListener('DOMContentLoaded', function()
                         }
                 }
         }
-
-        // Attach event listeners to the buttons
-        let previousButton = document.getElementById("previous-button");
-        previousButton.addEventListener("click", previousPage);
-
-        let nextButton = document.getElementById("next-button");
-        nextButton.addEventListener("click", nextPage);
                         
-        // Show the first page initially
-        showPage(currentPage);
-
-        // Generate pagination buttons
-        generatePaginationButtons();
-
 // IMPLEMENT PAGINATION FOR SLEEP LOGGING
-        let sleepTable = document.getElementById("sleep-history"); // Get and store activity history HTML Table
-        let currentPageSleep = 0; // First page
 
         // Function that "shows" page by hiding rows of table that don't fall within range of "current page"
         function showPageSleep(page) {
@@ -204,49 +292,6 @@ document.addEventListener('DOMContentLoaded', function()
                 }
         }
 
-        // Attach event listeners to the buttons
-        let previousButtonSleep = document.getElementById("previous-button-sleep");
-        previousButtonSleep.addEventListener("click", previousPageSleep);
-
-        let nextButtonSleep = document.getElementById("next-button-sleep");
-        nextButtonSleep.addEventListener("click", nextPageSleep);
-                        
-        // Show the first page initially
-        showPageSleep(currentPageSleep);
-
-        // Generate pagination buttons
-        generatePaginationButtonsSleep();
-
-// DELETE ROWS OF ACTIVITY DATA WHEN CLICKED
-        let deleteLinksActivity = document.querySelectorAll('.delete-link-activity'); // collect all delete links from rows
-
-        deleteLinksActivity.forEach(function(link) { // loop through each delete link
-                link.addEventListener('click', function(e) { // add listener event to each link
-                        e.preventDefault(); // prevent default hyperlink behavior
-                        // confirmation message presented to user, are you sure you want to delete?
-                        if (confirm('Are you sure you want to delete this row?')) {
-                                let rowId = this.getAttribute('activity-data-row-id'); // store sleep logging id
-                                // call delete row function with rowId and data type
-                                deleteRow('activity', rowId);
-                        }
-                });
-        });
-
-// DELETE ROWS OF SLEEP DATA WHEN CLICKED
-        let deleteLinks = document.querySelectorAll('.delete-link'); // collect all delete links from rows
-
-        deleteLinks.forEach(function(link) { // loop through each delete link
-                link.addEventListener('click', function(e) { // add listener event to each link
-                        e.preventDefault(); // prevent default hyperlink behavior
-                        // confirmation message presented to user, are you sure you want to delete?
-                        if (confirm('Are you sure you want to delete this row?')) {
-                                let rowId = this.getAttribute('sleep-data-row-id'); // store sleep logging id
-                                // call delete row function with rowId
-                                deleteRow('sleep', rowId);
-                        }
-                });
-        });
-
         // Function to delete the row of data, input of which table data is coming from and row ID to identifty data in database
         function deleteRow(dataType, rowId) {
                 let xhr = new XMLHttpRequest(); // make new instance of XMLHttpRequest object
@@ -264,76 +309,4 @@ document.addEventListener('DOMContentLoaded', function()
                 // The encodeURIComponent() function is used to properly encode the rowId value.
                 xhr.send(dataType + '_row_id=' + encodeURIComponent(rowId));
         }
-
-// SHOW WORKOUT TYPES WHEN "SHOW" HYPERLINK IS CLICKED
-        // store "Show workout details" hyperlink
-        let showWorkoutHyperlink = document.getElementById('show-workouts-hyperlink');
-        let hideWorkoutHyperlink = document.getElementById('hide-workouts-hyperlink');
-
-        // Add event listener to the "show-workouts" hyperlink
-        document.getElementById("show-workouts-hyperlink").addEventListener("click", function() {
-                // Store workout columns that are hidden
-                let workoutColumns = document.getElementsByClassName("hidden-history-column");
-                // loop through hidden columns
-                for (let i = 0; i < workoutColumns.length; i++) {
-                        //adds the "hidden-column" class to the element if it's not present, and removes it if it's already present. 
-                        workoutColumns[i].style.display = 'table-cell';
-                }
-                // hide "show workout details" hyperlink
-                showWorkoutHyperlink.style.display = 'none';
-                // Show "hide workout details" hyperlink
-                hideWorkoutHyperlink.style.display = 'block';
-        });
-
-// REHIDE WORKOUT TYPES WHEN "HIDE" HYPERLINK IS CLICKED
-        // Add event listener to the "hide-workouts" hyperlink
-        document.getElementById("hide-workouts-hyperlink").addEventListener("click", function() {
-                // Store workout columns that appeared that will be rehidden
-                var workoutColumns = document.getElementsByClassName("hidden-history-column");
-                // loop through hidden columns
-                for (var i = 0; i < workoutColumns.length; i++) {
-                        //removes the "hidden-column" class to the element if it's not present 
-                        workoutColumns[i].style.display = 'none';
-                }
-                // hide "show workout details" hyperlink
-                showWorkoutHyperlink.style.display = 'block';
-                // Show "hide workout details" hyperlink
-                hideWorkoutHyperlink.style.display = 'none';
-        });
-
-// SHOW WELLNESS TYPES WHEN "SHOW" HYPERLINK IS CLICKED
-        // store "Show workout details" hyperlink
-        let showWellnessHyperlink = document.getElementById('show-wellness-hyperlink');
-        let hideWellnessHyperlink = document.getElementById('hide-wellness-hyperlink');
-
-        // Add event listener to the "show-workouts" hyperlink
-        document.getElementById("show-wellness-hyperlink").addEventListener("click", function() {
-                // Store workout columns that are hidden
-                let wellnessColumns = document.getElementsByClassName("hidden-wellness-type-column");
-                // loop through hidden columns
-                for (var i = 0; i < wellnessColumns.length; i++) {
-                        //adds the "hidden-column" class to the element if it's not present, and removes it if it's already present. 
-                        wellnessColumns[i].style.display = 'table-cell';
-                }
-                // hide "show workout details" hyperlink
-                showWellnessHyperlink.style.display = 'none';
-                // Show "hide workout details" hyperlink
-                hideWellnessHyperlink.style.display = 'block';
-        });
-
-// REHIDE WELLNESS TYPES WHEN "HIDE" HYPERLINK IS CLICKED
-        // Add event listener to the "hide-workouts" hyperlink
-        document.getElementById("hide-wellness-hyperlink").addEventListener("click", function() {
-                // Store workout columns that appeared that will be rehidden
-                let wellnessColumns = document.getElementsByClassName("hidden-wellness-type-column");
-                // loop through hidden columns
-                for (var i = 0; i < wellnessColumns.length; i++) {
-                        //removes the "hidden-column" class to the element if it's not present 
-                        wellnessColumns[i].style.display = 'none';
-                }
-                // hide "show workout details" hyperlink
-                showWellnessHyperlink.style.display = 'block';
-                // Show "hide workout details" hyperlink
-                hideWellnessHyperlink.style.display = 'none';
-        });
 });

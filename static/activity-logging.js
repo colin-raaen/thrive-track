@@ -420,17 +420,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 wellnessCount++;
         }
 
-        // Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
-         function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
-        console.log("in activity_logging");
-        //If neither yes or no checkbox is selected
-        if (!yesCheckbox.checked && !noCheckbox.checked) {
-                alert(`Please check either "Yes" or "No" for the ${errorMessage} checkbox.`); //Send alert message
-                return false; // return false for field validation check
-        }
-        return true; //passed validation
-};
-
         // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
         function validateForm() {     

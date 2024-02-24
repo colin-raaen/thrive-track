@@ -277,19 +277,16 @@
 
 /* STYLING FOR BRANDING IN HTML TEMPLATE */ 
 /* Size for brand */
-nav .navbar-brand
-{
+nav .navbar-brand{
     font-size: xx-large;
     font-family: Salesforce Sans;
 }
 
 /* Colors for brand */
-nav .navbar-brand .blue
-{
+nav .navbar-brand .blue{
     color: #ea433b;
 }
-nav .navbar-brand .red
-{
+nav .navbar-brand .red{
     color: #ea433b;
 }
 
@@ -318,26 +315,15 @@ th span {
 /* Styling for "Show" "Hide" details hyperlinks */
 th span a {
     font-size: 12px;
-    
 }
 
-/* Styling to ensure workout types show on new lines */
-td.hidden-history-column {
+/* Styling to ensure workout types show on new lines and wellness types show on new lines */
+td.hidden-history-column, td.hidden-wellness-type-column {
     white-space: pre-line;
 }
 
-/* Styling to ensure wellness types show on new lines */
-td.hidden-wellness-type-column {
-    white-space: pre-line;
-}
-
-/* Styling to hide workout type columns */
-.hidden-history-column {
-    display: none;
-}
-
-/* Styling to hide wellness types column */
-.hidden-wellness-type-column{
+/* Styling to hide workout type columns, hide wellness types column */
+.hidden-history-column, .hidden-wellness-type-column {
     display: none;
 }
 

@@ -619,8 +619,6 @@ def activity():
             # No workouts logged, set values to none
             selected_workout_values_array = None
 
-        print("workout values array: ", selected_workout_values_array)
-
         # Get array of additional wellness type values from hidden HTML element
         if(request.form.get('selectedWellnessValues')):
             selected_wellness_values = request.form.get('selectedWellnessValues')
@@ -980,8 +978,6 @@ def history():
         activity['extreme_sport_types'] = format_value(activity['extreme_sport_types'])
         activity['wellness_types'] = format_value(activity['wellness_types'])
         # convert workout length min to hours
-        print("date: ", activity['date'])
-        print("workout lenghth: ", activity['total_workout_length'])
         activity['total_workout_length'] = min_to_hours(activity['total_workout_length'])
 
     # Loop through dictionaries and translate 1's and 0's to yes and no
@@ -1000,21 +996,15 @@ def history():
 
     # User reached route via POST (by clicking delete button on table, and AJAX POST call occurs)
     if request.method == "POST":
-        print("Test if POST message was received into IF statment")
-
         row_id = request.get_data(as_text=True)  # store row ID from AJAX body 
-        print(row_id)
         # Check if AJAX call came from sleep logging table by checking if variable contains "row_id="
         if "sleep_row_id=" in row_id:
             row_id_value = row_id.split("=")[1]  # extract the value after "="
-            print("Test, sleep logging evaluated to true")
 
             #SQL query to delete sleep_loggin entry
             db.execute("DELETE FROM sleep_logging WHERE sleep_logging.id = ?;", row_id_value)
         elif "activity_row_id=" in row_id:
-            print("Test, activity logging evaluated to true")
             activity_row_id_value = row_id.split("=")[1]  # extract the value after "="
-            print(activity_row_id_value)
             #SQL query to delete lifestyle_logging entry
             db.execute("DELETE FROM lifestyle_logging WHERE activity_log_id = (SELECT id FROM activity_logging WHERE id = ?);"
                        , activity_row_id_value)  
