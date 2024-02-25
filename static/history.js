@@ -1,11 +1,13 @@
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         const historyPageContainer = document.getElementById("history-page-container"); // Get and store activity history HTML Table
-        const table = document.getElementById("activity-history"); // Get and store activity history HTML Table
+        const activityTable = document.getElementById("activity-history"); // Get and store activity history HTML Table
         const sleepTable = document.getElementById("sleep-history"); // Get and store activity history HTML Table
         let rowsPerPage = 30; // Number of rows to show
-        let currentPage = 0; // First page
+        let currentPageActivity = 0; // First page
         let currentPageSleep = 0; // First page
+        let activityPaginationButtons = document.getElementById("page-numbers").getElementsByTagName("a");
+        let sleepPaginationButtons = document.getElementById("page-numbers-sleep").getElementsByTagName("a");
 
         const showWorkoutHyperlink = document.getElementById('show-workouts-hyperlink'); // store "Show workout details" hyperlink
         const hideWorkoutHyperlink = document.getElementById('hide-workouts-hyperlink');
@@ -19,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function(){
         const wellnessColumns = document.getElementsByClassName("hidden-wellness-type-column"); // Store workout columns that are hidden
 
         // FUNCTION CALLS ON PAGE LOAD FOR PAGINATION
-        showPage(currentPage); // Show the first page initially
+        showPage(currentPageActivity, activityTable); // Show the first page initially
         generatePaginationButtons(); // Generate pagination buttons      
-        showPageSleep(currentPageSleep); // Show the first page initially
+        showPage(currentPageSleep, sleepTable); // Show the first page initially on sleep table
         generatePaginationButtonsSleep(); // Generate pagination buttons
 
        // EVENT DELEGATION, Listen for clicks to entire history.html
@@ -42,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 // else if next page for workout hyperlink was clicked
                 else if (event.target === nextButton) {
-                        nextPage(); // call function to go to next page
+                        // call function to go to next page, update current page with return value
+                        currentPageActivity = nextPage(currentPageActivity, activityTable, activityPaginationButtons); 
                 }
                 // if Show Wellness Details hyperlink was clicked
                 else if (event.target === showWellnessHyperlink) {
@@ -60,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 // else if next page for sleep logging hyperlink was clicked
                 else if (event.target === nextButtonSleep) {
-                        nextPageSleep(); // call function to go to next page
+                        // call function to go to next page
+                        currentPageSleep = nextPage(currentPageSleep, sleepTable, sleepPaginationButtons); 
                 }
                 // else if delete entry link for workout row was clicked
                 else if (event.target.classList.contains('delete-link-activity')) {
@@ -85,10 +89,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // helper function to show or hide workout and wellness details
         function handleShowColumnDetails(columns, showHyperlink, hideHyperlink){
-                console.log(columns);
                 // loop through hidden columns
                 for (let i = 0; i < columns.length; i++) {
-                        console.log(columns[i].style.display);
                         //adds the "hidden-column" class to the element if it's not present, and removes it if it's already present. 
                         columns[i].style.display = columns[i].style.display === 'none' ? 'table-cell' : 'none';
                 }
@@ -111,90 +113,24 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // IMPLEMENT PAGINATION AND DELETE BUTTONS FOR ACTIVITY LOGGING
         // function to hide rows not on current page and show rows on current page
-        function showPage(page) {
+        function showPage(page, tableType) {
                 let start = page * rowsPerPage + 1; // calculate start of rows
                 let end = (page + 1) * rowsPerPage; // calculate end of rows
+                console.log("start: " + start);
+                console.log("end: " + end);
                 
                 // loop through rows of the table, , 
-                for (let i = 1; i < table.rows.length; i++) {
-                        // if row is within range show
+                for (let i = 1; i < tableType.rows.length; i++) {
+                        // if row is within range, show
                         if (i >= start && i <= end) {
-                                table.rows[i].style.display = "";
+                                tableType.rows[i].style.display = "";
                         // else if outside of range hide
                         } else {
-                                table.rows[i].style.display = "none";
+                                tableType.rows[i].style.display = "none";
                         }
                 } 
         }
-        
-        // function if previous page button is clicked
-        function previousPage() {
-                if (currentPage > 0) {
-                        currentPage--; // update current page
-                        showPage(currentPage); // call show page function with updated current page
-                        setActiveButton(currentPage); // call set active button function to underline current page
-                }
-        }
-        
-        // function if next page button is clicked
-        function nextPage() {
-                if (currentPage < Math.floor(table.rows.length / rowsPerPage)) {
-                        currentPage++; // increment current page
-                        showPage(currentPage); // call show page function with updated current page
-                        setActiveButton(currentPage); // call set active button function to underline current page
-                }
-        }
 
-        function goToPage(page) {
-                currentPage = page; // set currentPage variable with page called into function
-                showPage(currentPage); // Call show page function to display correct page rows
-                setActiveButton(page); // call set active button function to underline current page
-        }
-
-        // Function to set the active button and underline the current page number
-        function setActiveButton(pageNumber) {
-                const paginationButtons = document.getElementById("page-numbers").getElementsByTagName("a");
-        
-                for (let i = 0; i < paginationButtons.length; i++) {
-                        if (i === pageNumber) {
-                                paginationButtons[i].classList.add("active");
-                                paginationButtons[i].style.textDecoration = "underline";
-                        } else {
-                                paginationButtons[i].classList.remove("active");
-                                paginationButtons[i].style.textDecoration = "none";
-                        }
-                }
-        }
-                
-        // Generate pagination buttons dynamically
-        function generatePaginationButtons() {
-                let totalPages = Math.floor((table.rows.length - 1) / rowsPerPage); // calculate total number of pages
-                let pageNumbersDiv = document.getElementById("page-numbers"); // create new div element for buttons
-                pageNumbersDiv.innerHTML = ""; // define inner HTML
-
-                // if there is a remainder after dividing by 30, than add a page to account for additional rows
-                // subtracting 1 from rows length to exclude the table header row
-                if ((table.rows.length - 1) % rowsPerPage !== 0) {
-                        totalPages++; // Add 1 if there is a remainder
-                }
-        
-                // loop through total number of pages to create buttons
-                for (let i = 0; i < totalPages; i++) {
-                        const pageNumberLink = document.createElement("a"); // create HTML element
-                        pageNumberLink.textContent = i + 1; // set page number to show
-                        pageNumberLink.href = "#history-page-container"; // Set the href attribute for the hyperlink
-                        pageNumberLink.classList.add("activity-pagination"); // set class
-                        pageNumbersDiv.appendChild(pageNumberLink); // append HTML element
-
-                        // add the 'active' class to the current page button and underline it
-                        if (i === currentPage) {
-                                pageNumberLink.classList.add("active");
-                                pageNumberLink.style.textDecoration = "underline";
-                        }
-                }
-        }
-                        
-// IMPLEMENT PAGINATION FOR SLEEP LOGGING
         // Function that "shows" page by hiding rows of table that don't fall within range of "current page"
         function showPageSleep(page) {
                 let start = page * rowsPerPage + 1; // define row that starts the page
@@ -209,6 +145,15 @@ document.addEventListener('DOMContentLoaded', function(){
                         }
                 }
         }
+        
+        // function if previous page button is clicked
+        function previousPage() {
+                if (currentPageActivity > 0) {
+                        currentPageActivity--; // update current page
+                        showPage(currentPageActivity); // call show page function with updated current page
+                        setActiveButton(currentPageActivity); // call set active button function to underline current page
+                }
+        }
 
         // function called when previous page button is clicked, which calls show page function -1 page
         function previousPageSleep() {
@@ -218,14 +163,30 @@ document.addEventListener('DOMContentLoaded', function(){
                         setActiveButtonSleep(currentPageSleep); // call setActiveButton Function to activate underline on current page
                 }
         }
-
-        // function called when next page button is clicked, which calls show page function +1 page
-        function nextPageSleep() {
-                if (currentPageSleep < Math.floor(sleepTable.rows.length / rowsPerPage)) {
-                        currentPageSleep++;
-                        showPageSleep(currentPageSleep);
-                        setActiveButtonSleep(currentPageSleep); // call setActiveButton Function to activate underline on current page
+        
+        // function if next page button is clicked
+        function nextPage(page, tableType, paginationButtons) {
+                // if page number is less than highest page, aka still pages to move to next
+                if (page < Math.floor(tableType.rows.length / rowsPerPage)) {
+                        page++; // increment current page
+                        console.log("page after ++: " + page);
+                        showPage(page, tableType); // call show page function with updated current page
+                        if (tableType === activityTable){
+                                // call set active button function to underline current page
+                                activityPaginationButtons = setActiveButton(page, paginationButtons); 
+                        }
+                        else{
+                                sleepPaginationButtons = setActiveButton(page, paginationButtons); 
+                        }
+                        
                 }
+                return page; // return the updated current page
+        }
+
+        function goToPage(page) {
+                currentPageActivity = page; // set currentPage variable with page called into function
+                showPage(currentPageActivity); // Call show page function to display correct page rows
+                setActiveButton(page); // call set active button function to underline current page
         }
 
         // Function to "go to" page that is clicked by calling show page function
@@ -236,8 +197,23 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         // Function to set the active button and underline the current page number
+        function setActiveButton(pageNumber, paginationButtons) { 
+                // loop through pagination buttons generated to show current page
+                for (let i = 0; i < paginationButtons.length; i++) {
+                        if (i === pageNumber) {
+                                paginationButtons[i].classList.add("active");
+                                paginationButtons[i].style.textDecoration = "underline";
+                        } else {
+                                paginationButtons[i].classList.remove("active");
+                                paginationButtons[i].style.textDecoration = "none";
+                        }
+                }
+                return paginationButtons; // return buttons to update HTML elements
+        }
+
+        // Function to set the active button and underline the current page number
         function setActiveButtonSleep(pageNumber) {
-                const paginationButtons = document.getElementById("page-numbers-sleep").getElementsByTagName("a");
+                
         
                 for (let i = 0; i < paginationButtons.length; i++) {
                         if (i === pageNumber) {
@@ -250,6 +226,34 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
         }
                 
+        // Generate pagination buttons dynamically
+        function generatePaginationButtons() {
+                let totalPages = Math.floor((activityTable.rows.length - 1) / rowsPerPage); // calculate total number of pages
+                let pageNumbersDiv = document.getElementById("page-numbers"); // create new div element for buttons
+                pageNumbersDiv.innerHTML = ""; // define inner HTML
+
+                // if there is a remainder after dividing by 30, than add a page to account for additional rows
+                // subtracting 1 from rows length to exclude the table header row
+                if ((activityTable.rows.length - 1) % rowsPerPage !== 0) {
+                        totalPages++; // Add 1 if there is a remainder
+                }
+        
+                // loop through total number of pages to create buttons
+                for (let i = 0; i < totalPages; i++) {
+                        const pageNumberLink = document.createElement("a"); // create HTML element
+                        pageNumberLink.textContent = i + 1; // set page number to show
+                        pageNumberLink.href = "#history-page-container"; // Set the href attribute for the hyperlink
+                        pageNumberLink.classList.add("activity-pagination"); // set class
+                        pageNumbersDiv.appendChild(pageNumberLink); // append HTML element
+
+                        // add the 'active' class to the current page button and underline it
+                        if (i === currentPageActivity) {
+                                pageNumberLink.classList.add("active");
+                                pageNumberLink.style.textDecoration = "underline";
+                        }
+                }
+        } 
+// IMPLEMENT PAGINATION FOR SLEEP LOGGING                
         // Generate pagination buttons dynamically
         function generatePaginationButtonsSleep() {
                 // calculate total number of pages based on rows, without rounding up, subtracting 1 for the header row of table
