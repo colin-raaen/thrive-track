@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function(){
         const wellnessColumns = document.getElementsByClassName("hidden-wellness-type-column"); // Store workout columns that are hidden
 
         // FUNCTION CALLS ON PAGE LOAD FOR PAGINATION
+        generatePaginationButtons("page-numbers", activityTable, currentPageActivity); // Generate pagination buttons   
         showPage(currentPageActivity, activityTable); // Show the first page initially
-        generatePaginationButtons(); // Generate pagination buttons      
+        generatePaginationButtons("page-numbers-sleep", sleepTable, currentPageSleep); // Generate pagination buttons
         showPage(currentPageSleep, sleepTable); // Show the first page initially on sleep table
-        generatePaginationButtonsSleep(); // Generate pagination buttons
 
        // EVENT DELEGATION, Listen for clicks to entire history.html
         historyPageContainer.addEventListener('click', function(event) {
@@ -185,14 +185,14 @@ document.addEventListener('DOMContentLoaded', function(){
         }
                 
         // Generate pagination buttons dynamically
-        function generatePaginationButtons() {
-                let totalPages = Math.floor((activityTable.rows.length - 1) / rowsPerPage); // calculate total number of pages
-                let pageNumbersDiv = document.getElementById("page-numbers"); // create new div element for buttons
+        function generatePaginationButtons(elementID, tableType, currentPage) {
+                let totalPages = Math.floor((tableType.rows.length - 1) / rowsPerPage); // calculate total number of pages
+                let pageNumbersDiv = document.getElementById(elementID); // create new div element for buttons
                 pageNumbersDiv.innerHTML = ""; // define inner HTML
 
                 // if there is a remainder after dividing by 30, than add a page to account for additional rows
                 // subtracting 1 from rows length to exclude the table header row
-                if ((activityTable.rows.length - 1) % rowsPerPage !== 0) {
+                if ((tableType.rows.length - 1) % rowsPerPage !== 0) {
                         totalPages++; // Add 1 if there is a remainder
                 }
         
@@ -200,46 +200,21 @@ document.addEventListener('DOMContentLoaded', function(){
                 for (let i = 0; i < totalPages; i++) {
                         const pageNumberLink = document.createElement("a"); // create HTML element
                         pageNumberLink.textContent = i + 1; // set page number to show
-                        pageNumberLink.href = "#history-page-container"; // Set the href attribute for the hyperlink
-                        pageNumberLink.classList.add("activity-pagination"); // set class
+                        // Set the href attribute for the hyperlink
+                        pageNumberLink.href = tableType === activityTable ? "#history-page-container" : "#sleep-history-table-container"; 
+                        if (tableType === activityTable){ // if table type is activity
+                                pageNumberLink.classList.add("activity-pagination"); // set HTML class
+                        } else{ // else if sleep table
+                                pageNumberLink.classList.add("sleep-pagination"); // set HTML class
+                        }
                         pageNumbersDiv.appendChild(pageNumberLink); // append HTML element
-
                         // add the 'active' class to the current page button and underline it
-                        if (i === currentPageActivity) {
+                        if (i === currentPage) {
                                 pageNumberLink.classList.add("active");
                                 pageNumberLink.style.textDecoration = "underline";
                         }
                 }
         } 
-// IMPLEMENT PAGINATION FOR SLEEP LOGGING                
-        // Generate pagination buttons dynamically
-        function generatePaginationButtonsSleep() {
-                // calculate total number of pages based on rows, without rounding up, subtracting 1 for the header row of table
-                let totalPages = Math.floor((sleepTable.rows.length - 1) / rowsPerPage); 
-                let pageNumbersDiv = document.getElementById("page-numbers-sleep"); // get page numbers div placeholder
-                pageNumbersDiv.innerHTML = "";
-
-                // if there is a remainder after dividing by 30, than add a page to account for additional rows
-                // subtracting 1 from rows length to exclude the table header row
-                if ((sleepTable.rows.length - 1) % rowsPerPage !== 0) {
-                        totalPages++; // Add 1 if there is a remainder
-                }
-
-                // Loop through pages to create and append
-                for (let i = 0; i < totalPages; i++) {
-                        const pageNumberLink = document.createElement("a");
-                        pageNumberLink.textContent = i + 1; //calculate page number
-                        pageNumberLink.href = "#sleep-history-table-container"; // Set the href attribute for the hyperlink
-                        pageNumberLink.classList.add("sleep-pagination");
-                        pageNumbersDiv.appendChild(pageNumberLink); // append pagination buttons
-
-                         // add the 'active' class to the current page button and underline it
-                        if (i === currentPageSleep) {
-                                pageNumberLink.classList.add("active");
-                                pageNumberLink.style.textDecoration = "underline";
-                        }
-                }
-        }
 
         // Function to delete the row of data, input of which table data is coming from and row ID to identifty data in database
         function deleteRow(dataType, rowId) {
