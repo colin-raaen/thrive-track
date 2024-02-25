@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 // else if previous page for workout hyperlink was clicked
                 else if (event.target === previousButton) {
-                        previousPage(); // call function to go to previous page
+                        // call function to go to previous page
+                        currentPageActivity = previousPage(currentPageActivity, activityTable, activityPaginationButtons); 
                 }
                 // else if next page for workout hyperlink was clicked
                 else if (event.target === nextButton) {
@@ -59,7 +60,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 // else if previous page for sleep logging hyperlink was clicked
                 else if (event.target === previousButtonSleep) {
-                        previousPageSleep(); // call function to go to previous page
+                        // call function to go to previous page
+                        currentPageSleep = previousPage(currentPageSleep, sleepTable, sleepPaginationButtons); 
                 }
                 // else if next page for sleep logging hyperlink was clicked
                 else if (event.target === nextButtonSleep) {
@@ -112,6 +114,45 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         // IMPLEMENT PAGINATION AND DELETE BUTTONS FOR ACTIVITY LOGGING
+        // function if previous page button is clicked
+        function previousPage(page, tableType, paginationButtons) {
+                // if at least one page exists
+                if (page > 0) {
+                        page--; // update current page by decrementing
+                        showPage(page, tableType); // call show page function with updated current page
+                        // if activity table
+                        if (tableType === activityTable){
+                                // call set active button function to underline current page, update HTML elements with return value
+                                activityPaginationButtons = setActiveButton(page, paginationButtons); 
+                        }
+                        else{ // else, sleep table
+                                // call set active button function to underline current page, update HTML elements with return value
+                                sleepPaginationButtons = setActiveButton(page, paginationButtons); 
+                        }
+                }
+                return page; // return the updated current page
+        }
+        
+        // function if next page button is clicked
+        function nextPage(page, tableType, paginationButtons) {
+                // if page number is less than highest page, aka still pages to move to next
+                if (page < Math.floor(tableType.rows.length / rowsPerPage)) {
+                        page++; // increment current page
+                        showPage(page, tableType); // call show page function with updated current page
+                        // if activity table
+                        if (tableType === activityTable){
+                                // call set active button function to underline current page, update HTML elements with return value
+                                activityPaginationButtons = setActiveButton(page, paginationButtons); 
+                        }
+                        else{ // else, sleep table
+                                // call set active button function to underline current page, update HTML elements with return value
+                                sleepPaginationButtons = setActiveButton(page, paginationButtons); 
+                        }
+                        
+                }
+                return page; // return the updated current page
+        }
+
         // function to hide rows not on current page and show rows on current page
         function showPage(page, tableType) {
                 let start = page * rowsPerPage + 1; // calculate start of rows
@@ -144,43 +185,6 @@ document.addEventListener('DOMContentLoaded', function(){
                                 sleepTable.rows[i].style.display = "none";
                         }
                 }
-        }
-        
-        // function if previous page button is clicked
-        function previousPage() {
-                if (currentPageActivity > 0) {
-                        currentPageActivity--; // update current page
-                        showPage(currentPageActivity); // call show page function with updated current page
-                        setActiveButton(currentPageActivity); // call set active button function to underline current page
-                }
-        }
-
-        // function called when previous page button is clicked, which calls show page function -1 page
-        function previousPageSleep() {
-                if (currentPageSleep > 0) {
-                        currentPageSleep--;
-                        showPageSleep(currentPageSleep);
-                        setActiveButtonSleep(currentPageSleep); // call setActiveButton Function to activate underline on current page
-                }
-        }
-        
-        // function if next page button is clicked
-        function nextPage(page, tableType, paginationButtons) {
-                // if page number is less than highest page, aka still pages to move to next
-                if (page < Math.floor(tableType.rows.length / rowsPerPage)) {
-                        page++; // increment current page
-                        console.log("page after ++: " + page);
-                        showPage(page, tableType); // call show page function with updated current page
-                        if (tableType === activityTable){
-                                // call set active button function to underline current page
-                                activityPaginationButtons = setActiveButton(page, paginationButtons); 
-                        }
-                        else{
-                                sleepPaginationButtons = setActiveButton(page, paginationButtons); 
-                        }
-                        
-                }
-                return page; // return the updated current page
         }
 
         function goToPage(page) {
