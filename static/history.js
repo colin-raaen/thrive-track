@@ -1,10 +1,6 @@
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         const historyPageContainer = document.getElementById("history-page-container"); // Get and store activity history HTML Table
-        const activityLoggingTableDiv = document.getElementById("activity-history-table-container"); // entire activity table div
-        const sleepLoggingTableDiv = document.getElementById("sleep-history-table-container"); // entire sleep table div
-        const activityTableHyperlink = document.getElementById("activity-table-hyperlink"); // hyperlink to toggle activity table
-        const sleepTableHyperlink = document.getElementById("sleep-table-hyperlink"); // hyperlink to toggle sleep table
         const activityTable = document.getElementById("activity-history"); // Get and store activity history HTML Table
         const sleepTable = document.getElementById("sleep-history"); // Get and store activity history HTML Table
         let rowsPerPage = 30; // Number of rows to show
@@ -32,22 +28,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
        // EVENT DELEGATION, Listen for clicks to entire history.html
         historyPageContainer.addEventListener('click', function(event) {
-                // if activity toggle hyperlink is clicked, show activity table and hide sleep table
-                if (event.target === activityTableHyperlink) {
-                        activityLoggingTableDiv.style.display = 'block';
-                        activityTableHyperlink.style.textDecoration = 'underline';
-                        sleepLoggingTableDiv.style.display = 'none';
-                        sleepTableHyperlink.style.textDecoration = 'none';
-                }
-                // if activity toggle hyperlink is clicked, show activity table and hide sleep table
-                else if (event.target === sleepTableHyperlink) {
-                        activityLoggingTableDiv.style.display = 'none';
-                        activityTableHyperlink.style.textDecoration = 'none';
-                        sleepLoggingTableDiv.style.display = 'block';
-                        sleepTableHyperlink.style.textDecoration = 'underline';
-                }
                 // if Show Workout Details hyperlink was clicked
-                else if (event.target === showWorkoutHyperlink) {
+                if (event.target === showWorkoutHyperlink) {
                         // call function to show details
                         handleShowColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
                 }

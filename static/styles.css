@@ -302,20 +302,8 @@ nav .navbar-brand .red{
     overflow-x: auto;
 }
 
-#table-toggle-div{
-    display: flex;
-    margin: 10px;
-}
-
-/* positions toggle links side by side */
-.toggle-link-div{
-    flex: 1;
-    width: 50%;
-    text-align: center;
-}
-
-.toggle-hyperlink{
-    font-size: 40px;
+.nav-link.history{
+    font-size: 25px;
 }
 
 th {

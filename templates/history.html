@@ -10,18 +10,14 @@
 
 <div class="history-page-container" id="history-page-container">
 
-    <!-- Div for toggle hyperlinks between two tables -->
-    <div id="table-toggle-div">
-        <div class="toggle-link-div" id="activity-table-toggle">
-            <a class="toggle-hyperlink" id="activity-table-hyperlink" href="#history-page-container" style="text-decoration: underline;">Activity Logging History</a>
-        </div>
-        <div class="toggle-link" id="sleep-table-toggle">
-            <a class="toggle-hyperlink" id="sleep-table-hyperlink" href="#history-page-container">Sleep Logging History</a>
-        </div>
-    </div>
+    <!-- Menu Tab to toggle hyperlinks between two tables -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link history active" data-bs-toggle="tab" id="activity-table-hyperlink" href="#activity-history-table-container">Activity Logging History</a></li>
+        <li class="nav-item"><a class="nav-link history" data-bs-toggle="tab" id="sleep-table-hyperlink" href="#sleep-history-table-container">Sleep Logging History</a></li>
+    </ul>   
 
-    <div  <div id="activity-history-table-container">
-        <h5>YOUR ACTIVITY HISTORY</h5>
+    <div class="tab-content">
+    <div class="tab-pane active" id="activity-history-table-container">
         <table class="table table-hover" id="activity-history">
             <tr>
                 <th>Date</th>
@@ -83,8 +79,7 @@
     </div>
     
     <!-- Sleep Logging Table intially hidden -->
-    <div id="sleep-history-table-container" style="display: none;">
-        <h5>YOUR SLEEP HISTORY</h5>
+    <div class="tab-pane" id="sleep-history-table-container">
         <table class="table table-hover" id="sleep-history">
             <tr>
                 <th>Date</th>
@@ -127,5 +122,6 @@
          </div>
 
     </div>
+    </div>  
 </div>
 {% endblock %}
