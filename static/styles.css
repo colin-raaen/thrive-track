@@ -302,6 +302,22 @@ nav .navbar-brand .red{
     overflow-x: auto;
 }
 
+#table-toggle-div{
+    display: flex;
+    margin: 10px;
+}
+
+/* positions toggle links side by side */
+.toggle-link-div{
+    flex: 1;
+    width: 50%;
+    text-align: center;
+}
+
+.toggle-hyperlink{
+    font-size: 40px;
+}
+
 th {
     white-space: nowrap; /* Prevent line breaks */
 }
@@ -368,5 +384,8 @@ td.hidden-history-column, td.hidden-wellness-type-column {
 
   /* Mobile view formatting and styling */
 @media only screen and (max-width: 767px) {
+    .toggle-hyperlink{
+        font-size: 20px;
+    }
     
 }

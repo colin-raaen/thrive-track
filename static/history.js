@@ -1,6 +1,10 @@
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         const historyPageContainer = document.getElementById("history-page-container"); // Get and store activity history HTML Table
+        const activityLoggingTableDiv = document.getElementById("activity-history-table-container"); // entire activity table div
+        const sleepLoggingTableDiv = document.getElementById("sleep-history-table-container"); // entire sleep table div
+        const activityTableHyperlink = document.getElementById("activity-table-hyperlink"); // hyperlink to toggle activity table
+        const sleepTableHyperlink = document.getElementById("sleep-table-hyperlink"); // hyperlink to toggle sleep table
         const activityTable = document.getElementById("activity-history"); // Get and store activity history HTML Table
         const sleepTable = document.getElementById("sleep-history"); // Get and store activity history HTML Table
         let rowsPerPage = 30; // Number of rows to show
@@ -28,8 +32,22 @@ document.addEventListener('DOMContentLoaded', function(){
 
        // EVENT DELEGATION, Listen for clicks to entire history.html
         historyPageContainer.addEventListener('click', function(event) {
+                // if activity toggle hyperlink is clicked, show activity table and hide sleep table
+                if (event.target === activityTableHyperlink) {
+                        activityLoggingTableDiv.style.display = 'block';
+                        activityTableHyperlink.style.textDecoration = 'underline';
+                        sleepLoggingTableDiv.style.display = 'none';
+                        sleepTableHyperlink.style.textDecoration = 'none';
+                }
+                // if activity toggle hyperlink is clicked, show activity table and hide sleep table
+                else if (event.target === sleepTableHyperlink) {
+                        activityLoggingTableDiv.style.display = 'none';
+                        activityTableHyperlink.style.textDecoration = 'none';
+                        sleepLoggingTableDiv.style.display = 'block';
+                        sleepTableHyperlink.style.textDecoration = 'underline';
+                }
                 // if Show Workout Details hyperlink was clicked
-                if (event.target === showWorkoutHyperlink) {
+                else if (event.target === showWorkoutHyperlink) {
                         // call function to show details
                         handleShowColumnDetails(workoutColumns, showWorkoutHyperlink, hideWorkoutHyperlink); 
                 }
@@ -89,6 +107,38 @@ document.addEventListener('DOMContentLoaded', function(){
                         setActiveButton(currentPageSleep, sleepPaginationButtons); // call setActiveButton Function to activate underline on current page
                 }
         });
+
+        // Generate pagination buttons dynamically
+        function generatePaginationButtons(elementID, tableType, currentPage) {
+                let totalPages = Math.floor((tableType.rows.length - 1) / rowsPerPage); // calculate total number of pages
+                let pageNumbersDiv = document.getElementById(elementID); // create new div element for buttons
+                pageNumbersDiv.innerHTML = ""; // define inner HTML
+
+                // if there is a remainder after dividing by 30, than add a page to account for additional rows
+                // subtracting 1 from rows length to exclude the table header row
+                if ((tableType.rows.length - 1) % rowsPerPage !== 0) {
+                        totalPages++; // Add 1 if there is a remainder
+                }
+        
+                // loop through total number of pages to create buttons
+                for (let i = 0; i < totalPages; i++) {
+                        const pageNumberLink = document.createElement("a"); // create HTML element
+                        pageNumberLink.textContent = i + 1; // set page number to show
+                        // Ternary statement to set the href attribute for the hyperlink
+                        pageNumberLink.href = tableType === activityTable ? "#history-page-container" : "#sleep-history-table-container"; 
+                        if (tableType === activityTable){ // if table type is activity
+                                pageNumberLink.classList.add("activity-pagination"); // set HTML class
+                        } else{ // else if sleep table
+                                pageNumberLink.classList.add("sleep-pagination"); // set HTML class
+                        }
+                        pageNumbersDiv.appendChild(pageNumberLink); // append HTML element
+                        // add the 'active' class to the current page button and underline it
+                        if (i === currentPage) {
+                                pageNumberLink.classList.add("active");
+                                pageNumberLink.style.textDecoration = "underline";
+                        }
+                }
+        } 
 
         // helper function to show or hide workout and wellness details
         function handleShowColumnDetails(columns, showHyperlink, hideHyperlink){
@@ -183,38 +233,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 return paginationButtons; // return buttons to update HTML elements
         }
-                
-        // Generate pagination buttons dynamically
-        function generatePaginationButtons(elementID, tableType, currentPage) {
-                let totalPages = Math.floor((tableType.rows.length - 1) / rowsPerPage); // calculate total number of pages
-                let pageNumbersDiv = document.getElementById(elementID); // create new div element for buttons
-                pageNumbersDiv.innerHTML = ""; // define inner HTML
-
-                // if there is a remainder after dividing by 30, than add a page to account for additional rows
-                // subtracting 1 from rows length to exclude the table header row
-                if ((tableType.rows.length - 1) % rowsPerPage !== 0) {
-                        totalPages++; // Add 1 if there is a remainder
-                }
-        
-                // loop through total number of pages to create buttons
-                for (let i = 0; i < totalPages; i++) {
-                        const pageNumberLink = document.createElement("a"); // create HTML element
-                        pageNumberLink.textContent = i + 1; // set page number to show
-                        // Set the href attribute for the hyperlink
-                        pageNumberLink.href = tableType === activityTable ? "#history-page-container" : "#sleep-history-table-container"; 
-                        if (tableType === activityTable){ // if table type is activity
-                                pageNumberLink.classList.add("activity-pagination"); // set HTML class
-                        } else{ // else if sleep table
-                                pageNumberLink.classList.add("sleep-pagination"); // set HTML class
-                        }
-                        pageNumbersDiv.appendChild(pageNumberLink); // append HTML element
-                        // add the 'active' class to the current page button and underline it
-                        if (i === currentPage) {
-                                pageNumberLink.classList.add("active");
-                                pageNumberLink.style.textDecoration = "underline";
-                        }
-                }
-        } 
 
         // Function to delete the row of data, input of which table data is coming from and row ID to identifty data in database
         function deleteRow(dataType, rowId) {

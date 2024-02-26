@@ -9,7 +9,19 @@
 <script src="/static/history.js"></script>
 
 <div class="history-page-container" id="history-page-container">
-    <h5>YOUR ACTIVITY HISTORY</h5>
+
+    <!-- Div for toggle hyperlinks between two tables -->
+    <div id="table-toggle-div">
+        <div class="toggle-link-div" id="activity-table-toggle">
+            <a class="toggle-hyperlink" id="activity-table-hyperlink" href="#history-page-container" style="text-decoration: underline;">Activity Logging History</a>
+        </div>
+        <div class="toggle-link" id="sleep-table-toggle">
+            <a class="toggle-hyperlink" id="sleep-table-hyperlink" href="#history-page-container">Sleep Logging History</a>
+        </div>
+    </div>
+
+    <div  <div id="activity-history-table-container">
+        <h5>YOUR ACTIVITY HISTORY</h5>
         <table class="table table-hover" id="activity-history">
             <tr>
                 <th>Date</th>
@@ -63,16 +75,15 @@
         </table>
 
         <!-- buttons for Pagination -->
-        
         <div id="pagination-buttons">
             <a href="#history-page-container" id="previous-button">Previous</a>
             <div id="page-numbers"></div>
             <a href="#history-page-container" id="next-button">Next</a>
         </div>
-
-        <h5></h5>
-            
-    <div class="sleep-history-table-container" id="sleep-history-table-container">
+    </div>
+    
+    <!-- Sleep Logging Table intially hidden -->
+    <div id="sleep-history-table-container" style="display: none;">
         <h5>YOUR SLEEP HISTORY</h5>
         <table class="table table-hover" id="sleep-history">
             <tr>
