@@ -82,23 +82,23 @@
     <div class="tab-pane" id="sleep-history-table-container">
         <table class="table table-hover" id="sleep-history">
             <tr>
-                <th>Date</th>
-                <th><span>Did you take a nap?</span></th>
-                <th><span>Time slept in nap</span></th>
-                <th><span>Time went to bed</span></th>
-                <th><span>Time attempted to sleep</span></th>
-                <th><span>Time to fall asleep</span></th>
-                <th><span># times woken up</span></th>
-                <th><span>Amount of time awoken</span></th>
-                <th><span>Final time awake in morning</span></th>
-                <th><span>Time out of bed</span></th>
-                <th><span>Woke up early?</span></th>
-                <th><span>Time awake early</span></th>
-                <th>Time asleep</th>
-                <th>Time in bed</th>
-                <th><span>Sleep quality rating</span></th>
-                <th>Travelling?</th>
-                <th><span>Sleep Efficiency (%)</span></th>
+                <th class="sleep-table-header">Date</th>
+                <th class="sleep-table-header"><span>Did you take a nap?</span></th>
+                <th class="sleep-table-header"><span>Time slept in nap</span></th>
+                <th class="sleep-table-header"><span>Time went to bed</span></th>
+                <th class="sleep-table-header"><span>Time attempted to sleep</span></th>
+                <th class="sleep-table-header"><span>Time to fall asleep</span></th>
+                <th class="sleep-table-header"><span># times woken up</span></th>
+                <th class="sleep-table-header"><span>Amount of time awoken</span></th>
+                <th class="sleep-table-header"><span>Final time awake in morning</span></th>
+                <th class="sleep-table-header"><span>Time out of bed</span></th>
+                <th class="sleep-table-header"><span>Woke up early?</span></th>
+                <th class="sleep-table-header"><span>Time awake early</span></th>
+                <th class="sleep-table-header">Time asleep</th>
+                <th class="sleep-table-header">Time in bed</th>
+                <th class="sleep-table-header"><span>Sleep quality rating</span></th>
+                <th class="sleep-table-header">Travelling?</th>
+                <th class="sleep-table-header"><span>Sleep Efficiency (%)</span></th>
             </tr>
             <!-- Loop through list of dictionaries of sleep history -->
             {% for sleep in sleep_history %}
