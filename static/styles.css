@@ -302,6 +302,11 @@ nav .navbar-brand .red{
     overflow-x: auto;
 }
 
+/* Font size of toggle between tables */
+.nav-link.history{
+    font-size: 25px;
+}
+
 th {
     white-space: nowrap; /* Prevent line breaks */
 }
@@ -347,7 +352,7 @@ td.hidden-history-column, td.hidden-wellness-type-column {
     justify-content: center;
     align-items: center;
     gap: 18px; /* Adjust the gap between page numbers and buttons */
-  }
+}
 
   /* Styling for dynamically created pagination button numbers */
 #page-numbers-sleep {
@@ -368,5 +373,7 @@ td.hidden-history-column, td.hidden-wellness-type-column {
 
   /* Mobile view formatting and styling */
 @media only screen and (max-width: 767px) {
-    
+    .toggle-hyperlink{
+        font-size: 20px;
+    }
 }
