@@ -50,14 +50,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         napTimeRow.style.display = 'table-row';
                 }
 
-                //If Yes Nap Checkbox is unchecked, then rehide row
-                else if (event.target === napYesCheckbox && napYesCheckbox.checked === false){
-                        // Hide Nap time entry
-                        napTimeRow.style.display = 'none';
-                }
-
-                //If No Nap Checkbox is checked, then hide row
-                else if (event.target === napNoCheckbox && napNoCheckbox.checked === true){
+                //If Yes Nap Checkbox is unchecked, or if No Nap Checkbox is checked, then hide row
+                else if ((event.target === napYesCheckbox && napYesCheckbox.checked === false) || 
+                        (event.target === napNoCheckbox && napNoCheckbox.checked === true)){
                         // Hide Nap time entry
                         napTimeRow.style.display = 'none';
                 }
@@ -68,14 +63,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         wakeUpEarlyTimeRow.style.display = 'table-row';
                 }
 
-                //If Yes Wake Up Early Checkbox is unchecked, then rehide row
-                else if (event.target === wakeUpEarlyYesCheckbox && wakeUpEarlyYesCheckbox.checked === false){
-                        // Hide Wake Up early time entry
-                        wakeUpEarlyTimeRow.style.display = 'none';
-                }
-
-                //If No Wake Up Early Checkbox is checked, then hide row
-                else if (event.target === wakeUpEarlyNoCheckbox && wakeUpEarlyNoCheckbox.checked === true){
+                //If Yes Wake Up Early Checkbox is unchecked, OR if No Wake Up Early Checkbox is checked, then hide row
+                else if ((event.target === wakeUpEarlyYesCheckbox && wakeUpEarlyYesCheckbox.checked === false) ||
+                        (event.target === wakeUpEarlyNoCheckbox && wakeUpEarlyNoCheckbox.checked === true)){
                         // Hide Wake Up early time entry
                         wakeUpEarlyTimeRow.style.display = 'none';
                 }
@@ -105,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         { checkbox: travellingYesCheckbox, errorMessage: "Travelling", negativeCheckbox: travellingNoCheckbox },
                 ];
 
-                // for every field in the array of stored fields, call the validateYN function with the field inputs
+                // for every field in the array of stored fields, call the validateYN helper function with the field inputs
                 // if any field returns false, the entire statement returns false and only throws one error message
                 // for first field found with an error
                 let boolYesNoFieldCheck = validationFields.every(field => validateYNField(field.checkbox, field.errorMessage, field.negativeCheckbox));
@@ -114,32 +104,21 @@ document.addEventListener('DOMContentLoaded', function(){
                         return false;
                 }  
 
-                //Ensure nap time is input if nap Yes is selected
-                if (napYesCheckbox.checked === true && napTimeInputHour.value === "" && napTimeInputMin.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure length of nap time is filled out.');
-                        return false;
-                }
-
-                //Ensure time in bed is input
-                if (timeInBedInput.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the time you got into bed is filled out.');
-                        return false;
-                }
-
-                //Ensure time attempted to fall asleep is input
-                if (sleepAttemptInput.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the time you attempted to sleep is filled out.');
-                        return false;
-                }
-
-                //Ensure time to fall asleep is input
-                if (timeToSleepInputHour.value === "" && timeToSleepInputMin.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the time it took you to fall asleep is filled out.');
-                        return false;
+                const validations = [
+                        { condition: napYesCheckbox.checked && napTimeInputHour.value === "" && napTimeInputMin.value === "", message: 'Please ensure length of nap time is filled out.' },
+                        { condition: timeInBedInput.value === "", message: 'Please ensure the time you got into bed is filled out.' },
+                        { condition: sleepAttemptInput.value === "", message: 'Please ensure the time you attempted to sleep is filled out.' },
+                        { condition: timeToSleepInputHour.value === "" && timeToSleepInputMin.value === "", message: 'Please ensure the time it took you to fall asleep is filled out.' }
+                    ];
+                    
+                // loop through array of validations
+                for (const validation of validations) {
+                        // if condition of current validation is true
+                        if (validation.condition) {
+                                // trigger alert message to user
+                                alert(validation.message);
+                                return false; // break validation check function
+                        }
                 }
 
                 // If time to sleep hour or min is input, and other value is null, populate with 0
@@ -147,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         timeToSleepInputMin.value = 0;
                         console.log(timeToSleepInputMin.value);
                 }
+
                 if (timeToSleepInputHour.value === "" && timeToSleepInputMin.value !== null){
                         timeToSleepInputHour.value = 0;
                 }
@@ -178,15 +158,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         timeAwokenMinInput.value = 0;
                 }
 
-                //if number of times woken up is greater than 0, and hour input has value and minutes is left blank, zero out
-                if (timesWokenUpInput.value > 0 && timeAwokenHourInput.value === "" && timeAwokenMinInput.value > 0){
+                // if number of times woken up is greater than 0, and minute input has value and hour is left blank, zero out
+                if (timesWokenUpInput.value > 0 && timeAwokenHourInput.value === "" && timeAwokenMinInput.value >= 0){
                         // zero out minutes
-                        timeAwokenHourInput.value = 0;
-                }
-
-                // If minutes woken up is 0 and hours is left blank, than fill 0
-                if (timeAwokenHourInput.value === "" && timeAwokenMinInput.value === "0"){
-                        // assign zero values to hours and minutes
                         timeAwokenHourInput.value = 0;
                 }
 
@@ -249,42 +223,42 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 //SPLICING FIELD VALIDATION TO ENSURE TIME IN BED IS EARLIER THAN SLEEP ATTEMPT
                 try {
-                // Split the string by the ":" character
-                let timeInBedSplit = (timeInBedInput.value).split(":");
-                // Extract the first two digits (hours) and store them in a variable
-                let timeInBedCheck = parseInt(timeInBedSplit[0].trim());
-                // define Date Time object
-                let inBedDateTime;
-                // if time in bed is PM
-                if (12 <= timeInBedCheck && timeInBedCheck < 24){
-                    // Returns string in Eastern Time Zone format to offset timezone
-                    let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                    // Stage date and time of awakening          
-                    let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
-                    // define Time out of Bed Date Object
-                    inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
-                    console.log(inBedDateTime);
+                        // Split the string by the ":" character
+                        let timeInBedSplit = (timeInBedInput.value).split(":");
+                        // Extract the first two digits (hours) and store them in a variable
+                        let timeInBedCheck = parseInt(timeInBedSplit[0].trim());
+                        // define Date Time object
+                        let inBedDateTime;
+                        // if time in bed is PM
+                        if (12 <= timeInBedCheck && timeInBedCheck < 24){
+                                // Returns string in Eastern Time Zone format to offset timezone
+                                let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
+                                // Stage date and time of awakening          
+                                let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
+                                // define Time out of Bed Date Object
+                                inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
+                                console.log(inBedDateTime);
+                        }
+                        else if (timeInBedCheck < 12) { //time in bed is AM
+                                // Returns string in Eastern Time Zone format to offset timezone
+                                let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
+                                // Stage date and time of awakening          
+                                let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
+                                // define Time out of Bed Date Object
+                                inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
+                                // add day to Date Time object
+                                inBedDateTime.setDate(inBedDateTime.getDate() + 1);
+                                console.log(inBedDateTime);
+                        }
+                        // check if time in bed is earlier than sleep attempt
+                        if (sleepAttemptDateObject < inBedDateTime) {
+                                // throw error message and don't sumbit form
+                                alert('Please ensure the time in bed is earlier than time attempt to sleep');
+                                return false;
+                        }
+                } catch (error){
+                        console.log(error);
                 }
-                else if (timeInBedCheck < 12) { //time in bed is AM
-                    // Returns string in Eastern Time Zone format to offset timezone
-                    let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                    // Stage date and time of awakening          
-                    let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
-                    // define Time out of Bed Date Object
-                    inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
-                    // add day to Date Time object
-                    inBedDateTime.setDate(inBedDateTime.getDate() + 1);
-                    console.log(inBedDateTime);
-                }
-                // check if time in bed is earlier than sleep attempt
-                if (sleepAttemptDateObject < inBedDateTime) {
-                    // throw error message and don't sumbit form
-                    alert('Please ensure the time in bed is earlier than time attempt to sleep');
-                    return false;
-                }
-            } catch (error){
-                console.log(error);
-            }
 
                 // CONTINUE CALCUATION FOR HOURS SLEPT
                 // Add time to fall asleep to time attempted to sleep to get time actually fell asleep
