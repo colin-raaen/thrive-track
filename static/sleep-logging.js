@@ -103,13 +103,18 @@ document.addEventListener('DOMContentLoaded', function(){
                 if (boolYesNoFieldCheck === false){
                         return false;
                 }  
-
+                // array or validations checks on form submission and error messages to throw if true
                 const validations = [
                         { condition: napYesCheckbox.checked && napTimeInputHour.value === "" && napTimeInputMin.value === "", message: 'Please ensure length of nap time is filled out.' },
                         { condition: timeInBedInput.value === "", message: 'Please ensure the time you got into bed is filled out.' },
                         { condition: sleepAttemptInput.value === "", message: 'Please ensure the time you attempted to sleep is filled out.' },
-                        { condition: timeToSleepInputHour.value === "" && timeToSleepInputMin.value === "", message: 'Please ensure the time it took you to fall asleep is filled out.' }
-                    ];
+                        { condition: timeToSleepInputHour.value === "" && timeToSleepInputMin.value === "", message: 'Please ensure the time it took you to fall asleep is filled out.' },
+                        { condition: timesWokenUpInput.value === "", message: 'Please ensure the number of times woken up is filled out.' },
+                        { condition: timesWokenUpInput.value > 0 && timeAwokenHourInput.value === "" && timeAwokenMinInput.value === "", message: 'Please ensure the amount of time woken up is filled out.' },
+                        { condition: finalAwakeningInput.value === "", message: 'Please ensure the time of final awakening is filled out.' },
+                        { condition: timeOutOfBedInput.value === "", message: 'Please ensure the time you got out of bed is filled out.' },
+                        { condition: sleepRatingInput.value === "defaultSleepRating", message: 'Please ensure you rate your sleep quality.' }
+                ];
                     
                 // loop through array of validations
                 for (const validation of validations) {
@@ -124,18 +129,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 // If time to sleep hour or min is input, and other value is null, populate with 0
                 if (timeToSleepInputHour.value !== null && timeToSleepInputMin.value === ""){
                         timeToSleepInputMin.value = 0;
-                        console.log(timeToSleepInputMin.value);
                 }
 
                 if (timeToSleepInputHour.value === "" && timeToSleepInputMin.value !== null){
                         timeToSleepInputHour.value = 0;
-                }
-
-                //Ensure number of times woken up is input
-                if (timesWokenUpInput.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the number of times woken up is filled out.');
-                        return false;
                 }
 
                 // If number of times woken up is 0 than fill 0's for time woken up
@@ -145,15 +142,8 @@ document.addEventListener('DOMContentLoaded', function(){
                         timeAwokenMinInput.value = 0;
                 }
 
-                //if number of times woken up is greater than 0, ensure time awoken in input
-                if (timesWokenUpInput.value > 0 && timeAwokenHourInput.value === "" && timeAwokenMinInput.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the amount of time woken up is filled out.');
-                        return false;
-                }
-
-                //if number of times woken up is greater than 0, and hour input has value and minutes is left blank, zero out
-                if (timesWokenUpInput.value > 0 && timeAwokenHourInput.value > 0 && timeAwokenMinInput.value === ""){
+                //if number of times woken up is greater than 0, and hour input has value and minutes is left blank, zero out minutes
+                if (timesWokenUpInput.value > 0 && timeAwokenHourInput.value >= 0 && timeAwokenMinInput.value === ""){
                         // zero out minutes
                         timeAwokenMinInput.value = 0;
                 }
@@ -162,33 +152,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 if (timesWokenUpInput.value > 0 && timeAwokenHourInput.value === "" && timeAwokenMinInput.value >= 0){
                         // zero out minutes
                         timeAwokenHourInput.value = 0;
-                }
-
-                // If hours woken up is 0 and minutes is left blank, than fill 0
-                if (timeAwokenHourInput.value === "0" && timeAwokenMinInput.value === ""){
-                        // assign zero values to hours and minutes
-                        timeAwokenMinInput.value = 0;
-                }
-
-                //Ensure time of final awakening is input
-                if (finalAwakeningInput.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the time of final awakening is filled out.');
-                        return false;
-                }
-
-                //Ensure time out of bed is input
-                if (timeOutOfBedInput.value === ""){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure the time you got out of bed is filled out.');
-                        return false;
-                }
-
-                //Ensure sleep quality rating is input
-                if (sleepRatingInput.value === "defaultSleepRating"){
-                        // throw error message and don't sumbit form
-                        alert('Please ensure you rate your sleep quality.');
-                        return false;
                 }
 
         //FIELD VALIDATIONS TO CHECK IF HOURS SLEPT IS LESS THAN 5 OR GREATER THAN 10

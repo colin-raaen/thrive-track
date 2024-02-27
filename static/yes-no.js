@@ -1,6 +1,5 @@
 // Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
 export function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
-        console.log("Export test");
         //If neither yes or no checkbox is selected
         if (!yesCheckbox.checked && !noCheckbox.checked) {
                 alert(`Please check either "Yes" or "No" for the ${errorMessage} checkbox.`); //Send alert message
