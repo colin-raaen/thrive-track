@@ -444,50 +444,46 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WORKOUTS
                 // select all the dynamically created Workout Type drop down elements
-                let selectWorkoutTypeElements = document.querySelectorAll('select[name^="additionalWorkoutSelection"]');
+                const selectWorkoutTypeElements = document.querySelectorAll('select[name^="additionalWorkoutSelection"]');
                 // select all the dynamically created Workout Class Type drop down elements
-                let selectWorkoutClassTypeElements = document.querySelectorAll('select[name^="additionalClassSelection"]');
+                const selectWorkoutClassTypeElements = document.querySelectorAll('select[name^="additionalClassSelection"]');
                 // select all the dynamically created Sport Type drop down elements
-                let selectSportTypeElements = document.querySelectorAll('select[name^="additionalSportSelection"]');
+                const selectSportTypeElements = document.querySelectorAll('select[name^="additionalSportSelection"]');
                 // select all the dynamically created Extreme Sport Type drop down elements
-                let selectExtremeSportTypeElements = document.querySelectorAll('select[name^="additionalExtremeSportSelection"]');
+                const selectExtremeSportTypeElements = document.querySelectorAll('select[name^="additionalExtremeSportSelection"]');
                 // select all the dynamically created Workout Length input elements
-                let selectWorkoutLengthElements = document.querySelectorAll('input[name^="additionalWorkoutLengthMin"]');
+                const selectWorkoutLengthElements = document.querySelectorAll('input[name^="additionalWorkoutLengthMin"]');
 
+                // If at least one workout has been logged
                 if (selectWorkoutTypeElements.length > 0){
                         // iterate through each workout element and check to validate all drop downs are populated
                         for (let i = 0; i < selectWorkoutTypeElements.length; i++) {
-                                // If dynamically added workout type isn't selected 
-                                if (selectWorkoutTypeElements[i].value === ""){
-                                        alert('Please ensure a workout type is selected.');
-                                        return false;
-                                }
-                                // If dynamically added workout type is class, ensure class type is selected 
-                                else if (selectWorkoutTypeElements[i].value === "class" && selectWorkoutClassTypeElements[i].value === ""){
-                                        alert('Please ensure a class type is selected.');
-                                        return false;
-                                }
-                                // If dynamically added workout type is sport, ensure sport type is selected 
-                                else if (selectWorkoutTypeElements[i].value === "sport" && selectSportTypeElements[i].value === ""){
-                                        alert('Please ensure a sport type is selected.');
-                                        return false;
-                                }
-                                // If dynamically added workout type is extreme sport, ensure extreme sport type is selected 
-                                else if (selectWorkoutTypeElements[i].value === "extreme_sport" && selectExtremeSportTypeElements[i].value === ""){
-                                        alert('Please ensure a extreme sport type is selected.');
-                                        return false;
-                                }
-                                // Ensure workout length is selected 
-                                else if (selectWorkoutLengthElements[i].value === ""){
-                                        alert('Please ensure workout length is filled in.');
-                                        return false;
+                                // array or validations checks on form submission and error messages to throw if true
+                                const validations = [
+                                        { condition: selectWorkoutTypeElements[i].value === "", message: 'Please ensure a workout type is selected.' },
+                                        { condition: selectWorkoutTypeElements[i].value === "class" && selectWorkoutClassTypeElements[i].value === "", message: 'Please ensure a class type is selected.' },
+                                        { condition: selectWorkoutTypeElements[i].value === "sport" && selectSportTypeElements[i].value === "", message: 'Please ensure a sport type is selected.' },
+                                        { condition: selectWorkoutTypeElements[i].value === "extreme_sport" && selectExtremeSportTypeElements[i].value === "", message: 'Please ensure a extreme sport type is selected.' },
+                                        { condition: selectWorkoutLengthElements[i].value === "", message: 'Please ensure workout length is filled in.' },
+                                        { condition: eatOutCheckbox.checked && mealsOutEntry.value === "", message: 'Please ensure a number of meals is filled out.' },
+                                        { condition: drinkCheckbox.checked && drinksEntry.value === "", message: 'Please ensure a number of drinks is filled out.' }
+                                ];
+
+                                // loop through array of validations
+                                for (const validation of validations) {
+                                        // if condition of current validation is true
+                                        if (validation.condition) {
+                                                // trigger alert message to user
+                                                alert(validation.message);
+                                                return false; // break validation check function
+                                        }
                                 }
                         }
                 }
 
                 // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WELLNESS ACTIVITIES
                 // select all the dynamically created Wellness drop down elements
-                let selectWellnessElements = document.querySelectorAll('select[name^="additionalWellnessSelection"]');
+                const selectWellnessElements = document.querySelectorAll('select[name^="additionalWellnessSelection"]');
 
                 //iterate through list of additional wellness selections that have been dynamically added
                 for (let i = 0; i < selectWellnessElements.length; i++) {
@@ -496,20 +492,6 @@ document.addEventListener('DOMContentLoaded', function(){
                                 alert('Please ensure a wellness type is selected.');
                                 return false;
                         }
-                }
-
-                //Ensure number of meals is filled in if eat out is selected
-                if (eatOutCheckbox.checked && mealsOutEntry.value === ""){
-                        // if no checkbox is selected, throw error message and don't sumbit form
-                        alert('Please ensure a number of meals is filled out.');
-                        return false;
-                }
-                
-                //Ensure number of drinks is filled in if drinks is selected
-                if (drinkCheckbox.checked && drinksEntry.value === ""){
-                        // if no checkbox is selected, throw error message and don't sumbit form
-                        alert('Please ensure a number of drinks is filled out.');
-                        return false;
                 }
 
                 // STORE VALUES OF ADDITIONAL WELLNESS AND WORKOUT INPUTS AND PASS TO BACKEND VIA HIDDEN HTML ELEMENT
