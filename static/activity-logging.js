@@ -302,51 +302,24 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // Helper function to create new workout input
         function handleNewWorkoutClick(){
-                // call new div function for workout selection drop down
-                let newWorkoutSelection = createNewDiv(`newWorkoutSelection${workoutCount}`, "mb-3", "");
-                // call new selection function for workout selection drop down
-                let additionalWorkoutSelection = createSelectElement(`additionalWorkoutSelection${workoutCount}`, `additionalWorkoutSelection${workoutCount}`, "form-select mx-auto w-auto", workoutOptions);
+                // array of elements to create for new workout selection
+                const workouts = [
+                        { divIdName: `newWorkoutSelection${workoutCount}`, divClassName: "mb-3", divStyle: "", selectElementName: "additionalWorkoutSelection", selectionIdName: `additionalWorkoutSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  workoutOptions },
+                        { divIdName: `newClassSelection${workoutCount}`, divClassName: "mb-3", divStyle: "none", selectElementName: "additionalClassSelection", selectionIdName: `additionalClassSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  classOptions },
+                        { divIdName: `newSportSelection${workoutCount}`, divClassName: "mb-3", divStyle: "none", selectElementName: "additionalSportSelection", selectionIdName: `additionalSportSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  sportOptions },
+                        { divIdName: `newExtremeSportSelection${workoutCount}`, divClassName: "mb-3", divStyle: "none", selectElementName: "additionalExtremeSportSelection", selectionIdName: `additionalExtremeSportSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  extremeSportOptions }
+                ];
 
-                // append select element to new div element
-                newWorkoutSelection.appendChild(additionalWorkoutSelection);
-                // Append Div to Workout Container div
-                workoutsContainer.appendChild(newWorkoutSelection);
+                // loop through array of elements to create
+                for (const workout of workouts) {
+                        let divElement = createNewDiv(workout.divIdName, workout.divClassName, workout.divStyle); // call new div function
+                        let selectionElement = createSelectElement(workout.selectionIdName, workout.selectionIdName, workout.className, workout.options)
 
-                // call new div function for Class selection drop down
-                let newClassSelection = createNewDiv(`newClassSelection${workoutCount}`, "mb-3", "none");
-                // call new selection function for class selection drop down
-                let additionalClassSelection = createSelectElement(`additionalClassSelection${workoutCount}`, `additionalClassSelection${workoutCount}`, "form-select mx-auto w-auto", classOptions);
-
-                // append select element to new div element
-                newClassSelection.appendChild(additionalClassSelection);
-                // Append Div to Workout Container div
-                workoutsContainer.appendChild(newClassSelection);
-
-                // call new div function for Sport selection drop down
-                let newSportSelection = createNewDiv(`newSportSelection${workoutCount}`, "mb-3", "none");
-                // call new selection function for Sport selection drop down
-                let additionalSportSelection = createSelectElement(`additionalSportSelection${workoutCount}`, `additionalSportSelection${workoutCount}`, "form-select mx-auto w-auto", sportOptions);
-
-                // append select element to new div element
-                newSportSelection.appendChild(additionalSportSelection);
-                // Append Div to Workout Container div
-                workoutsContainer.appendChild(newSportSelection);
-
-                // call new div function for Sport selection drop down
-                let newExtremeSportSelection = createNewDiv(`newExtremeSportSelection${workoutCount}`, "mb-3", "none");
-                // call new selection function for Sport selection drop down
-                let additionalExtremeSportSelection = createSelectElement(`additionalExtremeSportSelection${workoutCount}`, `additionalExtremeSportSelection${workoutCount}`, "form-select mx-auto w-auto", extremeSportOptions);
-
-                // append select element to new div element
-                newExtremeSportSelection.appendChild(additionalExtremeSportSelection);
-                // Append Div to Workout Container div
-                workoutsContainer.appendChild(newExtremeSportSelection);
-
+                        divElement.appendChild(selectionElement); // append select element to new div element
+                        workoutsContainer.appendChild(divElement); // Append Div to Workout Container div
+                }
                 // Create new div for workout length field, intially hidden
-                let newWorkoutLength = document.createElement("div");
-                newWorkoutLength.id = "newWorkoutLength" + workoutCount;
-                newWorkoutLength.className = "mb-3";
-                newWorkoutLength.style.display = "none"
+                let newWorkoutLength = createNewDiv("newWorkoutLength" + workoutCount, "mb-3", "none");
 
                 // create new input element for workout length
                 let additionalWorkoutLength = document.createElement("input");
@@ -358,16 +331,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 additionalWorkoutLength.className = "form-control mx-auto w-auto";
                 additionalWorkoutLength.autocomplete = "off";
                 additionalWorkoutLength.min = "0";
-
-                // append select element to new div element
-                newWorkoutLength.appendChild(additionalWorkoutLength);
-                // Append Div to Workout Container div
-                workoutsContainer.appendChild(newWorkoutLength);
+                
+                newWorkoutLength.appendChild(additionalWorkoutLength); // append select element to new div element
+                workoutsContainer.appendChild(newWorkoutLength); // Append Div to Workout Container div
 
                 // Create new div for workout length field, intially hidden
-                let newRemoveButton = document.createElement("div");
-                newRemoveButton.className = "mb-3";
-                newRemoveButton.id = "remove_workout" + workoutCount;
+                let newRemoveButton = createNewDiv("remove_workout" + workoutCount, "mb-3", "");
 
                 // create new remove button element
                 let additionalRemoveButton = document.createElement("a");
@@ -375,10 +344,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 additionalRemoveButton.name = "additionalRemoveButton" + workoutCount;
                 additionalRemoveButton.innerText = 'Remove Workout';
 
-                // append select element to new div element
-                newRemoveButton.appendChild(additionalRemoveButton);
-                // Append Div to Workout Container div
-                workoutsContainer.appendChild(newRemoveButton);
+                newRemoveButton.appendChild(additionalRemoveButton); // append select element to new div element
+                workoutsContainer.appendChild(newRemoveButton); // Append Div to Workout Container div
 
                 // Add to workout counter
                 workoutCount++;
@@ -400,10 +367,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 // Append Div to Workout Container div
                 wellnessContainer.appendChild(newWellnessSelection);
 
-                // Create new div for workout length field, intially hidden
-                let newRemoveWellnessButton = document.createElement("div");
-                newRemoveWellnessButton.className = "mb-3";
-                newRemoveWellnessButton.id = "remove_wellness_activity" + wellnessCount;
+                // Create new div for remove wellness item hyperlink
+                let newRemoveWellnessButton = createNewDiv("remove_wellness_activity" + wellnessCount, "mb-3", "");
 
                 // create new remove button element
                 let additionalRemoveWellnessButton = document.createElement("a");
