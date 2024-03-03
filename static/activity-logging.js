@@ -1,4 +1,5 @@
-import { validateYNField } from './yes-no.js';
+import { validateYNField } from './helpers.js';
+import { validateFieldEntry } from './helpers.js';
 
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
@@ -384,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         // PERFORM FIELD VALIDATIONS ON FORM SUBMISSION
         // fucnction that is called on form submission to perform validations
-        function validateForm() {     
+        function validateForm() {    
                 // store array of fields Y/N fields to validate, storing yes checkbox, no checkbox, and field name for error message
                 const validationFields = [
                         { checkbox: thirtyMinCheckbox, errorMessage: "30 min activity", negativeCheckbox: thirtyMinCheckboxNo },
@@ -404,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         return false;
                 }
 
-                // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WORKOUTS
+                // FIELD VALIDATIONS FOR DYNAMICALLY ADDED WORKOUTS AND WELLNESS ACTIVITIES
                 // select all the dynamically created Workout Type drop down elements
                 const selectWorkoutTypeElements = document.querySelectorAll('select[name^="additionalWorkoutSelection"]');
                 // select all the dynamically created Workout Class Type drop down elements
@@ -416,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 // select all the dynamically created Workout Length input elements
                 const selectWorkoutLengthElements = document.querySelectorAll('input[name^="additionalWorkoutLengthMin"]');
 
-                // If at least one workout has been logged
+                // If at least one workout OR wellness activity has been logged
                 if (selectWorkoutTypeElements.length > 0){
                         // iterate through each workout element and check to validate all drop downs are populated
                         for (let i = 0; i < selectWorkoutTypeElements.length; i++) {
@@ -431,14 +432,9 @@ document.addEventListener('DOMContentLoaded', function(){
                                         { condition: drinkCheckbox.checked && drinksEntry.value === "", message: 'Please ensure a number of drinks is filled out.' }
                                 ];
 
-                                // loop through array of validations
-                                for (const validation of validations) {
-                                        // if condition of current validation is true
-                                        if (validation.condition) {
-                                                // trigger alert message to user
-                                                alert(validation.message);
-                                                return false; // break validation check function
-                                        }
+                                // Call field validation helper function to loop through validation checks, alert if condition found
+                                if (!validateFieldEntry(validations)) {
+                                        return false; // If validation fails, prevent form submission
                                 }
                         }
                 }
@@ -449,10 +445,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 //iterate through list of additional wellness selections that have been dynamically added
                 for (let i = 0; i < selectWellnessElements.length; i++) {
-                        // If dynamically added wellness type isn't selected 
-                        if (selectWellnessElements[i].value === ""){
-                                alert('Please ensure a wellness type is selected.');
-                                return false;
+                        // array for validation check and message for wellness activity
+                        const validations = [ { condition: selectWellnessElements[i].value === "", message: 'Please ensure a wellness type is selected.' }];
+                        // Call field validation helper function to loop through validation checks, alert if condition found
+                        if (!validateFieldEntry(validations)) {
+                                return false; // If validation fails, prevent form submission
                         }
                 }
 

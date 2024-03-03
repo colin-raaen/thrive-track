@@ -1,4 +1,5 @@
-import { validateYNField } from './yes-no.js';
+import { validateYNField } from './helpers.js';
+import { validateFieldEntry } from './helpers.js';
 
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
@@ -13,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function(){
         const wakeUpEarlyTimeRow = document.getElementById("wakeUpEarlyHiddenRow");
         const wakeUpEarlyYesCheckbox = document.getElementById("earlier-yes");
         const wakeUpEarlyNoCheckbox = document.getElementById("earlier-no");
+        const wakeUpEarlyHour = document.getElementById("wakeUpEarlyHour");
+        const wakeUpEarlyMin = document.getElementById("wakeUpEarlyMin");
         const timesWokenUpInput = document.getElementById("timesWokenUp");
         const timesWokenUpRow = document.getElementById("awokenTimeHiddenRow");
         const timeAwokenHourInput = document.getElementById("timeAwokenHour");
@@ -112,18 +115,14 @@ document.addEventListener('DOMContentLoaded', function(){
                         { condition: timesWokenUpInput.value === "", message: 'Please ensure the number of times woken up is filled out.' },
                         { condition: timesWokenUpInput.value > 0 && timeAwokenHourInput.value === "" && timeAwokenMinInput.value === "", message: 'Please ensure the amount of time woken up is filled out.' },
                         { condition: finalAwakeningInput.value === "", message: 'Please ensure the time of final awakening is filled out.' },
+                        { condition: wakeUpEarlyYesCheckbox.checked && wakeUpEarlyHour.value === "" && wakeUpEarlyMin.value === "", message: 'Please ensure the amount of time woken up early is filled out.'},
                         { condition: timeOutOfBedInput.value === "", message: 'Please ensure the time you got out of bed is filled out.' },
                         { condition: sleepRatingInput.value === "defaultSleepRating", message: 'Please ensure you rate your sleep quality.' }
                 ];
-                    
-                // loop through array of validations
-                for (const validation of validations) {
-                        // if condition of current validation is true
-                        if (validation.condition) {
-                                // trigger alert message to user
-                                alert(validation.message);
-                                return false; // break validation check function
-                        }
+
+                // Call field validation helper function to loop through validation checks, alert if condition found
+                if (!validateFieldEntry(validations)) {
+                        return false; // If validation fails, prevent form submission
                 }
 
                 // If time to sleep hour or min is input, and other value is null, populate with 0
@@ -213,11 +212,12 @@ document.addEventListener('DOMContentLoaded', function(){
                                 inBedDateTime.setDate(inBedDateTime.getDate() + 1);
                                 console.log(inBedDateTime);
                         }
-                        // check if time in bed is earlier than sleep attempt
-                        if (sleepAttemptDateObject < inBedDateTime) {
-                                // throw error message and don't sumbit form
-                                alert('Please ensure the time in bed is earlier than time attempt to sleep');
-                                return false;
+
+                        // array or validations checks on form submission and error messages to throw if true
+                        const validations = [ { condition: sleepAttemptDateObject < inBedDateTime, message: 'Please ensure the time in bed is earlier than time attempt to sleep' } ];
+                        // Call field validation helper function to loop through validation checks, alert if condition found
+                        if (!validateFieldEntry(validations)) {
+                                return false; // If validation fails, prevent form submission
                         }
                 } catch (error){
                         console.log(error);
@@ -283,11 +283,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 // define Time out of Bed Date Object
                 let outOfBedDateTime = new Date(stagedOutOfBedTime); // create new date Object and store values
                 console.log(outOfBedDateTime);
-                // if time out of bed is earlier than final awakening
-                if (outOfBedDateTime < finalAwakeningDateTime) {
-                    // throw error message and don't sumbit form
-                    alert('Please ensure the time out of bed is later than final time woken up');
-                    return false;
+
+                // array or validations checks on form submission and error messages to throw if true
+                const wakeUpCheck = [ { condition: outOfBedDateTime < finalAwakeningDateTime, message: 'Please ensure the time out of bed is later than final time woken up' } ];
+                // Call field validation helper function to loop through validation checks, alert if condition found
+                if (!validateFieldEntry(wakeUpCheck)) {
+                        return false; // If validation fails, prevent form submission
                 }
             
                 // CONTINUING HOURS SLEPT CALCUATION
