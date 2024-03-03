@@ -185,47 +185,44 @@ document.addEventListener('DOMContentLoaded', function(){
         // JAVASCRIPT TO SHOW/HIDE ADDITIONAL DROP DOWNS FIELDS DEPENDING ON WORKOUT TYPE SELECTED
         // Listen for changes on the entire Activity entry form
         document.querySelector('form').addEventListener('change', function(event) {
-                // Check if an additional workout selection element was changed and update styles accordingly
-                let additionalWorkoutSelectionLists = document.querySelectorAll('[id^="additionalWorkoutSelection"]');
-                // for loop to identify which WORKOUT drop down list was changed
-                for (let i = 0; i < additionalWorkoutSelectionLists.length; i++) {
+                const changeElement = event.target.id; // store id of element that was changed
+                // if id of event that was changed is a workout drop down list
+                if (changeElement.includes("additionalWorkoutSelection")){
                         // extract the number value from the button's name attribute using a regular expression
-                        let index = additionalWorkoutSelectionLists[i].name.match(/\d+/)[0];
+                        let index = event.target.name.match(/\d+/)[0];
 
-                        // Initializing variables to capture dynamically created fields for showing/hiding
-                        const newClassSelectionDiv = document.getElementById("newClassSelection" + index);
-                        const newSportSelectionDiv = document.getElementById("newSportSelection" + index);
-                        const newExtremeSportSelectionDiv = document.getElementById("newExtremeSportSelection" + index);
-                        const newWorkoutLengthDiv = document.getElementById("newWorkoutLength" + index);
+                        // array of element prefixes to loop through
+                        const elementPrefixes = ["ClassSelection", "SportSelection", "ExtremeSportSelection", "WorkoutLengthMin"];
+                        // get and stroe each HTML element of element prefixes
+                        const elements = elementPrefixes.map(prefix => document.getElementById(`additional${prefix}${index}`));
 
-                        // Initializing variables to capture dynamically created drop down fields for resetting
-                        const additionalClassSelection = document.getElementById("additionalClassSelection" + index);
-                        const additionalSportSelection = document.getElementById("additionalSportSelection" + index);
-                        const additionalExtremeSportSelection = document.getElementById("additionalExtremeSportSelection" + index);
-                        const additionalWorkoutLength = document.getElementById("additionalWorkoutLengthMin" + index);
+                        // Loop through each element to set values back to default values if workout type changes
+                        elements.forEach(element => {
+                                // if drop down menu
+                                if (element.tagName === 'SELECT') {
+                                        element.selectedIndex = 0; // set to first value
+                                // else if input field
+                                } else if (element.tagName === 'INPUT') {
+                                        element.value = null; // set to null
+                                }
+                        });
 
-                        // Check if additional workout drop down element were changed and add fields and set default values accordingly
-                        if (event.target === additionalWorkoutSelectionLists[i]) {
-                                // Set values back to default values if workout type changes
-                                additionalClassSelection.selectedIndex = 0;
-                                additionalSportSelection.selectedIndex = 0;
-                                additionalExtremeSportSelection.selectedIndex = 0;
-                                additionalWorkoutLength.value = null;
-
-                                // if workout class type selected show Class options, if not selected then hide
-                                newClassSelectionDiv.style.display = event.target.value === 'class' ? 'block' : 'none';
-
-                                // if sport type selected show sport options, if not selected then hide
-                                newSportSelectionDiv.style.display = event.target.value === 'sport' ? 'block' : 'none';
-
-                                // if extreme sport type selected show extreme sport options, if not selected then hide
-                                newExtremeSportSelectionDiv.style.display = event.target.value === 'extreme_sport' ? 'block' : 'none';
-
-                                // Show workout length when any workout type is selected, if not selected then hide
-                                newWorkoutLengthDiv.style.display = event.target.value !== null ? 'block' : 'none';
-
-                                break;
+                        // array of prefixes additional drop down lists to loop through
+                        const typePrefixes = [
+                                { type: "Class", value: "class" }, { type: "Sport", value: "sport" }, 
+                                { type: "ExtremeSport", value: "extreme_sport" } 
+                        ];
+                        
+                        // loop through each drop down list
+                        for (const type of typePrefixes) {
+                                // get and store each HTML element of type prefixes
+                                const element = document.getElementById(`new${type.type}Selection${index}`);
+                                // ternary statement, if workout dropdown value equals class, sport or extremesport, show dropdown
+                                element.style.display = event.target.value === type.value ? 'block' : 'none';
                         }
+                        // Show workout length when any workout type is selected, if not selected then hide
+                        const newWorkoutLengthDiv = document.getElementById(`newWorkoutLength${index}`);
+                        newWorkoutLengthDiv.style.display = event.target.value ? 'block' : 'none';
                 }
         });
 
@@ -303,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function(){
         // Helper function to create new workout input
         function handleNewWorkoutClick(){
                 // array of elements to create for new workout selection
-                const workouts = [
+                const workoutElements = [
                         { divIdName: `newWorkoutSelection${workoutCount}`, divClassName: "mb-3", divStyle: "", selectElementName: "additionalWorkoutSelection", selectionIdName: `additionalWorkoutSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  workoutOptions },
                         { divIdName: `newClassSelection${workoutCount}`, divClassName: "mb-3", divStyle: "none", selectElementName: "additionalClassSelection", selectionIdName: `additionalClassSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  classOptions },
                         { divIdName: `newSportSelection${workoutCount}`, divClassName: "mb-3", divStyle: "none", selectElementName: "additionalSportSelection", selectionIdName: `additionalSportSelection${workoutCount}`, className: "form-select mx-auto w-auto", options:  sportOptions },
@@ -311,9 +308,9 @@ document.addEventListener('DOMContentLoaded', function(){
                 ];
 
                 // loop through array of elements to create
-                for (const workout of workouts) {
-                        let divElement = createNewDiv(workout.divIdName, workout.divClassName, workout.divStyle); // call new div function
-                        let selectionElement = createSelectElement(workout.selectionIdName, workout.selectionIdName, workout.className, workout.options)
+                for (const element of workoutElements) {
+                        let divElement = createNewDiv(element.divIdName, element.divClassName, element.divStyle); // call new div function
+                        let selectionElement = createSelectElement(element.selectionIdName, element.selectionIdName, element.className, element.options)
 
                         divElement.appendChild(selectionElement); // append select element to new div element
                         workoutsContainer.appendChild(divElement); // Append Div to Workout Container div
