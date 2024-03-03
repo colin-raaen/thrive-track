@@ -8,6 +8,22 @@ export function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
         return true; //passed validation
 };
 
+// Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
+export function validateFieldEntry(validations) {
+        console.log("validateFieldEntry function called");
+        console.log(validations);
+        // loop through array of validations
+        for (const validation of validations) {
+                // if condition of current validation is true
+                if (validation.condition) {
+                        // trigger alert message to user
+                        alert(validation.message);
+                        return false; // break validation check function
+                }
+        }
+        return true; // else return true
+}
+
 //Let forms load first before executing
 document.addEventListener('DOMContentLoaded', function(){
         
