@@ -157,31 +157,23 @@ document.addEventListener('DOMContentLoaded', function(){
                 // Convert Min and Hour inputs to int's or to 0 if there is no input
                 let timeToSleepMinIntValue = parseInt(timeToSleepInputMin.value);
                 let timeToSleepHourIntValue = parseInt(timeToSleepInputHour.value);
-                console.log(timeToSleepMinIntValue);
-                console.log(timeToSleepHourIntValue);
 
                 // Create new date object and store value of Date Input into Date object
                 let selectedDate = new Date(sleepDateInput.value);
                 // ignore the timezone offset and work with date as is, using locale String method, returns date string in Eastern Time Zone format
                 let utcDateString = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                console.log(utcDateString);
 
                 // Combine date input with time input and convert to Date object for calcuations
                 let combinedDateTime = utcDateString + " " + sleepAttemptInput.value;
-                console.log(combinedDateTime);
                 let sleepAttemptDateObject = new Date(combinedDateTime);
-                console.log(sleepAttemptDateObject);
 
                 //variable to check if Sleep attempt is AM or PM
                 let sleepAttemptCheck = sleepAttemptDateObject.getHours();
-                console.log(sleepAttemptCheck);
 
                 // if Sleep attempt is in the AM, then add day to date object
                 if (0 <= sleepAttemptCheck && sleepAttemptCheck < 12){
                         sleepAttemptDateObject.setDate(sleepAttemptDateObject.getDate() + 1);
-                        console.log("test 1");
                 }
-                console.log(sleepAttemptDateObject);
 
                 //SPLICING FIELD VALIDATION TO ENSURE TIME IN BED IS EARLIER THAN SLEEP ATTEMPT
                 try {
@@ -193,13 +185,15 @@ document.addEventListener('DOMContentLoaded', function(){
                         let inBedDateTime;
                         // if time in bed is PM
                         if (12 <= timeInBedCheck && timeInBedCheck < 24){
+                                inBedDateTime = dateTimeHelper(selectedDate, timeInBedInput.value);
+                                console.log("inBedDateTime: " + inBedDateTime);
                                 // Returns string in Eastern Time Zone format to offset timezone
-                                let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
+                                //let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
                                 // Stage date and time of awakening          
-                                let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
+                                //let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
                                 // define Time out of Bed Date Object
-                                inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
-                                console.log(inBedDateTime);
+                                //inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
+                                //console.log("inBedDateTime: " + inBedDateTime);
                         }
                         else if (timeInBedCheck < 12) { //time in bed is AM
                                 // Returns string in Eastern Time Zone format to offset timezone
@@ -253,13 +247,14 @@ document.addEventListener('DOMContentLoaded', function(){
                         console.log("AM Test 1");
                         console.log(finalAwakeningDateTime);
                 }
-                //else is time asleep is PM and final awakening is PM use same day for final awakening
+                //else if time asleep is PM and final awakening is PM use same day for final awakening
                 else if (12 <= finalTimeAsleepCheck && finalTimeAsleepCheck < 24 && 12 <= finalAwakeningCheck && finalAwakeningCheck < 24){
                         // Returns string in Eastern Time Zone format to offset timezone
                         let finalAwakeningDateString = sleepAttemptPlusTimeToSleep.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
                         // Stage date and time of awakening              
                         let stagedFinalAwakening = finalAwakeningDateString + " " + finalAwakeningInput.value;
                         finalAwakeningDateTime = new Date(stagedFinalAwakening); // create new date Object and store values
+
                         console.log("PM Test 2");
                         console.log(finalAwakeningDateTime);
                 }
@@ -354,5 +349,19 @@ document.addEventListener('DOMContentLoaded', function(){
                 }       
         } //close brackets on validateform function
         // Call function on activity form submission
-        document.getElementById('sleep-form').onsubmit = validateForm;        
+        document.getElementById('sleep-form').onsubmit = validateForm;  
+        
+        function dateTimeHelper(date, time){
+                // Returns string in Eastern Time Zone format to offset timezone
+                let formattedDate = date.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
+                //let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
+
+                // Stage date and time of awakening     
+                let finalDateTime = formattedDate + " " + time;     
+                //let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
+
+                // define Time out of Bed Date Object
+                return new Date(finalDateTime); // create new date Object and store values
+                //return new Date(stagedInBedTime); // create new date Object and store values
+        }
 });
