@@ -160,13 +160,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 // Create new date object and store value of Date Input into Date object
                 let selectedDate = new Date(sleepDateInput.value);
-                // ignore the timezone offset and work with date as is, using locale String method, returns date string in Eastern Time Zone format
-                let utcDateString = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-
-                // Combine date input with time input and convert to Date object for calcuations
-                let combinedDateTime = utcDateString + " " + sleepAttemptInput.value;
-                let sleepAttemptDateObject = new Date(combinedDateTime);
-
+                // call function to store new values in a date time object
+                let sleepAttemptDateObject = dateTimeHelper(selectedDate, sleepAttemptInput.value);
                 //variable to check if Sleep attempt is AM or PM
                 let sleepAttemptCheck = sleepAttemptDateObject.getHours();
 
@@ -187,29 +182,11 @@ document.addEventListener('DOMContentLoaded', function(){
                         if (12 <= timeInBedCheck && timeInBedCheck < 24){
                                 // call function to store new values in a date time object
                                 inBedDateTime = dateTimeHelper(selectedDate, timeInBedInput.value);
-                                console.log("inBedDateTime: " + inBedDateTime);
-                                // Returns string in Eastern Time Zone format to offset timezone
-                                //let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                                // Stage date and time of awakening          
-                                //let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
-                                // define Time out of Bed Date Object
-                                //inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
-                                //console.log("inBedDateTime: " + inBedDateTime);
                         }
                         else if (timeInBedCheck < 12) { //time in bed is AM
                                 // call function to store new values in a date time object
                                 inBedDateTime = dateTimeHelper(selectedDate, timeInBedInput.value);
-                                console.log("inBedDateTime: " + inBedDateTime);
-                                // Returns string in Eastern Time Zone format to offset timezone
-                                //let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                                // Stage date and time of awakening          
-                                //let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
-                                // define Time out of Bed Date Object
-                                //inBedDateTime = new Date(stagedInBedTime); // create new date Object and store values
-                                //console.log("inBedDateTime: " + inBedDateTime);
-                                // add day to Date Time object
                                 inBedDateTime.setDate(inBedDateTime.getDate() + 1);
-                                console.log("inBedDateTime after addition: " + inBedDateTime);
                         }
 
                         // array or validations checks on form submission and error messages to throw if true
@@ -226,17 +203,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 // Add time to fall asleep to time attempted to sleep to get time actually fell asleep
                 // Create new Date Object and add minutes (milliseconds * 60000) and hours 
                 let sleepAttemptPlusTimeToSleep = new Date(sleepAttemptDateObject.getTime() + (timeToSleepMinIntValue * 60000) + (timeToSleepHourIntValue * 3600000)); 
-                console.log(sleepAttemptPlusTimeToSleep);
 
                 // Split the string by the ":" character
                 let finalAwakeningSplit = (finalAwakeningInput.value).split(":");
                 // Extract the first two digits (hours) and store them in a variable
                 let finalAwakeningCheck = parseInt(finalAwakeningSplit[0].trim());
-                console.log(finalAwakeningCheck);
 
                 //variable to check if final time asleep is AM or PM
                 let finalTimeAsleepCheck = sleepAttemptPlusTimeToSleep.getHours();
-                console.log(finalTimeAsleepCheck);
 
                 // define Final Awakening Date Object
                 let finalAwakeningDateTime;
@@ -246,48 +220,21 @@ document.addEventListener('DOMContentLoaded', function(){
                 if (finalTimeAsleepCheck < 12){
                         // call function to store new values in a date time object
                         finalAwakeningDateTime = dateTimeHelper(sleepAttemptPlusTimeToSleep, finalAwakeningInput.value);
-                        // Returns string in Eastern Time Zone format to offset timezone
-                        //let finalAwakeningDateString = sleepAttemptPlusTimeToSleep.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                        // Stage date and time of awakening              
-                        //let stagedFinalAwakening = finalAwakeningDateString + " " + finalAwakeningInput.value;
-                        //finalAwakeningDateTime = new Date(stagedFinalAwakening); // create new date Object and store values
-                        console.log("AM Test 1");
-                        console.log("finalAwakeningDateTime: " + finalAwakeningDateTime);
                 }
                 //else if time asleep is PM and final awakening is PM use same day for final awakening
                 else if (12 <= finalTimeAsleepCheck && finalTimeAsleepCheck < 24 && 12 <= finalAwakeningCheck && finalAwakeningCheck < 24){
                         // call function to store new values in a date time object
                         finalAwakeningDateTime = dateTimeHelper(sleepAttemptPlusTimeToSleep, finalAwakeningInput.value);
-                        console.log("finalAwakeningDateTime: " + finalAwakeningDateTime);
-                        // Returns string in Eastern Time Zone format to offset timezone
-                        let finalAwakeningDateString = sleepAttemptPlusTimeToSleep.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                        // Stage date and time of awakening              
-                        let stagedFinalAwakening = finalAwakeningDateString + " " + finalAwakeningInput.value;
-                        finalAwakeningDateTime = new Date(stagedFinalAwakening); // create new date Object and store values
-
-                        console.log("PM Test 2");
-                        console.log("finalAwakeningDateTime: " + finalAwakeningDateTime);
                 }
                 else { //Time asleep is PM and final awakening is AM
-                        // Returns string in Eastern Time Zone format to offset timezone
-                        let finalAwakeningDateString = sleepAttemptPlusTimeToSleep.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                        // Stage date and time of awakening              
-                        let stagedFinalAwakening = finalAwakeningDateString + " " + finalAwakeningInput.value;
-                        finalAwakeningDateTime = new Date(stagedFinalAwakening); // create new date Object and store values
-                        // Add day to Date Time object, different days
+                        // call function to store new values in a date time object
+                        finalAwakeningDateTime = dateTimeHelper(sleepAttemptPlusTimeToSleep, finalAwakeningInput.value);
                         finalAwakeningDateTime.setDate(finalAwakeningDateTime.getDate() + 1);
-                        console.log("PM Test 3");
-                        console.log(finalAwakeningDateTime);
                 }
                 
                 // SPLICING IN FIELD VALIDATION TO ENSURE TIME OUT OF BED IS LATER THAN TIME WOKEN UP
-                // Returns string in Eastern Time Zone format to offset timezone
-                let outOfBedDateString = finalAwakeningDateTime.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                // Stage date and time of awakening          
-                let stagedOutOfBedTime = outOfBedDateString + " " + timeOutOfBedInput.value;
-                // define Time out of Bed Date Object
-                let outOfBedDateTime = new Date(stagedOutOfBedTime); // create new date Object and store values
-                console.log(outOfBedDateTime);
+                // call function to store new values in a date time object
+                let outOfBedDateTime = dateTimeHelper(finalAwakeningDateTime, timeOutOfBedInput.value);
 
                 // array or validations checks on form submission and error messages to throw if true
                 const wakeUpCheck = [ { condition: outOfBedDateTime < finalAwakeningDateTime, message: 'Please ensure the time out of bed is later than final time woken up' } ];
@@ -299,15 +246,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 // CONTINUING HOURS SLEPT CALCUATION
                 // variable to store time difference between final awakening and time asleep
                 let timeDiff = 0;
-                console.log(finalAwakeningDateTime.toDateString() + "Final awakening");
-                console.log(sleepAttemptPlusTimeToSleep.toDateString() + "Sleep attempt plust time to sleep");
                 // Check if final awakening is on the same day as actual time fell asleep
                 if (finalAwakeningDateTime.toDateString() === sleepAttemptPlusTimeToSleep.toDateString()) {
-                        console.log("Test: Same Day");
                         // Same day, calculate the time difference normally
                         timeDiff = finalAwakeningDateTime.getTime() - sleepAttemptPlusTimeToSleep.getTime();
                 } else {
-                        console.log("Test: Different Day");
                         // Different days, calculate the time difference accounting for the day change
                         let midnight = new Date(sleepAttemptPlusTimeToSleep.getFullYear(), sleepAttemptPlusTimeToSleep.getMonth(), sleepAttemptPlusTimeToSleep.getDate() + 1, 0, 0, 0);
                         timeDiff = (midnight.getTime() - sleepAttemptPlusTimeToSleep.getTime()) + (finalAwakeningDateTime.getTime() - midnight.getTime());
@@ -315,9 +258,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 // Convert the time difference to hours and minutes
                 let hoursDiff = timeDiff / (1000 * 60 * 60);
-                console.log(hoursDiff);
                 let minutesdiff = hoursDiff * 60;
-                console.log(minutesdiff);
 
                 // subtract amount of time woken up
                 // Convert Min and Hour inputs to int's
@@ -326,10 +267,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 //Convert Hours to Min
                 timeAwokenMinInt += timeAwokenpHourInt * 60;
-                console.log(timeAwokenMinInt);
-
+                // subtract time awoken from minutesdiff
                 let finalAmountTimeSlept = minutesdiff - timeAwokenMinInt;
-                console.log(finalAmountTimeSlept);
 
                 // if less than 5 hours of sleep, trigger warning message
                 if (finalAmountTimeSlept <= 300){
@@ -364,14 +303,9 @@ document.addEventListener('DOMContentLoaded', function(){
         function dateTimeHelper(date, time){
                 // Returns string in Eastern Time Zone format to offset timezone
                 let formattedDate = date.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-                //let timeInBedtring = selectedDate.toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "short" });
-
                 // Stage date and time of awakening     
                 let finalDateTime = formattedDate + " " + time;     
-                //let stagedInBedTime = timeInBedtring + " " + timeInBedInput.value;
-
                 // define Time out of Bed Date Object
                 return new Date(finalDateTime); // create new date Object and store values
-                //return new Date(stagedInBedTime); // create new date Object and store values
         }
 });
