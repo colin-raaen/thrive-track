@@ -24,20 +24,20 @@
         <div class="container table-container table-responsive">
             <table class="table table-borderless" id="questions-table">
                 <tr>
-                    <th></th>
-                    <th class="yes-no-header">Yes</th>
-                    <th class="yes-no-header">No</th>
+                    <th class="question-header"></th>
+                    <th class="yes-no-td">Yes</th>
+                    <th class="yes-no-td">No</th>
                   </tr>
                 <!-- Nap or doze -->
                 <tr data-row-number="1">
-                    <td class="sleep-question-cell" align="left"><label for="30min">Did you nap or doze on this date?</label></td>
+                    <td class="question-header" align="left"><label for="30min">Did you nap or doze on this date?</label></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="nap-yes" name="nap-yes" 
                         value="1" data-associated-checkbox="nap-no"></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="nap-no" name="nap-no" value="0"></td>
                 </tr>
                 <!-- Hidden nap time table row -->
                 <tr id="napTimeHiddenRow" style="display: none;">
-                    <td class="sleep-question-cell" align="left"><label for="napQuestion">How long did you nap for?</label></td>
+                    <td class="question-header" align="left"><label for="napQuestion">How long did you nap for?</label></td>
                     <td class="sleep-input-cell"><input autocomplete="off" class="form-control mx-auto" min="0" 
                                 id="napTimeHour" name="napTimeHour" placeholder="Hours" type="number"></td>
                     <td class="sleep-input-cell"><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
@@ -46,55 +46,55 @@
 
                 <!-- What time did you go to bed input-->
                 <tr>
-                    <td align="left"><label for="sleepQuestionOne">What time did you get into bed?</label></td>
-                    <td></td>
-                    <td><input autocomplete="off" class="form-control mx-auto w-auto" id="bedTime" name="bedTime" type="time"></td>
+                    <td class="question-header" align="left"><label for="sleepQuestionOne">What time did you get into bed?</label></td>
+                    <td class="yes-no-td"></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto w-auto" id="bedTime" name="bedTime" type="time"></td>
                 </tr>
                 <!-- What time did you go try to fall asleep-->
                 <tr>
-                    <td align="left"><label for="sleepQuestionTwo">What time did you try to fall asleep?</label></td>
-                    <td></td>
-                    <td><input autocomplete="off" class="form-control mx-auto w-auto" id="sleepAttempt" name="sleepAttempt" 
+                    <td class="question-header" align="left"><label for="sleepQuestionTwo">What time did you try to fall asleep?</label></td>
+                    <td class="yes-no-td"></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto w-auto" id="sleepAttempt" name="sleepAttempt" 
                         type="time"></td>
                 </tr>
                 <!-- How long did it take you to fall asleep-->
                 <tr>
-                    <td align="left"><label for="sleepQuestionThree">How long did it take you to fall asleep?</label></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" 
+                    <td class="question-header" align="left"><label for="sleepQuestionThree">How long did it take you to fall asleep?</label></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" 
                                 id="timeToSleepHour" name="timeToSleepHour" placeholder="Hours" type="number"></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
                         id="timeToSleepMin" name="timeToSleepMin" placeholder="Minutes" type="number"></td>
                 </tr>
                 <!-- How many times did you wake up -->
                 <tr>
-                    <td align="left"><label for="sleepQuestionFour">How many times did you wake up?</label></td>
-                    <td></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" id="timesWokenUp" 
+                    <td class="question-header" align="left"><label for="sleepQuestionFour">How many times did you wake up?</label></td>
+                    <td class="yes-no-td"></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" id="timesWokenUp" 
                                 name="timesWokenUp" placeholder="Number" type="number"></td>
                 </tr>
                 <!-- Hidden row, In total, how long did these awakenings last -->
                 <tr id="awokenTimeHiddenRow" style="display: none;">
-                    <td align="left"><label for="sleepQuestionTen">In total, how long did these awakenings last?</label></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" id="timeAwokenHour" 
+                    <td class="question-header" align="left"><label for="sleepQuestionTen">In total, how long did these awakenings last?</label></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" id="timeAwokenHour" 
                                 name="timeAwokenHour" placeholder="Hours" type="number"></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
                                 id="timeAwokenMin" name="timeAwokenMin" placeholder="Minutes" type="number"></td>
                 </tr>
                 <!-- What time was your final awakening? -->
                 <tr>
-                    <td align="left"><label for="sleepQuestionSix">What time was your final awakening in the morning?</label></td>
-                    <td></td>
-                    <td><input autocomplete="off" class="form-control mx-auto w-auto" id="finalAwakening" name="finalAwakening" 
+                    <td class="question-header" align="left"><label for="sleepQuestionSix">What time was your final awakening in the morning?</label></td>
+                    <td class="yes-no-td"></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto w-auto" id="finalAwakening" name="finalAwakening" 
                         type="time"></td>
                 </tr>
                 <!-- Wake up earlier than expected -->
                 <tr>
-                    <th></th>
-                    <th>Yes</th>
-                    <th>No</th>
+                    <th class="question-header"></th>
+                    <th class="yes-no-td">Yes</th>
+                    <th class="yes-no-td">No</th>
                 </tr>
                 <tr data-row-number="2">
-                    <td align="left"><label for="sleepQuestionEight">Did you wake up earlier than expected?</label></td>
+                    <td class="question-header" align="left"><label for="sleepQuestionEight">Did you wake up earlier than expected?</label></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="earlier-yes" name="earlier-yes" 
                         value="1" data-associated-checkbox="earlier-no"></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="earlier-no" name="earlier-no" 
@@ -103,25 +103,23 @@
 
                 <!-- Hidden wake up early time input -->
                 <tr id="wakeUpEarlyHiddenRow" style="display: none;">
-                    <td align="left"><label for="sleepQuestionTen">How much earlier did you wake up?</label></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" id="wakeUpEarlyHour" 
+                    <td class="question-header" align="left"><label for="sleepQuestionTen">How much earlier did you wake up?</label></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" id="wakeUpEarlyHour" 
                                 name="wakeUpEarlyHour" placeholder="Hours" type="number"></td>
-                    <td><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto" min="0" max="60" 
                         id="wakeUpEarlyMin" name="wakeUpEarlyMin" placeholder="Minutes" type="number"></td>
                 </tr>
 
                 <!-- What time did you get out of bed? -->
                 <tr>
-                    <td align="left"><label for="sleepQuestionSix">What time did you get out of bed for the day?</label></td>
-                    <td></td>
-                    <td><input autocomplete="off" class="form-control mx-auto w-auto" id="outOfBed" name="outOfBed" type="time"></td>
+                    <td class="question-header" align="left"><label for="sleepQuestionSix">What time did you get out of bed for the day?</label></td>
+                    <td class="yes-no-td"></td>
+                    <td class="yes-no-td"><input autocomplete="off" class="form-control mx-auto w-auto" id="outOfBed" name="outOfBed" type="time"></td>
                 </tr>
                 <!-- Quality of Sleep -->
                 <tr data-row-number="1">
-                    <td align="left"><label for="sleepQuestionNine">How would you rate the quality of your sleep?</label></td>
-                    <td>
-                        
-                    </td>
+                    <td class="question-header" align="left"><label for="sleepQuestionNine">How would you rate the quality of your sleep?</label></td>
+                    <td class="yes-no-td"></td>
                     <td class="yes-no-td">
                         <!-- Workout types drop down -->
                         <select class="form-select mx-auto" style="width: 150px;" name="rateSleep" id="rateSleep">
@@ -135,12 +133,12 @@
                     </td>
                 <!-- Travelling Y/N -->
                 <tr>
-                    <th></th>
-                    <th>Yes</th>
-                    <th>No</th>
+                    <th class="question-header"></th>
+                    <th class="yes-no-td">Yes</th>
+                    <th class="yes-no-td">No</th>
                 </tr>
                 <tr data-row-number="3">
-                    <td align="left"><label for="drink">Were you travelling or on a trip this day?</label></td>
+                    <td class="question-header" align="left"><label for="drink">Were you travelling or on a trip this day?</label></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="travel-yes" name="travel-yes" 
                         value="1" data-associated-checkbox="travel-no"></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="travel-no" name="travel-no" 

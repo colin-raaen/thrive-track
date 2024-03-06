@@ -23,20 +23,20 @@
             <table class="table table-borderless">
                 <tr>
                   <th class="question-header"></th>
-                  <th>Yes</th>
-                  <th>No</th>
+                  <th class="yes-no-td">Yes</th>
+                  <th class="yes-no-td">No</th>
                 </tr>
                 <!-- 30 minutes of activity Y/N -->
                 <tr data-row-number="1">
-                    <td><label for="30min">Did you complete 30 minutes of daily movement?</label></td>
+                    <td class="question-header"><label for="30min">Did you complete 30 minutes of daily movement?</label></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="thirtyMin-yes" name="thirtyMin-yes" value="1" data-associated-checkbox="thirtyMin-no"></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="thirtyMin-no" name="thirtyMin-no" value="0"></td>
                 </tr>
                 <!-- Workout completed Y/N -->
                 <tr data-row-number="2">
-                    <td><label for="workout">Did you complete a workout?</label></td>
+                    <td class="question-header"><label for="workout">Did you complete a workout?</label></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="workout-yes" name="workout-yes" value="1" data-associated-checkbox="workout-no"></td>
-                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="workout-no" name="workout-no" value="0"><br></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="workout-no" name="workout-no" value="0"></td>
                 </tr>
             </table>
         </div>
@@ -59,7 +59,7 @@
                 <tr data-row-number="3">
                     <td class="question-header"><label for="wellness">Did you participate in a wellness activity?</label></td>
                     <td class="yes-no-td"><input type="checkbox" class="YesNo" id="wellness-yes" name="wellness-yes" value="1" data-associated-checkbox="wellness-no"></td>
-                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="wellness-no" name="wellness-no" value="0"><br></td>
+                    <td class="yes-no-td"><input type="checkbox" class="YesNo" id="wellness-no" name="wellness-no" value="0"></td>
                 </tr>
             </table>
         </div>
