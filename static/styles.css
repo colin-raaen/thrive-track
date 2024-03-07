@@ -302,7 +302,7 @@ nav .navbar-brand .red{
     overflow-x: auto;
 }
 
-/* Font size of toggle between tabl */
+/* Font size of toggle between tables */
 .nav-link.history{
     font-size: 25px;
 }
@@ -375,5 +375,10 @@ td.hidden-history-column, td.hidden-wellness-type-column {
 @media only screen and (max-width: 767px) {
     .toggle-hyperlink{
         font-size: 20px;
+    }
+
+    /* Font size of toggle between tables */
+    .nav-link.history{
+        font-size: 14px;
     }
 }
