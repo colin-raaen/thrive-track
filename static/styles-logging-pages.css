@@ -40,6 +40,10 @@
   width: 15%;
 }
 
+.hidden-td{
+  display: none;
+}
+
 .form-control.mx-auto {
   width: 125px;
 }
