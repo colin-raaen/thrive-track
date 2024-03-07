@@ -88,10 +88,10 @@
     }
     
     .yes-no-td{
-        display: block;
-        width: 50%;
-        box-sizing: border-box;
-        float: left;
+      display: block;
+      width: 50%;
+      box-sizing: border-box;
+      float: left;
     }
 
     .form-control.mx-auto {

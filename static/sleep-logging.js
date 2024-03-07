@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function(){
                                 inBedDateTime.setDate(inBedDateTime.getDate() + 1);
                         }
 
-                        // array or validations checks on form submission and error messages to throw if true
+                        // array of validations checks on form submission and error messages to throw if true
                         const validations = [ { condition: sleepAttemptDateObject < inBedDateTime, message: 'Please ensure the time in bed is earlier than time attempt to sleep' } ];
                         // Call field validation helper function to loop through validation checks, alert if condition found
                         if (!validateFieldEntry(validations)) {
