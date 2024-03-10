@@ -40,10 +40,6 @@
   width: 15%;
 }
 
-.hidden-td{
-  display: none;
-}
-
 .form-control.mx-auto {
   width: 125px;
 }
@@ -94,6 +90,13 @@
     .yes-no-td{
       display: block;
       width: 50%;
+      box-sizing: border-box;
+      float: left;
+    }
+
+    .two-col-td{
+      display: block;
+      width: 100%;
       box-sizing: border-box;
       float: left;
     }

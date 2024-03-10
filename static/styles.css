@@ -218,13 +218,6 @@
         font-family: Salesforce Sans;
     }
 
-    /* Additional CSS for responsiveness */
-    @media (max-width: 768px) {
-        .legend-item {
-            margin-bottom: 10px;
-        }
-    }
-
     /* STYLING FOR SLEEP CHARTS */ 
     .sleep-charts-header {
         font-family: Salesforce Sans;
@@ -369,10 +362,14 @@ td.hidden-history-column, td.hidden-wellness-type-column {
 .text-box-description {
     width: 40%;
     margin-left: 20px; /* add some space between the form and text box */
-  }
+}
 
-  /* Mobile view formatting and styling */
+/* Mobile view formatting and styling */
 @media only screen and (max-width: 767px) {
+    .legend-item {
+        margin-bottom: 10px;
+    }
+
     .toggle-hyperlink{
         font-size: 20px;
     }
@@ -380,5 +377,26 @@ td.hidden-history-column, td.hidden-wellness-type-column {
     /* Font size of toggle between tables */
     .nav-link.history{
         font-size: 14px;
+    }
+
+    .chart-grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .chart-container-left {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 0;
+        padding-bottom: 30%; /* Used to fix formatting of "Falling Asleep" title overlap */
+    }
+
+    .chart-container-right {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 0;
+        padding-bottom: 30%; 
     }
 }
