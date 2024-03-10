@@ -6,6 +6,7 @@
 * Python <br>
 * SQLite3 <br>
 * Flask <br>
+* Jinja <br>
 * chart.js <br>
 * date-fns time adapter <br>
 * Bootstrap <br>
