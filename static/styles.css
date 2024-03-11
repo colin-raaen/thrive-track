@@ -379,6 +379,35 @@ td.hidden-history-column, td.hidden-wellness-type-column {
         font-size: 14px;
     }
 
+    /* styling for positioning workout emojis */
+    .workout-emoji-container {
+        font-size: 12px;
+        position: absolute;
+        top: 20px;
+        right: -5px;
+    }
+
+    /* styling for eating out emoji */
+    .eat-out-emoji-container {
+        font-size: 12px;
+        position: absolute;
+        top: 20px;
+        left: -5px;
+    }
+
+    /* styling for drink emoji */
+    .drink-emoji-container {
+        font-size: 12px;
+        position: absolute;
+        bottom: 20px;
+        left: -5px;
+    }  
+
+    /* Activity Stats row cell styles */
+    .activity-stats-row {
+        flex-direction: column;
+    }
+
     .chart-grid {
         display: flex;
         flex-wrap: wrap;
@@ -389,7 +418,7 @@ td.hidden-history-column, td.hidden-wellness-type-column {
         padding: 10px;
         box-sizing: border-box;
         height: 0;
-        padding-bottom: 30%; /* Used to fix formatting of "Falling Asleep" title overlap */
+        padding-bottom: 65%; /* provide spacing between graps to prevent overlap */
     }
 
     .chart-container-right {
@@ -397,6 +426,11 @@ td.hidden-history-column, td.hidden-wellness-type-column {
         padding: 10px;
         box-sizing: border-box;
         height: 0;
-        padding-bottom: 30%; 
+        padding-bottom: 70%; 
+    }
+
+    /* Sleep Stats row cell styles */
+    .sleep-stats-row {
+        flex-direction: column;
     }
 }
