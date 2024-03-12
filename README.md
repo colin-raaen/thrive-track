@@ -1,4 +1,4 @@
-# Wellness App
+# ThriveTrack
 ## Technology
 * JavaScript <br>
 * HTML <br>
