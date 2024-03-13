@@ -1,5 +1,4 @@
-# Wellness App
-#### Demo video:  [click here](youtube.com/watch?v=hsnhms7nxcI)
+# ThriveTrack
 ## Technology
 * JavaScript <br>
 * HTML <br>
@@ -7,9 +6,9 @@
 * Python <br>
 * SQLite3 <br>
 * Flask <br>
+* Jinja <br>
 * chart.js <br>
 * date-fns time adapter <br>
-
 * Bootstrap <br>
 ## Description
 Full-stack web application that allows users to easily track activities related to health and well-being, with a focus on physical fitness activities and sleep.  
@@ -18,6 +17,8 @@ There are two core components of the application, activity logging and sleep log
 <br><br>
 ## Motivation
 In 2022, my partner and I embarked on a fitness journey challenging ourselves to workout at least 3 times a week, and limit the amount of times we ate meals out or drank alcohol in a week in preparation for a trip to Peru.  We went through an exercise of tracking our workouts and meals in a calendar and notebook.  After a few weeks, it became apparent this wasn't a great way to see how our progress was tracking, which inspired this fitness app.  The idea was to create an easy way to enter information, but then allow the user to visualize historical data and see trends.
+#### Demo video:
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hsnhms7nxcI/0.jpg)](https://www.youtube.com/watch?v=hsnhms7nxcI)
 ## Project Files
 ### layout.html
 This is the Flask template HTML file.  The header of the files includes bootstrap, CSS files, JavaScript files, chart.js, date-fns and JQuery.  The body defines the navigation bar for the web application with links to the various HTML pages and well as defining the logo for the app.  There is also code included to store flash messages when a page renders when applicable.  This creates an experience where the message will populate at the top of the screen.
@@ -75,9 +76,6 @@ The first feature is to default the date of the activity form to the current dat
 Further below in the file are functions that get called from the event listener to dynamically create the fields and add them to the page.  At the top of file you will find lists of options that make up picklist fields.  These are used to avoid repeating code when creating dynamically added fields.  Below that are functions to create a new div in HTML, as well as a function to create a selection fields to avoid repeating code.  The next block of code is to dynamically create additional workout fields if the user wants to add 2 or more workouts for a given day.  It calls the functions above, appending the selection values and assigning corresponding CSS.  The next feature dynamically creates additional fields if necessary.  For example is the user selects that they played a sport on a dynamically created workout selection field, this javascript will populate an additional selection field for the types of sports to select.  There are also checks that needed to be added to this code in the case that a user added a workout field, then removed it, and then readded another workout type, as it was causing buggy behavior.
 <br><br>
 The next feature adds additional wellness activity selection fields, which acts in the same manner as the code described above.  The next feature deletes dynamically added workout or wellness selection field in the case that a user made a mistake, and selects the "no" checkbox on either the workout or wellness y/n checkboxes.  The next feature in this file takes the user inputs from any dynamically created fields and adds those values to the hidden HTML container in order to pass the values to the backend in Python/SQLite3.
-<br><br>
-### yes-no.js
-This file also has several field validations and checks.  The first of which is to ensure only yes or no is checked for yes/no checkboxes.  Essentially if a user checks yes, and then switches to no, it will uncheck the yes automatically and vice-a-versa.  There are also field validations for all fields on the form, including any dynamically added fields.  An error message will be thrown via JavaScript if the user attempts to submit the form without filling out all necessarily information.
 ### sleep-logging.js
 This JavaScript file has additional field valdations and dynamism for the sleep.html page.  The first block of code defaults the date entry field to today's date.  There is also an event listener that will unhide the amount of time napped in the case that user selects that they napped on the form.  It unhides an HTML field versus dynamically adding it.  There is also code to rehide this field if nap is unselected or no is selected.  The final feature of this file change is to add  an additional field for how long awakenings in the night lasted if a change was made to the "times woken up in the night" field, and the value is greater than 0.The next feature peforms field validation checks.  It checks to ensure every question on the form is completed.  In addition to checking whether the fields are all input, there are two additional checks to ensure the user has input their time entries correctly.  One check to see if the amount of time slept reported by the user is less than 5 hours, or if the amount of time slept is greather than 10 hours. In either case an error message will thrown at the top of the screen.  The user then has a chance to go adjust the values, or if the values are correct, they can hit "okay" and submit the form anyways.  This is simply a way to validate that the time entries are correct.  The next feature performs additional logical validations, such as ensuring the "time in bed" field is earlier than "time attempted to sleep."
 ### history.js
