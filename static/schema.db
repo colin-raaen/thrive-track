@@ -1,4 +1,4 @@
-CREATE TABLE users (
+.CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     username TEXT NOT NULL,
     hash TEXT NOT NULL
@@ -9,10 +9,10 @@ CREATE TABLE activity_logging(
     thirty_min BOOLEAN,
     workout BOOLEAN,
     wellness BOOLEAN,
-    travelling BOOLEAN,
+    date DATE, 
+    travelling BOOLEAN, 
     sick BOOLEAN,
-    FOREIGN KEY(users_id) REFERENCES users(id),
-    date DATE
+    FOREIGN KEY(users_id) REFERENCES users(id)
 );
 CREATE TABLE workout_logging(
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
