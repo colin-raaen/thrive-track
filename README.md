@@ -6,10 +6,10 @@
 * Python <br>
 * SQLite3 <br>
 * Flask <br>
+* Bootstrap <br>
 * Jinja <br>
 * chart.js <br>
 * date-fns time adapter <br>
-* Bootstrap <br>
 ## Description
 Full-stack web application that allows users to easily track activities related to health and well-being, with a focus on physical fitness activities and sleep.  
 <br><br>
@@ -80,8 +80,8 @@ The next feature adds additional wellness activity selection fields, which acts 
 This JavaScript file has additional field valdations and dynamism for the sleep.html page.  The first block of code defaults the date entry field to today's date.  There is also an event listener that will unhide the amount of time napped in the case that user selects that they napped on the form.  It unhides an HTML field versus dynamically adding it.  There is also code to rehide this field if nap is unselected or no is selected.  The final feature of this file change is to add  an additional field for how long awakenings in the night lasted if a change was made to the "times woken up in the night" field, and the value is greater than 0.The next feature peforms field validation checks.  It checks to ensure every question on the form is completed.  In addition to checking whether the fields are all input, there are two additional checks to ensure the user has input their time entries correctly.  One check to see if the amount of time slept reported by the user is less than 5 hours, or if the amount of time slept is greather than 10 hours. In either case an error message will thrown at the top of the screen.  The user then has a chance to go adjust the values, or if the values are correct, they can hit "okay" and submit the form anyways.  This is simply a way to validate that the time entries are correct.  The next feature performs additional logical validations, such as ensuring the "time in bed" field is earlier than "time attempted to sleep."
 ### history.js
 This final JavaScript file is for the history.html page to implement pagination.  Several functions are defined at the top of the screen to define what rows of data will appear with the next or previous button.  There are listener events at the bootom of the block of code that will execute when the next, previous or a number button is selected.  The next block of code is the exact same functioanlity for pagination but for the sleep logging activity on the history.html page.  The next feature is to delete rows of data from the history.html page.  For every row of data logged, a "delete" hyperlink appears at the end of the row.  If the user hits the hyperlink, it will delete the entire row of data from the SQLite3 database.  The final features at dynamism to the history.html page.  As described above, there were too many columns for any given day related to activity logging without causing overflow.  I used JavaScript to create a hyperlink that when pressed, will unhide several columns of data related to workout activity and wellness activity.  Again the idea being certain fields will be blank and take up a lot of empty space on the screen, but in the case the user wants to see those columns of data they can.
-### yes-no.js
-This file has a field validation checks to ensure only yes or no is checked for yes/no checkboxes.  Essentially if a user checks yes, and then switches to no, it will uncheck the yes automatically and vice-a-versa. This is used in activity.html and sleep.html.
+### helpers.js
+This file contains functions used by both activiity-logging.js and sleep-logging.js  The first function is a field validation check to ensure only yes or no is checked for yes/no checkboxes.  Essentially if a user checks yes, and then switches to no, it will uncheck the yes automatically and vice-a-versa. Additionally there is a helper function to validate that a yes or no has been selected, this is used during form submission as a validation.  Finally there is a field validation function, that ensures a field has been filled out, it throws an alert and returns false to exit form submission if a field condition isn't met
 ### schema.db
 This is a text file to easily reference the database schema that has been created in SQLite3.  Essentially this is a static file to easily reference the database tables in the same way running the .schema command would render the information.
 
