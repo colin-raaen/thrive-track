@@ -10,8 +10,6 @@ export function validateYNField(yesCheckbox, errorMessage, noCheckbox) {
 
 // Function that is called to validate each yes/no field, with yes checkbox, no checkbox and field name as input
 export function validateFieldEntry(validations) {
-        console.log("validateFieldEntry function called");
-        console.log(validations);
         // loop through array of validations
         for (const validation of validations) {
                 // if condition of current validation is true
