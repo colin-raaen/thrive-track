@@ -3,7 +3,6 @@ import os
 import json
 
 from cs50 import SQL
-import sqlite3
 from flask import Flask, flash, redirect, render_template, request, session, url_for, jsonify
 from flask_session import Session
 from tempfile import mkdtemp
@@ -52,9 +51,6 @@ def index():
     """Render homepage if user is logged in"""
     # define variable user ID from session ID
     session_user_id = session["user_id"]
-
-    # Get the current month and year for calencar 
-    today = datetime.date.today()
 
     # Get the current month and year from the query parameters, 
     # if no parameter provided by URL use todays month and year from date time object
