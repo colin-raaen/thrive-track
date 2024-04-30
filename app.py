@@ -1,5 +1,6 @@
 # import OS, Flask, SQL, werkzeug, json modules
 import os
+import sqlalchemy
 import json
 
 from cs50 import SQL
